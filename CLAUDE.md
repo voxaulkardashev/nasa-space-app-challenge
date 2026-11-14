@@ -46,6 +46,7 @@ Dark navy to black background with subtle stars; realistic textures and lighting
 - For each stage: say what you are building, list the files you create or change, write the code, explain how to run and test it, and check for errors before moving on.
 - Run the build and any tests before saying a stage is done.
 - If a network download is blocked or a file is missing, stop and tell the team what you need. Do not substitute something else without saying so.
+- Once a change builds, lints and passes testing, push it straight to `main` (this publishes the live site via GitHub Pages). The team has said to do this without asking each time.
 
 ## Current status
 
