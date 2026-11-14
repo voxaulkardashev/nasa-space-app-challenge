@@ -22,6 +22,12 @@ Short explanations of the less obvious parts of the code.
   4. Tiles appear only once downloaded, so there are never holes.
   5. Up to 300 tiles are kept in memory, and they're freed when you leave Explore.
 - **Tile services** are defined in `src/data/tileLayers.ts`. All three are plain lat/lon grids with the top-left corner at 180° W, 90° N. Trek tiles are 256 px and start at 180° per tile. GIBS tiles are 512 px and start at 288° per tile, so some GIBS tiles overhang the map edge and get cropped.
+- **Lighting** (`SceneLighting.tsx`): Select and Overview use a fixed Sun, so you see a real day/night side. In Explore the light follows the camera like a headlamp, so the area you're looking at is always lit. That's a viewing aid, not the real Sun direction.
+- **Loading like an online map**:
+  - The full-screen "Loading NASA imagery" overlay only appears on first load.
+  - Close-up tiles use their own loading manager, so they never trigger it.
+  - New tiles fade in, and while a sharp tile downloads, its blurrier parent tile stays in its place.
+  - A small "Loading detail…" hint shows in the corner.
 - **Camera settings** in `SpaceScene.tsx` are a constant on purpose. Passing a new object on every render could make React Three Fiber reset the camera and undo the user's zoom.
 
 ## Which side of a world faces you

@@ -5,6 +5,7 @@ import { TILE_LAYERS } from '../data/tileLayers';
 import type { World, WorldId } from '../data/types';
 import { vectorToLatLon, type LatLon } from '../lib/geo';
 import type { BodyPose } from '../lib/layout';
+import type { DetailStatus } from '../lib/tiles';
 import { DetailTiles } from './DetailTiles';
 import { HighlightGlow } from './HighlightGlow';
 import { MissingTextureSphere } from './MissingTextureSphere';
@@ -30,8 +31,8 @@ interface PlanetBodyProps {
   onHoverChange: (id: WorldId | null) => void;
   onSelect: (id: WorldId) => void;
   onPick: (site: LatLon) => void;
-  /** Told whether sharp close-up tiles are showing (Explore screen only). */
-  onDetailActiveChange?: (active: boolean) => void;
+  /** Told whether sharp close-up tiles are showing / loading (Explore screen only). */
+  onDetailStatusChange?: (status: DetailStatus) => void;
 }
 
 /** Slow decorative spin (radians per second). Positive = west-to-east, like the real bodies. */
@@ -53,7 +54,7 @@ export function PlanetBody({
   onHoverChange,
   onSelect,
   onPick,
-  onDetailActiveChange,
+  onDetailStatusChange,
 }: PlanetBodyProps) {
   const group = useRef<Group>(null);
   const spinner = useRef<Group>(null);
@@ -120,7 +121,7 @@ export function PlanetBody({
           </TextureErrorBoundary>
         </group>
         {pickable && TILE_LAYERS[world.id] && (
-          <DetailTiles layer={TILE_LAYERS[world.id]!} onActiveChange={onDetailActiveChange} />
+          <DetailTiles layer={TILE_LAYERS[world.id]!} onStatusChange={onDetailStatusChange} />
         )}
         {site && <SiteMarker site={site} />}
       </group>

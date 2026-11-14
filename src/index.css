@@ -566,3 +566,45 @@ a {
   max-width: 52ch;
   color: var(--text-muted);
 }
+
+/* Small, non-blocking "loading detail" hint while close-up tiles download. */
+.detail-loading {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  backdrop-filter: blur(8px);
+}
+
+.detail-loading__spinner {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid rgba(160, 190, 255, 0.25);
+  border-top-color: var(--accent);
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* On phones the hint sits just above the bottom panel. */
+@media (max-width: 760px) {
+  .screen--explore .controls-hint {
+    display: block;
+    bottom: calc(48vh + 1.25rem);
+    left: 0.75rem;
+  }
+
+  .screen--explore .controls-hint p:not(.detail-loading) {
+    display: none;
+  }
+}

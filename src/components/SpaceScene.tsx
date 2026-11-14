@@ -7,9 +7,11 @@ import type { WorldId } from '../data/types';
 import type { LatLon } from '../lib/geo';
 import { computeLayout } from '../lib/layout';
 import type { Screen, SelectedSite } from '../lib/navigation';
+import type { DetailStatus } from '../lib/tiles';
 import { CameraRig } from './CameraRig';
 import { PlanetBody } from './PlanetBody';
 import { PlanetLabel } from './PlanetLabel';
+import { SceneLighting } from './SceneLighting';
 
 interface SpaceSceneProps {
   screen: Screen;
@@ -21,7 +23,7 @@ interface SpaceSceneProps {
   onHoverChange: (id: WorldId | null) => void;
   onSelect: (id: WorldId) => void;
   onPick: (site: LatLon) => void;
-  onDetailActiveChange: (active: boolean) => void;
+  onDetailStatusChange: (status: DetailStatus) => void;
 }
 
 export type OrbitControlsRef = ComponentRef<typeof OrbitControls>;
@@ -60,7 +62,7 @@ function SceneContents({
   onHoverChange,
   onSelect,
   onPick,
-  onDetailActiveChange,
+  onDetailStatusChange,
 }: SpaceSceneProps) {
   const aspect = useThree((s) => s.size.width / s.size.height);
   const controlsRef = useRef<OrbitControlsRef>(null);
@@ -79,10 +81,7 @@ function SceneContents({
 
   return (
     <>
-      {/* The Sun: one bright directional light from the upper left. */}
-      <directionalLight position={[-6, 2.5, 5]} intensity={3} />
-      {/* Faint fill so the night side is not pure black (a little brighter while exploring). */}
-      <ambientLight intensity={exploring ? 0.25 : 0.06} />
+      <SceneLighting followCamera={exploring} />
 
       {/* Decorative random starfield (not a real star catalogue). */}
       <Stars radius={120} depth={60} count={5000} factor={3.5} saturation={0} fade speed={0.4} />
@@ -109,7 +108,7 @@ function SceneContents({
               onHoverChange={onHoverChange}
               onSelect={onSelect}
               onPick={onPick}
-              onDetailActiveChange={onDetailActiveChange}
+              onDetailStatusChange={onDetailStatusChange}
             />
             <PlanetLabel
               world={world}

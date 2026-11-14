@@ -1,44 +1,100 @@
 import { useFrame, useThree } from '@react-three/fiber';
 import { useEffect, useRef, useState } from 'react';
-import { ClampToEdgeWrapping, SRGBColorSpace, TextureLoader, Vector3, type Group, type Texture } from 'three';
+import {
+  ClampToEdgeWrapping,
+  LoadingManager,
+  SRGBColorSpace,
+  TextureLoader,
+  Vector3,
+  type Group,
+  type Texture,
+} from 'three';
 import type { TileLayerDef } from '../data/tileLayers';
 import { vectorToLatLon } from '../lib/geo';
-import { tileKeyId, visibleTiles, type TileKey } from '../lib/tiles';
+import { parentKey, tileKeyId, visibleTiles, type DetailStatus, type TileKey } from '../lib/tiles';
 import { TileMesh } from './TileMesh';
 
 interface DetailTilesProps {
   layer: TileLayerDef;
-  /** Reports whether close-up tiles are currently shown (for the on-screen credit). */
-  onActiveChange?: (active: boolean) => void;
+  /** Reports whether close-up tiles are showing and whether more are downloading. */
+  onStatusChange?: (status: DetailStatus) => void;
 }
 
 /** How often (seconds) to re-check which tiles the view needs. */
 const CHECK_INTERVAL = 0.3;
 /** Keep at most this many downloaded tiles in memory. */
 const CACHE_LIMIT = 300;
+/** How many zoom levels up to look for a blurrier stand-in while a tile downloads. */
+const MAX_FALLBACK_LEVELS = 4;
+/** Keep the stand-in for this long (ms) after the sharp tile arrives, while it fades in. */
+const FADE_OVERLAP_MS = 600;
 
-const loader = new TextureLoader().setCrossOrigin('anonymous');
+/**
+ * Tiles use their OWN loading manager. The default one drives the full-screen
+ * "Loading NASA imagery" overlay; tiles must load quietly in the background.
+ */
+const loader = new TextureLoader(new LoadingManager()).setCrossOrigin('anonymous');
 const localCamera = new Vector3();
 
 interface CacheEntry {
+  key: TileKey;
   texture: Texture | null;
   failed: boolean;
   lastUsed: number;
+  /** When the texture finished downloading (ms), for the fade-in overlap. */
+  loadedAt: number;
+}
+
+interface ShownTile {
+  key: TileKey;
+  texture: Texture;
 }
 
 /**
- * Streams sharper NASA map tiles for the part of the world in view.
+ * Streams sharper NASA map tiles for the part of the world in view, the way
+ * online maps do: nothing blocks the screen, new tiles fade in, and while a
+ * sharp tile is still downloading its blurrier "parent" tile (if already
+ * downloaded) stays in its place, so the view never drops back to blurry.
+ *
  * Must be placed inside the world's rotating group (same coordinates as the
- * unit sphere). Tiles appear only once downloaded, so the normal globe always
- * shows underneath while they load.
+ * unit sphere). The normal globe always shows underneath.
  */
-export function DetailTiles({ layer, onActiveChange }: DetailTilesProps) {
+export function DetailTiles({ layer, onStatusChange }: DetailTilesProps) {
   const group = useRef<Group>(null);
   const size = useThree((s) => s.size);
   const cache = useRef(new Map<string, CacheEntry>());
   const sinceCheck = useRef(CHECK_INTERVAL);
-  /** Tiles that are both needed for the current view and already downloaded. */
-  const [shown, setShown] = useState<{ key: TileKey; texture: Texture }[]>([]);
+  const [shown, setShown] = useState<ShownTile[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  /** Starts downloading a tile unless it is already cached (or being downloaded). */
+  const requestTile = (key: TileKey, now: number) => {
+    const id = tileKeyId(key);
+    const existing = cache.current.get(id);
+    if (existing) {
+      existing.lastUsed = now;
+      return;
+    }
+    const entry: CacheEntry = { key, texture: null, failed: false, lastUsed: now, loadedAt: 0 };
+    cache.current.set(id, entry);
+    loader.load(
+      layer.url(key.z, key.row, key.col),
+      (texture) => {
+        texture.colorSpace = SRGBColorSpace;
+        texture.wrapS = texture.wrapT = ClampToEdgeWrapping;
+        // Crop tiles that overhang the edge of the map (GIBS at 180°E / 90°S).
+        texture.repeat.set(key.uSpan, key.vSpan);
+        texture.offset.set(0, 1 - key.vSpan);
+        entry.texture = texture;
+        entry.loadedAt = performance.now();
+        sinceCheck.current = CHECK_INTERVAL; // redraw on the next frame
+      },
+      undefined,
+      () => {
+        entry.failed = true; // e.g. offline: the normal globe simply stays visible
+      },
+    );
+  };
 
   useFrame(({ camera }, delta) => {
     sinceCheck.current += delta;
@@ -52,47 +108,42 @@ export function DetailTiles({ layer, onActiveChange }: DetailTilesProps) {
     g.worldToLocal(localCamera);
     const distance = localCamera.length();
     const centre = vectorToLatLon(localCamera);
-    const next = visibleTiles(layer, centre, distance, size.height, size.width / size.height);
+    const wanted = visibleTiles(layer, centre, distance, size.height, size.width / size.height);
 
     const now = performance.now();
-    for (const key of next) {
-      const id = tileKeyId(key);
-      const entry = cache.current.get(id);
-      if (entry) {
-        entry.lastUsed = now;
-        continue;
-      }
-      const fresh: CacheEntry = { texture: null, failed: false, lastUsed: now };
-      cache.current.set(id, fresh);
-      loader.load(
-        layer.url(key.z, key.row, key.col),
-        (texture) => {
-          texture.colorSpace = SRGBColorSpace;
-          texture.wrapS = texture.wrapT = ClampToEdgeWrapping;
-          // Crop tiles that overhang the edge of the map (GIBS at 180°E / 90°S).
-          texture.repeat.set(key.uSpan, key.vSpan);
-          texture.offset.set(0, 1 - key.vSpan);
-          fresh.texture = texture;
-          sinceCheck.current = CHECK_INTERVAL; // redraw on the next frame
-        },
-        undefined,
-        () => {
-          fresh.failed = true;
-        },
-      );
-    }
-    evictOld(cache.current, new Set(next.map(tileKeyId)));
+    for (const key of wanted) requestTile(key, now);
 
-    const ready = next.flatMap((key) => {
-      const texture = cache.current.get(tileKeyId(key))?.texture;
-      return texture ? [{ key, texture }] : [];
-    });
-    setShown((prev) => (sameTiles(prev.map((t) => t.key), ready.map((t) => t.key)) ? prev : ready));
+    // Build the list to draw: each wanted tile if ready, otherwise its nearest ready ancestor.
+    const toDraw = new Map<string, ShownTile>();
+    let pending = 0;
+    for (const key of wanted) {
+      const entry = cache.current.get(tileKeyId(key));
+      if (entry?.texture) {
+        toDraw.set(tileKeyId(key), { key, texture: entry.texture });
+        if (now - entry.loadedAt > FADE_OVERLAP_MS) continue; // fully faded in: no stand-in needed
+      } else if (!entry?.failed) {
+        pending++;
+      }
+      let parent = parentKey(layer, key);
+      for (let i = 0; parent && i < MAX_FALLBACK_LEVELS; i++, parent = parentKey(layer, parent)) {
+        const parentEntry = cache.current.get(tileKeyId(parent));
+        if (parentEntry?.texture) {
+          parentEntry.lastUsed = now;
+          toDraw.set(tileKeyId(parent), { key: parent, texture: parentEntry.texture });
+          break;
+        }
+      }
+    }
+
+    evictOld(cache.current, new Set(toDraw.keys()));
+    const next = [...toDraw.values()].sort((a, b) => a.key.z - b.key.z); // coarse first, sharp on top
+    setShown((prev) => (sameTiles(prev, next) ? prev : next));
+    setLoading(pending > 0);
   });
 
   useEffect(() => {
-    onActiveChange?.(shown.length > 0);
-  }, [shown.length, onActiveChange]);
+    onStatusChange?.({ active: shown.length > 0, loading });
+  }, [shown.length, loading, onStatusChange]);
 
   // Free GPU memory when leaving the Explore screen.
   useEffect(() => {
@@ -100,9 +151,9 @@ export function DetailTiles({ layer, onActiveChange }: DetailTilesProps) {
     return () => {
       for (const entry of entries.values()) entry.texture?.dispose();
       entries.clear();
-      onActiveChange?.(false);
+      onStatusChange?.({ active: false, loading: false });
     };
-  }, [onActiveChange]);
+  }, [onStatusChange]);
 
   return (
     <group ref={group}>
@@ -113,9 +164,9 @@ export function DetailTiles({ layer, onActiveChange }: DetailTilesProps) {
   );
 }
 
-function sameTiles(a: TileKey[], b: TileKey[]): boolean {
+function sameTiles(a: ShownTile[], b: ShownTile[]): boolean {
   if (a.length !== b.length) return false;
-  for (let i = 0; i < a.length; i++) if (tileKeyId(a[i]) !== tileKeyId(b[i])) return false;
+  for (let i = 0; i < a.length; i++) if (tileKeyId(a[i].key) !== tileKeyId(b[i].key)) return false;
   return true;
 }
 

@@ -5,13 +5,14 @@ import { TILE_LAYERS } from '../data/tileLayers';
 import type { FeaturedSite, World } from '../data/types';
 import { elevationFacts } from '../lib/elevationFacts';
 import type { SelectedSite } from '../lib/navigation';
+import type { DetailStatus } from '../lib/tiles';
 import { useElevationGrid } from '../lib/useElevationGrid';
 
 interface ExploreScreenProps {
   world: World | null;
   site: SelectedSite | null;
-  /** True while sharp close-up tiles are being shown. */
-  detailActive: boolean;
+  /** Whether sharp close-up tiles are showing, and whether more are downloading. */
+  detailStatus: DetailStatus;
   active: boolean;
   onChooseFeatured: (site: FeaturedSite) => void;
   onBack: () => void;
@@ -19,7 +20,7 @@ interface ExploreScreenProps {
 }
 
 /** Screen 3: pick a site on the globe and see data about that spot. */
-export function ExploreScreen({ world, site, detailActive, active, onChooseFeatured, onBack, onReturnToWorlds }: ExploreScreenProps) {
+export function ExploreScreen({ world, site, detailStatus, active, onChooseFeatured, onBack, onReturnToWorlds }: ExploreScreenProps) {
   const currentSite = world && site?.worldId === world.id ? site : null;
   // Elevation data downloads only once the Explore screen is opened.
   const elevation = useElevationGrid(world?.id ?? null, active);
@@ -59,7 +60,12 @@ export function ExploreScreen({ world, site, detailActive, active, onChooseFeatu
       )}
 
       <div className="controls-hint">
-        {detailActive && world && TILE_LAYERS[world.id] && (
+        {detailStatus.loading && (
+          <p className="detail-loading" role="status">
+            <span className="detail-loading__spinner" aria-hidden="true" /> Loading detail…
+          </p>
+        )}
+        {detailStatus.active && world && TILE_LAYERS[world.id] && (
           <p className="imagery-credit">
             Close-up imagery:{' '}
             <a href={TILE_LAYERS[world.id]!.source.url} target="_blank" rel="noreferrer">

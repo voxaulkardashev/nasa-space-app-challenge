@@ -5,6 +5,7 @@ import type { FeaturedSite, WorldId } from './data/types';
 import { getWorld } from './data/worlds';
 import type { LatLon } from './lib/geo';
 import type { Screen, SelectedSite } from './lib/navigation';
+import type { DetailStatus } from './lib/tiles';
 import { ExploreScreen } from './screens/ExploreScreen';
 import { SelectWorldScreen } from './screens/SelectWorldScreen';
 import { WorldOverviewScreen } from './screens/WorldOverviewScreen';
@@ -20,7 +21,7 @@ export default function App() {
   const [hoveredId, setHoveredId] = useState<WorldId | null>(null);
   const [site, setSite] = useState<SelectedSite | null>(null);
   const [flyRequest, setFlyRequest] = useState(0);
-  const [detailActive, setDetailActive] = useState(false);
+  const [detailStatus, setDetailStatus] = useState<DetailStatus>({ active: false, loading: false });
 
   const selectedWorld = selectedId ? getWorld(selectedId) : null;
 
@@ -67,7 +68,7 @@ export default function App() {
         onHoverChange={setHoveredId}
         onSelect={selectWorld}
         onPick={pickSite}
-        onDetailActiveChange={setDetailActive}
+        onDetailStatusChange={setDetailStatus}
       />
 
       <SelectWorldScreen active={screen === 'select'} />
@@ -80,7 +81,7 @@ export default function App() {
       <ExploreScreen
         world={selectedWorld}
         site={site}
-        detailActive={detailActive}
+        detailStatus={detailStatus}
         active={screen === 'explore'}
         onChooseFeatured={chooseFeatured}
         onBack={() => setScreen('overview')}

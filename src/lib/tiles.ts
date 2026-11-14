@@ -90,30 +90,44 @@ function tilesAround(layer: TileLayerDef, z: number, centre: LatLon, halfExtent:
 
   const keys: TileKey[] = [];
   for (let row = firstRow; row <= lastRow; row++) {
-    const tileNorth = 90 - row * d;
-    const tileSouth = Math.max(-90, tileNorth - d);
     for (const col of cols) {
-      const west = -180 + col * d;
-      if (west >= 180) continue;
-      const east = Math.min(180, west + d);
+      const key = makeTileKey(layer, z, row, col);
+      if (!key) continue;
       // Skip tiles whose centre is clearly farther away than the visible area
       // (the lat/lon box above is much wider than the view near the poles).
-      const tileCentre = { lat: (tileNorth + tileSouth) / 2, lon: (west + east) / 2 };
+      const tileCentre = { lat: (key.north + key.south) / 2, lon: (key.west + key.east) / 2 };
       if (angularDistanceDeg(centre, tileCentre) > halfExtent + d * 0.75) continue;
-      keys.push({
-        z,
-        row,
-        col,
-        west,
-        east,
-        north: tileNorth,
-        south: tileSouth,
-        uSpan: (east - west) / d,
-        vSpan: (tileNorth - tileSouth) / d,
-      });
+      keys.push(key);
     }
   }
   return keys;
+}
+
+/** The edges of one tile, clipped to the globe. Returns null for tiles entirely off the map. */
+export function makeTileKey(layer: TileLayerDef, z: number, row: number, col: number): TileKey | null {
+  const d = tileDeg(layer, z);
+  const north = 90 - row * d;
+  const west = -180 + col * d;
+  if (west >= 180 || north <= -90 || row < 0 || col < 0) return null;
+  const south = Math.max(-90, north - d);
+  const east = Math.min(180, west + d);
+  return { z, row, col, west, east, north, south, uSpan: (east - west) / d, vSpan: (north - south) / d };
+}
+
+/**
+ * The lower-resolution tile one level up that covers the same area.
+ * (Each level halves the tile size from the same top-left corner, so the
+ * parent's row and column are simply half, rounded down.)
+ */
+export function parentKey(layer: TileLayerDef, key: TileKey): TileKey | null {
+  if (key.z === 0) return null;
+  return makeTileKey(layer, key.z - 1, Math.floor(key.row / 2), Math.floor(key.col / 2));
+}
+
+/** Status reported to the screen: are close-up tiles showing, and are more still downloading? */
+export interface DetailStatus {
+  active: boolean;
+  loading: boolean;
 }
 
 /** Great-circle angle between two points, in degrees. */
