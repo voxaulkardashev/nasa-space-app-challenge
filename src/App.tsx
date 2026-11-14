@@ -20,6 +20,7 @@ export default function App() {
   const [hoveredId, setHoveredId] = useState<WorldId | null>(null);
   const [site, setSite] = useState<SelectedSite | null>(null);
   const [flyRequest, setFlyRequest] = useState(0);
+  const [detailActive, setDetailActive] = useState(false);
 
   const selectedWorld = selectedId ? getWorld(selectedId) : null;
 
@@ -66,6 +67,7 @@ export default function App() {
         onHoverChange={setHoveredId}
         onSelect={selectWorld}
         onPick={pickSite}
+        onDetailActiveChange={setDetailActive}
       />
 
       <SelectWorldScreen active={screen === 'select'} />
@@ -78,6 +80,7 @@ export default function App() {
       <ExploreScreen
         world={selectedWorld}
         site={site}
+        detailActive={detailActive}
         active={screen === 'explore'}
         onChooseFeatured={chooseFeatured}
         onBack={() => setScreen('overview')}

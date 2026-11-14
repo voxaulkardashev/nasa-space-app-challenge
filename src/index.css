@@ -557,3 +557,12 @@ a {
   color: var(--text-muted);
   white-space: nowrap;
 }
+
+.controls-hint p {
+  margin: 0.25rem 0 0;
+}
+
+.imagery-credit {
+  max-width: 52ch;
+  color: var(--text-muted);
+}

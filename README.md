@@ -2,7 +2,13 @@
 
 A web app for the NASA Space Apps Challenge. Pick a world (Moon, Mars or Earth) and explore it on an interactive 3D globe made from real NASA imagery. Later milestones will let you pick a site and see which Earth locations resemble it and why, using measured NASA data.
 
-**Current status: Milestone 1.** Includes the *Select a World* screen and the *World Overview* screen (rotate/zoom plus an info panel). The Explore button leads to a "coming soon" screen.
+**Current status: Milestone 2.** Three screens:
+
+- *Select a World*
+- *World Overview*: rotate/zoom plus an info panel
+- *Explore*: pick a site and see its data. You can click anywhere or choose a featured site, read elevation and slope, and zoom in for sharp imagery streamed from NASA.
+
+The Earth analogue comparison is the next milestone.
 
 Built with React, TypeScript, Vite, three.js, React Three Fiber and drei.
 
@@ -44,7 +50,11 @@ The terminal shows a local address, usually **http://localhost:5173/**. Open it 
 1. A dark starry background, the title **Select a World**, and the Moon, Mars and Earth.
 2. Hovering a world makes it glow and grow slightly. Clicking it (or its name) glides into its overview.
 3. In the overview: drag to rotate, scroll (or pinch) to zoom. The panel lists facts, each with a **Measured** or **Placeholder** label. Tap a label to see its source.
-4. **Explore** opens a "coming soon" screen. **Return** or **← All worlds** (or the Esc key) goes back.
+4. **Explore** opens the Explore screen:
+   - Click the globe to drop a marker. The panel shows the coordinates, elevation and regional slope at that spot (Moon and Mars), each labelled.
+   - Choose a **featured site** (for example Jezero or Apollo 11) and the camera flies there.
+   - Zoom in close and sharper NASA imagery loads in. A credit line appears at the bottom left.
+5. **← (world name)**, **Back to overview**, **All worlds** or the Esc key go back.
 
 ## Useful commands
 
@@ -80,8 +90,10 @@ public/textures/     NASA textures (see docs/SOURCES.md)
 docs/
   SOURCES.md         where every texture and value came from, with dates
   notes.md           how the code works, known limitations
+public/data/elevation/  elevation grids for the Explore screen (see docs/SOURCES.md)
 scripts/
-  fetch_textures.py  re-downloads and resizes the textures (not needed to run the app)
+  fetch_textures.py      re-downloads and resizes the textures (not needed to run the app)
+  prepare_elevation.py   rebuilds the elevation grids (not needed to run the app)
 CLAUDE.md            project rules, including the scientific integrity rules
 ```
 
@@ -95,3 +107,4 @@ Every value shown in the app is labelled **Measured** (named source and date), *
 - **PowerShell says "running scripts is disabled"**: run `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned`, answer `Y`, then try again.
 - **Grey world with "Texture missing"**: a file in `public/textures/` is missing or renamed. Check the names against `docs/SOURCES.md`.
 - **Black screen**: your browser or computer may have WebGL turned off. Test at <https://get.webgl.org>.
+- **Zoomed-in Explore view stays blurry**: the sharp imagery comes from NASA's servers (trek.nasa.gov, gibs.earthdata.nasa.gov). Check your internet connection, or whether a school network blocks those sites.

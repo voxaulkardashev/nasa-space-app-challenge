@@ -58,6 +58,17 @@ export function CameraRig({
     if (flyRequest > 0) flyTime.current = 0;
   }, [flyRequest]);
 
+  // Stop a flight as soon as the user starts dragging or zooming, so it never fights them.
+  useEffect(() => {
+    const controls = controlsRef.current;
+    if (!controls) return;
+    const cancel = () => {
+      flyTime.current = -1;
+    };
+    controls.addEventListener('start', cancel);
+    return () => controls.removeEventListener('start', cancel);
+  }, [controlsRef]);
+
   useFrame((_, delta) => {
     progress.current = MathUtils.damp(progress.current, focused ? 1 : 0, 4, delta);
 

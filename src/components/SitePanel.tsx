@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { useEffect, useRef, type ReactNode } from 'react';
 import { getFeaturedSite } from '../data/featuredSites';
 import type { DataValue, World } from '../data/types';
 import type { SelectedSite } from '../lib/navigation';
@@ -18,8 +18,15 @@ interface SitePanelProps {
 /** Translucent panel on the Explore screen: the selected site's data, or how to pick one. */
 export function SitePanel({ world, site, extraFacts, siteList, actions }: SitePanelProps) {
   const featured = site?.featuredId ? getFeaturedSite(site.featuredId) : undefined;
+  const panelRef = useRef<HTMLElement>(null);
+
+  // Scroll back to the top when a new site is chosen, so its data is in view (matters on phones).
+  useEffect(() => {
+    panelRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [site?.lat, site?.lon]);
+
   return (
-    <aside className="info-panel site-panel" aria-labelledby="site-panel-title" aria-live="polite">
+    <aside ref={panelRef} className="info-panel site-panel" aria-labelledby="site-panel-title" aria-live="polite">
       <header className="info-panel__header">
         <p className="info-panel__eyebrow">Explore · {world.name}</p>
         <h2 id="site-panel-title" className="info-panel__title">

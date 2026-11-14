@@ -21,9 +21,17 @@ interface SpaceSceneProps {
   onHoverChange: (id: WorldId | null) => void;
   onSelect: (id: WorldId) => void;
   onPick: (site: LatLon) => void;
+  onDetailActiveChange: (active: boolean) => void;
 }
 
 export type OrbitControlsRef = ComponentRef<typeof OrbitControls>;
+
+/**
+ * Starting camera settings. Defined once, outside the component: if a new
+ * object were passed on every render, React Three Fiber could re-apply it and
+ * snap the camera back to its starting position, undoing the user's zoom.
+ */
+const CAMERA_SETTINGS = { position: [0, 0, 10] as [number, number, number], fov: 45, near: 0.01, far: 500 };
 
 /**
  * The single 3D canvas that stays behind every screen. Keeping one canvas
@@ -33,7 +41,7 @@ export function SpaceScene(props: SpaceSceneProps) {
   return (
     <div className="space-scene">
       <Canvas
-        camera={{ position: [0, 0, 10], fov: 45, near: 0.01, far: 500 }}
+        camera={CAMERA_SETTINGS}
         dpr={[1, 2]}
         onPointerMissed={() => props.onHoverChange(null)}
       >
@@ -52,6 +60,7 @@ function SceneContents({
   onHoverChange,
   onSelect,
   onPick,
+  onDetailActiveChange,
 }: SpaceSceneProps) {
   const aspect = useThree((s) => s.size.width / s.size.height);
   const controlsRef = useRef<OrbitControlsRef>(null);
@@ -100,6 +109,7 @@ function SceneContents({
               onHoverChange={onHoverChange}
               onSelect={onSelect}
               onPick={onPick}
+              onDetailActiveChange={onDetailActiveChange}
             />
             <PlanetLabel
               world={world}

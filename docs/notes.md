@@ -4,11 +4,25 @@ Short explanations of the less obvious parts of the code.
 
 ## How the app is put together
 
-- `src/App.tsx` holds two pieces of state: which **screen** is showing (`select`, `overview`, `comingSoon`) and which **world** is selected. There is no router library.
+- `src/App.tsx` holds two pieces of state: which **screen** is showing (`select`, `overview`, `explore`), which **world** is selected, and which **site** is picked. There is no router library.
 - `src/components/SpaceScene.tsx` is a single 3D canvas that stays behind every screen. Screens are HTML layers on top of it (`src/screens/`). Because the canvas never reloads, textures load once and the camera can glide between screens.
 - `src/lib/layout.ts` decides where each world sits for each screen. `PlanetBody` smoothly moves towards that position every frame (`MathUtils.damp`), and that is what makes the transitions.
 - `src/components/CameraRig.tsx` moves the camera back to the front view on the Select screen. It also shifts the picture sideways (or upwards on phones) when the info panel is open. It uses a *view offset*, so rotating still spins around the centre of the world.
 - On the overview screen, drei's `OrbitControls` handles drag-to-rotate and scroll/pinch-to-zoom, with zoom limits so you cannot fly inside the world.
+
+## Explore screen
+
+- **Picking a site.** `PlanetBody` converts the clicked 3D point into the sphere's own coordinates, then into latitude/longitude (`src/lib/geo.ts`). A press that moves more than 5 pixels counts as a drag (rotate), not a click.
+- **Featured sites** live in `src/data/featuredSites.ts`. Choosing one sets the site and bumps `flyRequest`; `CameraRig` then swings the camera round to look straight down at it. Starting to drag or zoom cancels the flight.
+- **Elevation and slope.** `src/lib/useElevationGrid.ts` downloads the world's elevation grid (`public/data/elevation/`) the first time Explore opens. `src/lib/elevationGrid.ts` reads the cell under the site and works out the slope from its neighbours. `src/lib/elevationFacts.ts` turns those numbers into labelled `DataValue` rows.
+- **Sharp zoom.** `src/components/DetailTiles.tsx` runs about three times a second:
+  1. It works out the point below the camera and how far away the camera is.
+  2. `src/lib/tiles.ts` then picks the zoom level and the NASA tiles that cover the view.
+  3. Each tile is drawn by `TileMesh` as a curved patch of sphere exactly matching its latitude/longitude box, slightly above the base globe.
+  4. Tiles appear only once downloaded, so there are never holes.
+  5. Up to 300 tiles are kept in memory, and they're freed when you leave Explore.
+- **Tile services** are defined in `src/data/tileLayers.ts`. All three are plain lat/lon grids with the top-left corner at 180° W, 90° N. Trek tiles are 256 px and start at 180° per tile. GIBS tiles are 512 px and start at 288° per tile, so some GIBS tiles overhang the map edge and get cropped.
+- **Camera settings** in `SpaceScene.tsx` are a constant on purpose. Passing a new object on every render could make React Three Fiber reset the camera and undo the user's zoom.
 
 ## Which side of a world faces you
 
@@ -32,3 +46,5 @@ The screens do not need changes. The Select screen layout spaces however many wo
 - three.js is large, so `npm run build` prints a "chunks larger than 500 kB" **warning**. It is not an error. The app's code is about 330 kB after compression; the textures (~5.7 MB) load separately.
 - A harmless console warning, "THREE.Clock: This module has been deprecated", comes from inside React Three Fiber, not from our code.
 - Elevation is used only for lighting (bump map). The surface is not physically raised. True-height displacement would need much more detail and visible exaggeration, so it is left for later.
+- Elevation values come from 4-cells-per-degree grids (7.6 km cells on the Moon, 14.8 km on Mars), so small features such as a single crater rim are averaged out. There's no elevation for Earth yet; it shows as a Placeholder.
+- Close-up imagery needs an internet connection to NASA's servers. The Moon close-ups are greyscale, because that's the sharpest global Moon mosaic on Trek.
