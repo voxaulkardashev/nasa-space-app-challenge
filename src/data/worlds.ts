@@ -53,6 +53,7 @@ export const WORLDS: World[] = [
           'Resized from 5760×2880 to 2048×1024 and contrast-stretched to 8-bit. Used only for lighting effects; heights are not read from it.',
       },
     ],
+    meanRadiusKm: 1737.4,
     initialLongitudeDeg: 0,
     highlightColor: '#cfd8e3',
     facts: [
@@ -90,6 +91,7 @@ export const WORLDS: World[] = [
           'Joined the 8×4 tiles of zoom level 2 into one 2048×1024 image and contrast-stretched it. Used only for lighting effects; heights are not read from it.',
       },
     ],
+    meanRadiusKm: 3389.5,
     initialLongitudeDeg: -70,
     highlightColor: '#f0a27a',
     facts: [
@@ -119,6 +121,7 @@ export const WORLDS: World[] = [
         caveat: 'Cloud-free monthly composite; relief shading is part of the image.',
       },
     ],
+    meanRadiusKm: 6371.0,
     initialLongitudeDeg: 15,
     highlightColor: '#8ec5ff',
     facts: [

@@ -1,21 +1,25 @@
 import { useEffect, useState } from 'react';
 import { LoadingOverlay } from './components/LoadingOverlay';
 import { SpaceScene } from './components/SpaceScene';
-import type { WorldId } from './data/types';
+import type { FeaturedSite, WorldId } from './data/types';
 import { getWorld } from './data/worlds';
-import type { Screen } from './lib/navigation';
-import { ComingSoonScreen } from './screens/ComingSoonScreen';
+import type { LatLon } from './lib/geo';
+import type { Screen, SelectedSite } from './lib/navigation';
+import { ExploreScreen } from './screens/ExploreScreen';
 import { SelectWorldScreen } from './screens/SelectWorldScreen';
 import { WorldOverviewScreen } from './screens/WorldOverviewScreen';
 
 /**
  * The whole app: one 3D scene in the background, and the screens layered
- * on top. Navigation is just two pieces of state: which screen, which world.
+ * on top. Navigation is a few pieces of state: which screen, which world,
+ * and (on the Explore screen) which site.
  */
 export default function App() {
   const [screen, setScreen] = useState<Screen>('select');
   const [selectedId, setSelectedId] = useState<WorldId | null>(null);
   const [hoveredId, setHoveredId] = useState<WorldId | null>(null);
+  const [site, setSite] = useState<SelectedSite | null>(null);
+  const [flyRequest, setFlyRequest] = useState(0);
 
   const selectedWorld = selectedId ? getWorld(selectedId) : null;
 
@@ -26,16 +30,26 @@ export default function App() {
   };
   const returnToWorlds = () => setScreen('select');
 
-  // Pointer cursor when hovering a world on the Select screen.
+  const pickSite = (point: LatLon) => {
+    if (!selectedId) return;
+    setSite({ worldId: selectedId, lat: point.lat, lon: point.lon, picked: 'click' });
+  };
+
+  const chooseFeatured = (featured: FeaturedSite) => {
+    setSite({ worldId: featured.worldId, lat: featured.lat, lon: featured.lon, picked: 'featured', featuredId: featured.id });
+    setFlyRequest((n) => n + 1);
+  };
+
+  // Pointer cursor when hovering a world on the Select screen; crosshair while exploring.
   useEffect(() => {
-    document.body.style.cursor = screen === 'select' && hoveredId ? 'pointer' : '';
+    document.body.style.cursor = screen === 'select' && hoveredId ? 'pointer' : screen === 'explore' ? 'crosshair' : '';
   }, [screen, hoveredId]);
 
   // Escape key goes back one step.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== 'Escape') return;
-      setScreen((s) => (s === 'comingSoon' ? 'overview' : 'select'));
+      setScreen((s) => (s === 'explore' ? 'overview' : 'select'));
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
@@ -47,20 +61,25 @@ export default function App() {
         screen={screen}
         selectedId={selectedId}
         hoveredId={hoveredId}
+        site={site}
+        flyRequest={flyRequest}
         onHoverChange={setHoveredId}
         onSelect={selectWorld}
+        onPick={pickSite}
       />
 
       <SelectWorldScreen active={screen === 'select'} />
       <WorldOverviewScreen
         world={selectedWorld}
         active={screen === 'overview'}
-        onExplore={() => setScreen('comingSoon')}
+        onExplore={() => setScreen('explore')}
         onReturn={returnToWorlds}
       />
-      <ComingSoonScreen
+      <ExploreScreen
         world={selectedWorld}
-        active={screen === 'comingSoon'}
+        site={site}
+        active={screen === 'explore'}
+        onChooseFeatured={chooseFeatured}
         onBack={() => setScreen('overview')}
         onReturnToWorlds={returnToWorlds}
       />

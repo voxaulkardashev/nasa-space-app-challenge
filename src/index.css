@@ -79,8 +79,7 @@ a {
 .screen.is-active button,
 .screen.is-active a,
 .screen.is-active details,
-.screen.is-active .info-panel,
-.screen.is-active .coming-soon-card {
+.screen.is-active .info-panel {
   pointer-events: auto;
 }
 
@@ -248,7 +247,8 @@ a {
   transition: transform 0.7s var(--ease);
 }
 
-.screen--overview.is-active .info-panel {
+.screen--overview.is-active .info-panel,
+.screen--explore.is-active .info-panel {
   transform: none;
 }
 
@@ -419,44 +419,6 @@ a {
   border-style: dashed;
 }
 
-/* ---------- Coming soon -------------------------------------------------- */
-
-.screen--coming-soon {
-  display: grid;
-  place-items: center;
-  padding: 1rem;
-  background: rgba(2, 4, 10, 0.55);
-}
-
-.coming-soon-card {
-  max-width: 460px;
-  padding: 2rem;
-  border-radius: var(--radius);
-  background: var(--panel-bg);
-  border: 1px solid var(--panel-border);
-  backdrop-filter: blur(16px);
-  text-align: center;
-}
-
-.coming-soon-card h2 {
-  margin: 0 0 0.75rem;
-  font-weight: 300;
-  font-size: 2rem;
-}
-
-.coming-soon-card p {
-  color: var(--text-muted);
-  line-height: 1.55;
-}
-
-.coming-soon-card__actions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.6rem;
-  margin-top: 1.2rem;
-}
-
 /* ---------- Loading + missing texture ------------------------------------ */
 
 .loading-overlay {
@@ -533,4 +495,65 @@ a {
   * {
     transition-duration: 0.01ms !important;
   }
+}
+
+/* ---------- Explore: featured sites ------------------------------------- */
+
+.featured-sites {
+  margin-top: 1.2rem;
+}
+
+.featured-sites__title {
+  margin: 0 0 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.featured-sites ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.featured-site {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 10px;
+  border: 1px solid rgba(160, 190, 255, 0.12);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background 0.2s var(--ease),
+    border-color 0.2s var(--ease);
+}
+
+.featured-site:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(160, 190, 255, 0.3);
+}
+
+.featured-site.is-active {
+  border-color: #ffd166;
+  background: rgba(255, 209, 102, 0.1);
+}
+
+.featured-site__name {
+  font-size: 0.9rem;
+}
+
+.featured-site__kind {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  white-space: nowrap;
 }

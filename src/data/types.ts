@@ -82,9 +82,33 @@ export interface World {
   tagline: string;
   textures: WorldTextures;
   imagery: ImageryCredit[];
+  /** Volumetric mean radius in km (same value and source as the "radius" fact). Used for distance maths. */
+  meanRadiusKm: number;
   /** Longitude (degrees east) facing the viewer when the body first appears. */
   initialLongitudeDeg: number;
   /** Colour for the hover / selection highlight (CSS colour). */
   highlightColor: string;
+  facts: DataValue[];
+}
+
+/** A named place the user can jump to on the Explore screen. */
+export interface FeaturedSite {
+  id: string;
+  worldId: WorldId;
+  name: string;
+  /** Short category, e.g. "Crater" or "Apollo landing site". */
+  kind: string;
+  /** Degrees north. */
+  lat: number;
+  /** Degrees east, −180 to +180. */
+  lon: number;
+  /** One or two plain sentences of context. */
+  description: string;
+  /** How trustworthy the coordinates are: from an official record, or compiled/approximate. */
+  coordinateStatus: 'measured' | 'estimated';
+  coordinateSource: SourceRef;
+  /** Explanation shown for estimated coordinates. */
+  coordinateMethod?: string;
+  /** Extra labelled values, e.g. the official diameter. */
   facts: DataValue[];
 }

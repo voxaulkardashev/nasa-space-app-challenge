@@ -1,9 +1,12 @@
 import { OrbitControls, Stars } from '@react-three/drei';
 import { Canvas, useThree } from '@react-three/fiber';
+import { useRef, type ComponentRef } from 'react';
+import type { Group } from 'three';
 import { WORLDS } from '../data/worlds';
 import type { WorldId } from '../data/types';
+import type { LatLon } from '../lib/geo';
 import { computeLayout } from '../lib/layout';
-import type { Screen } from '../lib/navigation';
+import type { Screen, SelectedSite } from '../lib/navigation';
 import { CameraRig } from './CameraRig';
 import { PlanetBody } from './PlanetBody';
 import { PlanetLabel } from './PlanetLabel';
@@ -12,9 +15,15 @@ interface SpaceSceneProps {
   screen: Screen;
   selectedId: WorldId | null;
   hoveredId: WorldId | null;
+  site: SelectedSite | null;
+  /** Increases each time the camera should fly to the current site. */
+  flyRequest: number;
   onHoverChange: (id: WorldId | null) => void;
   onSelect: (id: WorldId) => void;
+  onPick: (site: LatLon) => void;
 }
+
+export type OrbitControlsRef = ComponentRef<typeof OrbitControls>;
 
 /**
  * The single 3D canvas that stays behind every screen. Keeping one canvas
@@ -24,7 +33,7 @@ export function SpaceScene(props: SpaceSceneProps) {
   return (
     <div className="space-scene">
       <Canvas
-        camera={{ position: [0, 0, 10], fov: 45, near: 0.1, far: 500 }}
+        camera={{ position: [0, 0, 10], fov: 45, near: 0.01, far: 500 }}
         dpr={[1, 2]}
         onPointerMissed={() => props.onHoverChange(null)}
       >
@@ -34,8 +43,20 @@ export function SpaceScene(props: SpaceSceneProps) {
   );
 }
 
-function SceneContents({ screen, selectedId, hoveredId, onHoverChange, onSelect }: SpaceSceneProps) {
+function SceneContents({
+  screen,
+  selectedId,
+  hoveredId,
+  site,
+  flyRequest,
+  onHoverChange,
+  onSelect,
+  onPick,
+}: SpaceSceneProps) {
   const aspect = useThree((s) => s.size.width / s.size.height);
+  const controlsRef = useRef<OrbitControlsRef>(null);
+  const spinners = useRef<Partial<Record<WorldId, Group>>>({});
+
   const layout = computeLayout(
     WORLDS.map((w) => w.id),
     screen,
@@ -43,14 +64,16 @@ function SceneContents({ screen, selectedId, hoveredId, onHoverChange, onSelect 
     aspect,
   );
   const onSelectScreen = screen === 'select';
-  const userControlled = screen === 'overview';
+  const exploring = screen === 'explore';
+  const userControlled = screen === 'overview' || exploring;
+  const focusedScale = selectedId ? layout.bodies[selectedId].scale : 1;
 
   return (
     <>
       {/* The Sun: one bright directional light from the upper left. */}
       <directionalLight position={[-6, 2.5, 5]} intensity={3} />
-      {/* Very faint fill so the night side is not pure black. */}
-      <ambientLight intensity={0.06} />
+      {/* Faint fill so the night side is not pure black (a little brighter while exploring). */}
+      <ambientLight intensity={exploring ? 0.25 : 0.06} />
 
       {/* Decorative random starfield (not a real star catalogue). */}
       <Stars radius={120} depth={60} count={5000} factor={3.5} saturation={0} fade speed={0.4} />
@@ -58,16 +81,25 @@ function SceneContents({ screen, selectedId, hoveredId, onHoverChange, onSelect 
       {WORLDS.map((world) => {
         const pose = layout.bodies[world.id];
         const [x, y, z] = pose.position;
+        const isFocused = selectedId === world.id;
         return (
           <group key={world.id}>
             <PlanetBody
               world={world}
               pose={pose}
               hovered={hoveredId === world.id}
-              selected={selectedId === world.id}
+              selected={isFocused}
               interactive={onSelectScreen}
+              pickable={exploring && isFocused}
+              spinning={!exploring}
+              site={exploring && site?.worldId === world.id ? site : null}
+              onSpinnerReady={(id, g) => {
+                if (g) spinners.current[id] = g;
+                else delete spinners.current[id];
+              }}
               onHoverChange={onHoverChange}
               onSelect={onSelect}
+              onPick={onPick}
             />
             <PlanetLabel
               world={world}
@@ -85,15 +117,24 @@ function SceneContents({ screen, selectedId, hoveredId, onHoverChange, onSelect 
         focused={!onSelectScreen}
         userControlled={userControlled}
         selectCameraDistance={layout.selectCameraDistance}
+        surfaceRadius={focusedScale}
+        controlsRef={controlsRef}
+        flyRequest={flyRequest}
+        flyTarget={exploring && site ? site : null}
+        spinnersRef={spinners}
+        selectedId={selectedId}
       />
       <OrbitControls
+        ref={controlsRef}
         makeDefault
         enabled={userControlled}
         enablePan={false}
         enableDamping
         dampingFactor={0.08}
         rotateSpeed={0.6}
-        minDistance={3.4}
+        zoomSpeed={0.8}
+        // Explore lets you zoom right down towards the surface.
+        minDistance={exploring ? focusedScale * 1.04 : 3.4}
         maxDistance={16}
       />
     </>

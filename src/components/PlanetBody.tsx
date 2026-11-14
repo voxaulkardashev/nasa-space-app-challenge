@@ -2,10 +2,12 @@ import { useFrame, type ThreeEvent } from '@react-three/fiber';
 import { Suspense, useRef } from 'react';
 import { MathUtils, type Group } from 'three';
 import type { World, WorldId } from '../data/types';
+import { vectorToLatLon, type LatLon } from '../lib/geo';
 import type { BodyPose } from '../lib/layout';
 import { HighlightGlow } from './HighlightGlow';
 import { MissingTextureSphere } from './MissingTextureSphere';
 import { PlanetSurface } from './PlanetSurface';
+import { SiteMarker } from './SiteMarker';
 import { TextureErrorBoundary } from './TextureErrorBoundary';
 
 interface PlanetBodyProps {
@@ -13,17 +15,41 @@ interface PlanetBodyProps {
   pose: BodyPose;
   hovered: boolean;
   selected: boolean;
-  /** Only clickable on the Select screen. */
+  /** Select screen: hover highlight + click to choose this world. */
   interactive: boolean;
+  /** Explore screen: click the surface to pick a site. */
+  pickable: boolean;
+  /** Slow decorative spin on/off (off while exploring so sites stay put). */
+  spinning: boolean;
+  /** Site marker to show on this world, if any. */
+  site: LatLon | null;
+  /** Receives the spinner group so the camera can fly to sites on it. */
+  onSpinnerReady?: (id: WorldId, group: Group | null) => void;
   onHoverChange: (id: WorldId | null) => void;
   onSelect: (id: WorldId) => void;
+  onPick: (site: LatLon) => void;
 }
 
 /** Slow decorative spin (radians per second). Positive = west-to-east, like the real bodies. */
 const SPIN_SPEED = 0.04;
+/** A press that moves more than this many pixels is a drag (rotate), not a click. */
+const CLICK_TOLERANCE_PX = 5;
 
 /** One world in the scene: glides to its layout pose, spins slowly, reacts to hover and click. */
-export function PlanetBody({ world, pose, hovered, selected, interactive, onHoverChange, onSelect }: PlanetBodyProps) {
+export function PlanetBody({
+  world,
+  pose,
+  hovered,
+  selected,
+  interactive,
+  pickable,
+  spinning,
+  site,
+  onSpinnerReady,
+  onHoverChange,
+  onSelect,
+  onPick,
+}: PlanetBodyProps) {
   const group = useRef<Group>(null);
   const spinner = useRef<Group>(null);
 
@@ -41,7 +67,7 @@ export function PlanetBody({ world, pose, hovered, selected, interactive, onHove
     const s = MathUtils.damp(g.scale.x, targetScale, lambda, delta);
     g.scale.setScalar(s);
     g.visible = s > 0.01;
-    if (spinner.current) spinner.current.rotation.y += SPIN_SPEED * delta;
+    if (spinner.current && spinning) spinner.current.rotation.y += SPIN_SPEED * delta;
   });
 
   const handleOver = (e: ThreeEvent<PointerEvent>) => {
@@ -53,18 +79,32 @@ export function PlanetBody({ world, pose, hovered, selected, interactive, onHove
     if (interactive) onHoverChange(null);
   };
   const handleClick = (e: ThreeEvent<MouseEvent>) => {
-    if (!interactive) return;
-    e.stopPropagation();
-    onSelect(world.id);
+    if (interactive) {
+      e.stopPropagation();
+      onSelect(world.id);
+      return;
+    }
+    if (pickable && e.delta <= CLICK_TOLERANCE_PX) {
+      e.stopPropagation();
+      // Convert the hit point into the sphere's own coordinates, then to lat/lon.
+      const local = e.object.worldToLocal(e.point.clone());
+      onPick(vectorToLatLon(local));
+    }
   };
 
   // Rotate so the chosen longitude faces the camera (see docs/notes.md for the maths).
   const initialRotation = -Math.PI / 2 - MathUtils.degToRad(world.initialLongitudeDeg);
-  const glowStrength = interactive ? (hovered ? 1 : 0) : selected ? 0.25 : 0;
+  const glowStrength = interactive ? (hovered ? 1 : 0) : selected && !pickable ? 0.25 : 0;
 
   return (
     <group ref={group} scale={0}>
-      <group ref={spinner} rotation={[0, initialRotation, 0]}>
+      <group
+        ref={(g) => {
+          spinner.current = g;
+          onSpinnerReady?.(world.id, g);
+        }}
+        rotation={[0, initialRotation, 0]}
+      >
         <group onPointerOver={handleOver} onPointerOut={handleOut} onClick={handleClick}>
           <TextureErrorBoundary
             fallback={<MissingTextureSphere worldName={world.name} path={`public/${world.textures.color}`} />}
@@ -74,6 +114,7 @@ export function PlanetBody({ world, pose, hovered, selected, interactive, onHove
             </Suspense>
           </TextureErrorBoundary>
         </group>
+        {site && <SiteMarker site={site} />}
       </group>
       <HighlightGlow color={world.highlightColor} strength={glowStrength} />
     </group>
