@@ -112,3 +112,19 @@ export interface FeaturedSite {
   /** Extra labelled values, e.g. the official diameter. */
   facts: DataValue[];
 }
+
+/** A photo from the NASA Image and Video Library (images.nasa.gov). */
+export interface SitePhoto {
+  /** NASA's identifier, used for the link back to the NASA page. */
+  nasaId: string;
+  /** NASA's own wording: the title, or the first sentence of the description when the title is only an ID. */
+  caption: string;
+  /** date_created from NASA's record (YYYY-MM-DD). */
+  date: string;
+  /** NASA centre that holds the record, e.g. "JPL". */
+  center: string;
+  /** Credit as given by NASA. "NASA" when the record lists no individual credit. */
+  credit: string;
+  /** Direct image file on images-assets.nasa.gov. */
+  imageUrl: string;
+}

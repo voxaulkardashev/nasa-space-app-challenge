@@ -50,6 +50,14 @@ Dark navy to black background with subtle stars; realistic textures and lighting
 
 ## Current status
 
-Milestone 1 only: project foundation, the Select a World screen and the World Overview screen. Do not build the location-comparison system, the analogue engine or the Explore screen yet. Structure the code so they can be added later.
+- **Milestone 1 (done):** project foundation, the Select a World screen and the World Overview screen.
+- **Milestone 2 (done):** the Explore screen.
+  - Pick a site by clicking, or choose a featured site.
+  - Measured elevation and estimated slope.
+  - Sharp zoom imagery streamed from NASA Trek / GIBS.
+  - NASA Image Library photos for featured sites.
+  - DONKI space-weather context.
+- **Next (not started):** the location-comparison system and the analogue engine (Milestone 3). Do not build them until asked. The Explore screen already shows a "Similar Earth sites" Placeholder row where results will go.
+- Deadline: Sunday 15 November 2026, 11:59 PM Pacific.
 
 The full requirements are in `docs/requirements.md` (copy of the team's requirements document, if present).

@@ -1,9 +1,11 @@
 import { useEffect, useRef, type ReactNode } from 'react';
 import { getFeaturedSite } from '../data/featuredSites';
+import { SITE_PHOTOS } from '../data/sitePhotos';
 import type { DataValue, World } from '../data/types';
 import type { SelectedSite } from '../lib/navigation';
 import { siteFacts } from '../lib/siteFacts';
 import { FactRow } from './FactRow';
+import { SitePhotoCard } from './SitePhotoCard';
 
 interface SitePanelProps {
   world: World;
@@ -18,6 +20,7 @@ interface SitePanelProps {
 /** Translucent panel on the Explore screen: the selected site's data, or how to pick one. */
 export function SitePanel({ world, site, extraFacts, siteList, actions }: SitePanelProps) {
   const featured = site?.featuredId ? getFeaturedSite(site.featuredId) : undefined;
+  const photo = featured ? SITE_PHOTOS[featured.id] : undefined;
   const panelRef = useRef<HTMLElement>(null);
 
   // Scroll back to the top when a new site is chosen, so its data is in view (matters on phones).
@@ -40,6 +43,8 @@ export function SitePanel({ world, site, extraFacts, siteList, actions }: SitePa
               : 'Click anywhere on the globe, or choose a featured site below.'}
         </p>
       </header>
+
+      {photo && <SitePhotoCard key={photo.nasaId} photo={photo} />}
 
       {site && (
         <>
