@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import type { World } from '../data/types';
 import { FactRow } from './FactRow';
 import { ImageryCredits } from './ImageryCredits';
+import { SpaceWeatherSection } from './SpaceWeatherSection';
 
 interface InfoPanelProps {
   world: World;
@@ -27,6 +28,8 @@ export function InfoPanel({ world, actions }: InfoPanelProps) {
         ))}
       </ul>
       <p className="info-panel__hint">Tap a label to see where a value comes from.</p>
+
+      <SpaceWeatherSection worldId={world.id} />
 
       <div className="info-panel__actions">{actions}</div>
 

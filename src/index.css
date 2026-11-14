@@ -653,3 +653,62 @@ a {
   color: var(--text-muted);
   font-size: 0.8rem;
 }
+
+/* ---------- Overview: space weather (NASA DONKI) -------------------------- */
+
+.space-weather {
+  margin-top: 1rem;
+  padding: 0.7rem 0.85rem;
+  border-radius: 10px;
+  border: 1px solid var(--panel-border);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.space-weather summary {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.25rem 0.75rem;
+  cursor: pointer;
+  list-style-position: outside;
+}
+
+.space-weather__title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.space-weather__summary {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.space-weather__quote {
+  margin: 0.8rem 0 0.35rem;
+  padding-left: 0.75rem;
+  border-left: 2px solid var(--accent);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.space-weather__quote cite {
+  display: block;
+  margin-top: 0.25rem;
+  font-style: normal;
+  font-size: 0.72rem;
+  color: var(--text-faint);
+}
+
+.space-weather__detail,
+.space-weather__note {
+  margin: 0.4rem 0 0.6rem;
+  font-size: 0.74rem;
+  line-height: 1.45;
+  color: var(--text-muted);
+}
+
+.space-weather__note {
+  color: var(--text-faint);
+}

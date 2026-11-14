@@ -54,7 +54,9 @@ The terminal shows a local address, usually **http://localhost:5173/**. Open it 
    - Click the globe to drop a marker. The panel shows the coordinates, elevation and regional slope at that spot (Moon and Mars), each labelled.
    - Choose a **featured site** (for example Jezero or Apollo 11) and the camera flies there.
    - Zoom in close and sharper NASA imagery loads in. A credit line appears at the bottom left.
+   - Featured sites show an official **NASA photo** with its caption and credit.
 5. **← (world name)**, **Back to overview**, **All worlds** or the Esc key go back.
+6. On the World Overview, open **Space weather · last 30 days** to see recent solar activity from NASA's DONKI database, with a NASA quote on how exposed that world's surface is to radiation.
 
 ## Useful commands
 
@@ -77,6 +79,16 @@ One-time setup on GitHub:
 2. Push to `main` (or open the **Actions** tab → *Deploy to GitHub Pages* → **Run workflow**).
 3. The site appears at `https://voxaulkardashev.github.io/nasa-space-app-challenge/`.
 
+The workflow also runs **once a day** to refresh the space-weather data from NASA's DONKI database (`scripts/fetch_donki.mjs`).
+
+**Recommended: add your free NASA API key** so the daily refresh isn't limited by NASA's shared demo key:
+
+1. Get a key at <https://api.nasa.gov> (fill in the short form; the key is shown on screen and emailed to you).
+2. On GitHub, go to the repository **Settings**, then **Secrets and variables**, then **Actions**, and click **New repository secret**.
+3. Name: `NASA_API_KEY`. Secret: paste your key. Click **Add secret**.
+
+Never put the key in the code or a commit. GitHub keeps secrets hidden, even in logs. If you skip this, the site still works and uses the last saved data.
+
 ## Project layout
 
 ```
@@ -94,6 +106,7 @@ public/data/elevation/  elevation grids for the Explore screen (see docs/SOURCES
 scripts/
   fetch_textures.py      re-downloads and resizes the textures (not needed to run the app)
   prepare_elevation.py   rebuilds the elevation grids (not needed to run the app)
+  fetch_donki.mjs        refreshes the space-weather snapshot (run automatically on deploy)
 CLAUDE.md            project rules, including the scientific integrity rules
 ```
 

@@ -1,0 +1,43 @@
+{
+  "fetchedAt": "2026-11-14T22:05:11.713Z",
+  "window": {
+    "start": "2026-10-15",
+    "end": "2026-11-14"
+  },
+  "sources": {
+    "FLR": null,
+    "CME": {
+      "name": "api.nasa.gov DONKI",
+      "url": "https://api.nasa.gov/DONKI/CME?startDate=2026-10-15&endDate=2026-11-14"
+    },
+    "SEP": {
+      "name": "api.nasa.gov DONKI",
+      "url": "https://api.nasa.gov/DONKI/SEP?startDate=2026-10-15&endDate=2026-11-14"
+    },
+    "GST": {
+      "name": "api.nasa.gov DONKI",
+      "url": "https://api.nasa.gov/DONKI/GST?startDate=2026-10-15&endDate=2026-11-14"
+    }
+  },
+  "flares": null,
+  "cmes": {
+    "count": 89,
+    "fastest": {
+      "speedKmS": 1048,
+      "time": "2026-10-17T02:48Z",
+      "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49150/-1"
+    }
+  },
+  "sep": {
+    "count": 0,
+    "latest": null
+  },
+  "storms": {
+    "count": 1,
+    "maxKp": {
+      "kp": 6,
+      "time": "2026-10-31T21:00Z",
+      "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/GST/49348/-1"
+    }
+  }
+}

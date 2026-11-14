@@ -76,6 +76,54 @@ The Meteor Crater description (about 1.2 km across, roughly 50,000 years old) co
 
 Tiles are downloaded by each visitor's browser directly from NASA (no API key needed), and the app shows a credit while they're on screen. If NASA's servers are unreachable, the normal globe texture stays visible.
 
+### NASA photos for featured sites (`src/data/sitePhotos.ts`)
+
+One photo per featured site, chosen by hand from the [NASA Image and Video Library](https://images.nasa.gov) (search API `images-api.nasa.gov`) on **14 November 2026**. Each image loads from `images-assets.nasa.gov`, and the app links back to its NASA page. Captions, dates, centres and credits are copied from NASA's records. Where NASA lists no individual credit, the app shows "NASA".
+
+| Site | NASA ID | NASA title / caption | Date | Credit |
+|---|---|---|---|---|
+| Apollo 11 | as11-40-5902 | Astronaut Edwin Aldrin walks on lunar surface near leg of Lunar Module | 1969-07-20 | NASA |
+| Apollo 15 | as15-89-12100 | Telephoto view across Hadley Rille photographed during Apollo 15 EVA | 1971-08-02 | NASA |
+| Apollo 17 | as17-134-20435 | Wide-angle view of Apollo 17 lunar landing site | 1972-12-10 | NASA |
+| Tycho | GSFC_20171208_Archive_e001873 | Tycho Crater's Peak | 2017-12-08 | NASA |
+| Jezero | PIA23239 | Jezero Crater, Mars 2020's Landing Site | 2019-05-15 | NASA/JPL-Caltech/MSSS/JHU-APL |
+| Gale | PIA15292 | Mount Sharp Inside Gale Crater, Mars | 2012-03-28 | NASA/JPL-Caltech/ESA/DLR/FU Berlin/MSSS |
+| Olympus Mons | PIA00300 | Olympus Mons | 1998-06-04 | NASA/JPL/USGS |
+| Valles Marineris | PIA00422 | Valles Marineris | 1998-06-08 | NASA/JPL/USGS |
+| Hellas Planitia | PIA00406 | Hellas Mosaic | 1998-06-08 | NASA/JPL/USGS |
+| Meteor Crater | iss074e0208832 | Meteor Crater in Arizona | 2026-01-26 | NASA |
+| Haughton crater | ARC-2007-ACD09-0255-001 | K-10 Red driving near 'The Fortress' formation at Haughton Crater, Devon Island, Canada. (first sentence of NASA's description; the title is only the ID) | 2007-07-15 | NASA/Lorenzo Fluckiger (from NASA's description) |
+
+- **Shackleton** has no matching image in the library, so it shows no photo.
+- NASA's own descriptions are **not** shown in the app. Some quote figures that differ slightly from our cited values: the Tycho caption says 82 km, while the IAU/USGS Gazetteer gives 85.29 km.
+- The Jezero image uses false colour from orbital mineral data, as explained on its NASA page.
+
+## Space weather (World Overview, `src/data/donki.json`)
+
+- **Data:** NASA **DONKI** (Space Weather Database Of Notifications, Knowledge, Information), run by NASA's Community Coordinated Modeling Center.
+- **Event types:** solar flares (FLR), coronal mass ejections (CME), solar energetic particle events (SEP) and geomagnetic storms (GST), for the last 30 days.
+- **How it's fetched:** `scripts/fetch_donki.mjs` tries the CCMC web service (`kauai.ccmc.gsfc.nasa.gov`) first, then `api.nasa.gov/DONKI`. The deploy workflow runs it on every push and once a day, so visitors never call the API.
+- **What's saved:** the file records the date range, the fetch time and which service supplied each type. The app shows these in each row's source line.
+- **Counts** are labelled **Measured**: they're the number of events DONKI catalogued in the window. The "fastest CME" speed is DONKI's "most accurate" analysis for that event.
+- **First snapshot** (fetched 14 November 2026 for 15 October to 14 November 2026): 89 CMEs, 0 SEP events, 1 geomagnetic storm (max Kp 6). Solar flares were **unavailable**, because api.nasa.gov's FLR endpoint returned 404 for every date range and the CCMC service could not be reached. The app shows flares as a Placeholder until a later fetch succeeds.
+- **Limitation:** DONKI records activity at the Sun and near Earth. It doesn't say which events reached the Moon or Mars, and the app says so.
+
+**Radiation context quotes** (shown with the space weather section):
+
+| World | Quote | Source |
+|---|---|---|
+| Moon | "The Moon is not a magnet, so it has no global magnetic field, although some areas on the Moon have localized magnetic fields." | [NASA Science: Solar Wind on the Moon](https://science.nasa.gov/moon/solar-wind/) |
+| Mars | "Mars does not have a global magnetic field like Earth." | [NASA Science: NASA's MAVEN Illuminates New Understanding of Auroras at Mars](https://science.nasa.gov/missions/maven/nasas-maven-illuminates-new-understanding-of-auroras-at-mars/) |
+| Earth | "This global magnetic field helps to shield us from the harsh conditions of space. Without it, much more radiation would reach Earth's surface." | [NASA Science: Solar Wind on the Moon](https://science.nasa.gov/moon/solar-wind/) |
+
+Each quote is followed by a related figure from the NASA NSSDCA fact sheets:
+
+- **Moon:** night-time surface pressure, 3 × 10⁻¹⁵ bar
+- **Mars:** surface pressure, 6.36 mbar
+- **Earth:** surface magnetic field, 0.24–0.66 gauss, and surface pressure, 1014 mbar
+
+Pages accessed 14 November 2026. Their publication dates were not checked.
+
 ## Decorative elements (not data)
 
 - **Starfield**: random points from drei's `<Stars>` component. Not a star catalogue. A real one, such as NASA SVS "Deep Star Maps", could replace it later.

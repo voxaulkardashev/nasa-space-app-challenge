@@ -30,6 +30,18 @@ Short explanations of the less obvious parts of the code.
   - A small "Loading detail…" hint shows in the corner.
 - **Camera settings** in `SpaceScene.tsx` are a constant on purpose. Passing a new object on every render could make React Three Fiber reset the camera and undo the user's zoom.
 
+## NASA APIs used
+
+| Service | Where | Called from | Key |
+|---|---|---|---|
+| Moon/Mars Trek WMTS, GIBS | Explore close-up tiles | Visitors' browsers | No |
+| NASA Image and Video Library | Featured-site photos (`src/data/sitePhotos.ts`) | Chosen once by hand; images load from `images-assets.nasa.gov` | No |
+| DONKI (CCMC service or api.nasa.gov) | Space weather on the World Overview | The deploy workflow (`scripts/fetch_donki.mjs`), on push and daily | `NASA_API_KEY` repo secret if set, else `DEMO_KEY` |
+
+- **Why the workflow fetches DONKI, not the visitor's browser:** the demo key has small hourly and daily limits per internet address, and a whole school network shares one address. A key built into the website would also be public.
+- **What gets saved:** the workflow writes `src/data/donki.json` before building. The copy committed in the repo is the fallback if NASA can't be reached.
+- **Flares unavailable:** on 14 November 2026, api.nasa.gov's FLR (solar flare) endpoint returned 404, so flares show as unavailable until a later fetch works.
+
 ## Which side of a world faces you
 
 Three.js wraps an equirectangular map so that longitude 0° faces +X and 90° W faces the camera (+Z). To make longitude `L` (degrees east) face the camera, rotate the sphere around Y by `-π/2 - L` (in radians). `initialLongitudeDeg` in `src/data/worlds.ts` sets this per world. A positive Y rotation turns the world west-to-east, the real direction for all three bodies.
