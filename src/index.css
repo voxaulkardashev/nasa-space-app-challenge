@@ -2506,3 +2506,67 @@ body.is-resizing * {
   font-size: 0.78rem;
   color: var(--text);
 }
+
+.research__live {
+  margin-top: 0.4rem;
+}
+
+.research__table-wrap {
+  overflow-x: auto;
+  margin: 0.4rem 0 0.2rem;
+}
+
+.research__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+
+.research__table caption {
+  caption-side: top;
+  text-align: left;
+  padding-bottom: 0.4rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.research__table th,
+.research__table td {
+  padding: 0.45rem 0.4rem;
+  border-bottom: 1px solid rgba(160, 190, 255, 0.1);
+  text-align: left;
+  vertical-align: top;
+}
+
+.research__table thead th {
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.research__table tbody th {
+  font-weight: 400;
+  color: var(--text-muted);
+  min-width: 9rem;
+}
+
+.research__table td {
+  white-space: nowrap;
+  color: var(--text);
+}
+
+.research__table tr.is-highlight {
+  background: rgba(127, 178, 255, 0.08);
+}
+
+.research__table tr.is-highlight th {
+  color: var(--text);
+}
+
+/* Let the site columns shrink on narrow screens, so wide tables scroll inside them instead of widening the pop-up. */
+.compare__site,
+.research {
+  min-width: 0;
+}

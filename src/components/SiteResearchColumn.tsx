@@ -1,7 +1,9 @@
 import { Fragment, useState, type ReactNode } from 'react';
 import type { ResearchCitation, ResearchFigure, SiteResearch } from '../data/siteResearch';
 import { assetUrl } from '../data/worlds';
+import { DataLabel } from './DataLabel';
 import { FactRow } from './FactRow';
+import { SiteLiveWeather } from './SiteLiveWeather';
 
 interface SiteResearchColumnProps {
   research: SiteResearch;
@@ -76,6 +78,32 @@ export function SiteResearchColumn({ research }: SiteResearchColumnProps) {
                 <FactRow key={f.id} data={f} />
               ))}
             </ul>
+          )}
+          {section.live && <SiteLiveWeather lat={section.live.lat} lon={section.live.lon} place={section.live.place} />}
+          {section.table && (
+            <div className="research__table-wrap">
+              <table className="research__table">
+                <caption>
+                  {section.table.caption} <DataLabel data={section.table.label} />
+                </caption>
+                <thead>
+                  <tr>
+                    {section.table.columns.map((c) => (
+                      <th key={c} scope="col">
+                        {c}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {section.table.rows.map((row, i) => (
+                    <tr key={row[0]} className={section.table!.highlight?.includes(i) ? 'is-highlight' : undefined}>
+                      {row.map((cell, j) => (j === 0 ? <th key={j} scope="row">{cell}</th> : <td key={j}>{cell}</td>))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
           {section.factGroups?.map((group) => (
             <div key={group.title} className="research__group">

@@ -4,6 +4,7 @@ import type { LatLon } from '../lib/geo';
 import { MARS_NOW_PARAMS, sampleMarsGrid, type MarsNowParam, type PsgLocal } from '../lib/weather/marsNow';
 import type { MarsNowState } from '../lib/weather/useMarsNow';
 import { FactRow } from './FactRow';
+import { psgLocalFacts } from '../lib/weather/psgLocalFacts';
 import { MarsWeatherLegend } from './MarsWeatherLegend';
 
 interface MarsNowCardProps {
@@ -32,29 +33,7 @@ export function MarsNowCard({ site, state, onRefresh, overlay, onOverlayChange, 
     accessed: data ? `${time(data.fetchedAt)} today` : 'today',
   };
   const exact = local?.status === 'ready' ? local.data : null;
-  const exactSource = exact && {
-    name: `NASA Goddard PSG Mars Explorer${exact.model ? ` (${exact.model})` : ''}`,
-    url: PSG_MARS_URL,
-    sourceDate: exact.marsTime ? `Model time ${exact.marsTime}` : 'Current time',
-    accessed: `${time(exact.fetchedAt)} today`,
-  };
-  const exactMethod =
-    'Read from NASA Goddard’s PSG Mars Explorer for your pin’s exact location and the current time (the same numbers its own website shows). PSG uses EMARS data from the past Mars year most similar to now, at today’s season and time of day: model estimates, not measurements. The app says it “should be only used for testing purposes”.';
-  const fmt = (v: number | null, unit: string, digits = 0) => (v === null ? null : `${v.toFixed(digits)}${unit ? ` ${unit}` : ''}`);
-  const exactRows: DataValue[] = exact && exactSource
-    ? (
-        [
-          ['now-air', 'Air temperature now', fmt(exact.airNowC, '°C')],
-          ['now-range', 'Air temperature today', exact.todayMinC !== null && exact.todayMaxC !== null ? `${exact.todayMinC} °C to ${exact.todayMaxC} °C` : null],
-          ['now-ground', 'Ground temperature now', fmt(exact.groundNowC, '°C')],
-          ['now-pres', 'Surface pressure', fmt(exact.pressureMbar, 'mbar', 3)],
-          ['now-wind', 'Wind speed', fmt(exact.windKmh, 'km/h')],
-          ['now-dust', 'Dust opacity', exact.dustTau === null ? null : `τ ${exact.dustTau.toFixed(3)}`],
-          ['now-ice', 'Ice-cloud opacity', exact.iceTau === null ? null : `τ ${exact.iceTau.toFixed(3)}`],
-          ['now-vapor', 'Water vapour', fmt(exact.vaporPrUm, 'pr-µm', 1)],
-        ] as const
-      ).flatMap(([id, label, value]) => (value ? [{ id, label, value, status: 'estimated' as const, method: exactMethod, source: exactSource }] : []))
-    : [];
+  const exactRows: DataValue[] = exact ? psgLocalFacts(exact) : [];
   const gridRows: DataValue[] =
     data && site
       ? MARS_NOW_PARAMS.flatMap((p) => {
