@@ -29,6 +29,8 @@ interface DetailTilesProps {
   layers: TileLayerDef[];
   /** Reports whether close-up tiles are showing, whether more are downloading, and from which source. */
   onStatusChange?: (status: DetailStatus) => void;
+  /** Topography view: drape tiles over the raised terrain. */
+  radiusAt?: (lat: number, lon: number) => number;
 }
 
 /** How often (seconds) to re-check which tiles the view needs. */
@@ -91,7 +93,7 @@ function blackToTransparent(image: HTMLImageElement): Texture {
  * Must be placed inside the world's rotating group (same coordinates as the
  * unit sphere). The normal globe always shows underneath.
  */
-export function DetailTiles({ layers, onStatusChange }: DetailTilesProps) {
+export function DetailTiles({ layers, onStatusChange, radiusAt }: DetailTilesProps) {
   const group = useRef<Group>(null);
   const size = useThree((s) => s.size);
   const cache = useRef(new Map<string, CacheEntry>());
@@ -216,7 +218,7 @@ export function DetailTiles({ layers, onStatusChange }: DetailTilesProps) {
   return (
     <group ref={group}>
       {shown.map(({ key, texture, transparent }) => (
-        <TileMesh key={tileKeyId(key)} tile={key} texture={texture} transparent={transparent} layerIndex={layerRankByKey(layers, key)} />
+        <TileMesh key={tileKeyId(key)} tile={key} texture={texture} transparent={transparent} layerIndex={layerRankByKey(layers, key)} radiusAt={radiusAt} />
       ))}
     </group>
   );

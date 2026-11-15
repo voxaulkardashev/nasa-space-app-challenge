@@ -1,5 +1,5 @@
 import { useFrame, type ThreeEvent } from '@react-three/fiber';
-import { Suspense, useEffect, useRef } from 'react';
+import { Suspense, useEffect, useMemo, useRef } from 'react';
 import { MathUtils, type Group } from 'three';
 import { TILE_LAYERS } from '../data/tileLayers';
 import type { FeaturedSite, GeoLayerId, World, WorldId } from '../data/types';
@@ -170,7 +170,13 @@ export function PlanetBody({
     }
   };
 
-  const radiusAt = topo ? (lat: number, lon: number) => raisedRadius(topo.grid, lat, lon, topo.exaggeration, world.meanRadiusKm) : undefined;
+  // One function per grid + exaggeration (a new one every render would rebuild every terrain tile).
+  const topoGrid = topo?.grid;
+  const topoExag = topo?.exaggeration ?? 1;
+  const radiusAt = useMemo(
+    () => (topoGrid ? (lat: number, lon: number) => raisedRadius(topoGrid, lat, lon, topoExag, world.meanRadiusKm) : undefined),
+    [topoGrid, topoExag, world.meanRadiusKm],
+  );
 
   // Rotate so the chosen longitude faces the camera (see docs/notes.md for the maths).
   const initialRotation = -Math.PI / 2 - MathUtils.degToRad(world.initialLongitudeDeg);
@@ -195,8 +201,8 @@ export function PlanetBody({
             </Suspense>
           </TextureErrorBoundary>
         </group>
-        {pickable && !sideBySide && !topo && TILE_LAYERS[world.id] && (
-          <DetailTiles layers={TILE_LAYERS[world.id]!} onStatusChange={onDetailStatusChange} />
+        {pickable && !sideBySide && TILE_LAYERS[world.id] && (
+          <DetailTiles layers={TILE_LAYERS[world.id]!} onStatusChange={onDetailStatusChange} radiusAt={radiusAt} />
         )}
         {site && <SiteMarker site={site} radius={radiusAt?.(site.lat, site.lon)} />}
         {placeLabels && placeLabels.length > 0 && <MapLabelsLayer labels={placeLabels} radiusAt={radiusAt} />}

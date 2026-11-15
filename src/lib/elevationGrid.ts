@@ -10,7 +10,13 @@ export interface ElevationGrid {
 export async function loadElevationGrid(dataset: ElevationDataset, url: string): Promise<ElevationGrid> {
   const response = await fetch(url);
   if (!response.ok) throw new Error(`Could not load ${url} (HTTP ${response.status})`);
-  const buffer = await response.arrayBuffer();
+  let buffer = await response.arrayBuffer();
+  // Gzip-compressed grids (".gz") start with the bytes 1F 8B. Some servers unpack them on the way, so check first.
+  const head = new Uint8Array(buffer, 0, 2);
+  if (head[0] === 0x1f && head[1] === 0x8b) {
+    const stream = new Blob([buffer]).stream().pipeThrough(new DecompressionStream('gzip'));
+    buffer = await new Response(stream).arrayBuffer();
+  }
   const expected = dataset.width * dataset.height * 2;
   if (buffer.byteLength !== expected) {
     throw new Error(`${url} has ${buffer.byteLength} bytes, expected ${expected}`);

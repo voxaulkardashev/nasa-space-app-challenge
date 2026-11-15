@@ -44,13 +44,13 @@ export const ELEVATION: Partial<Record<WorldId, ElevationDataset>> = {
  * NASA's page states the greyscale map was "scaled 0-6400 meters"; oceans are 0.
  */
 const EARTH_TOPOGRAPHY: ElevationDataset = {
-  path: 'data/elevation/earth_elevation_4ppd.bin',
-  width: 1440,
-  height: 720,
+  path: 'data/elevation/earth_topography_8ppd.bin.gz',
+  width: 2880,
+  height: 1440,
   reference: 'sea level (oceans and land below sea level are shown at 0 m)',
-  maxHeightM: 6163,
+  maxHeightM: 6239,
   dataset:
-    'Blue Marble: Next Generation land topography (gebco_08_rev_elev_21600x10800.tif, greyscale scaled 0–6400 m), averaged to 4 cells per degree',
+    'Blue Marble: Next Generation land topography (gebco_08_rev_elev_21600x10800.tif, greyscale scaled 0–6400 m), averaged to 8 cells per degree',
   source: {
     name: 'NASA Earth Observatory — Blue Marble: Next Generation, Topography and Bathymetry Maps (imagery by Jesse Allen, using GEBCO data)',
     url: 'https://science.nasa.gov/earth/earth-observatory/blue-marble-next-generation/topography-bathymetry-maps/',
@@ -61,7 +61,15 @@ const EARTH_TOPOGRAPHY: ElevationDataset = {
 
 /** Height grids for the Topography view. */
 export const TOPOGRAPHY: Partial<Record<WorldId, ElevationDataset>> = {
-  mars: ELEVATION.mars,
+  // Same MOLA source as the Explore values, averaged to 8 cells per degree (about 7.4 km) instead of 4.
+  mars: ELEVATION.mars && {
+    ...ELEVATION.mars,
+    path: 'data/elevation/mars_topography_8ppd.bin.gz',
+    width: 2880,
+    height: 1440,
+    maxHeightM: 21157,
+    dataset: 'MGS MOLA global elevation mosaic, 463 m/pixel (Mars_MGS_MOLA_DEM_mosaic_global_463m.tif), averaged to 8 cells per degree',
+  },
   earth: EARTH_TOPOGRAPHY,
 };
 

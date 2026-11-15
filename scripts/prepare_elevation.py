@@ -12,6 +12,8 @@ Usage (from the project root):
 Output format:
     Raw little-endian signed 16-bit integers, heights in METRES,
     1440 columns x 720 rows (4 cells per degree).
+    The Topography view also uses sharper copies at 8 cells per degree
+    (2880 x 1440), saved gzip-compressed as <world>_topography_8ppd.bin.gz.
     Row 0 is the northernmost row (90°N to 89.75°N);
     column 0 starts at 180°W. Each value is the MEAN of the source pixels
     inside that 0.25° x 0.25° cell.
@@ -72,6 +74,18 @@ def block_mean(arr: np.ndarray, out_h: int, out_w: int) -> np.ndarray:
     return arr.reshape(out_h, fy, out_w, fx).mean(axis=(1, 3))
 
 
+def save_topography(name: str, metres: np.ndarray) -> None:
+    """Sharper grid for the Topography view, gzip-compressed (the browser unpacks it)."""
+    import gzip
+    OUT.mkdir(parents=True, exist_ok=True)
+    grid = np.round(metres).astype("<i2")
+    path = OUT / f"{name}_topography_8ppd.bin.gz"
+    with gzip.open(path, "wb", compresslevel=9) as f:
+        f.write(grid.tobytes())
+    print(f"  wrote   {path.relative_to(PROJECT_ROOT)}  {grid.shape[1]}x{grid.shape[0]}  "
+          f"min {grid.min()} m, max {grid.max()} m, {path.stat().st_size / 1e6:.1f} MB compressed")
+
+
 def save(name: str, metres: np.ndarray) -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     grid = np.round(metres).astype("<i2")
@@ -106,10 +120,17 @@ def make_mars(cache: Path) -> None:
     print(f"  source  {w}x{h}, int16, no-data value {nodata}")
     data = np.memmap(src, dtype="<i2", mode="r", offset=offsets[0], shape=(h, w))
 
-    fy, fx = h // HEIGHT, w // WIDTH
-    out = np.zeros((HEIGHT, WIDTH))
-    for r in range(HEIGHT):
-        block = data[r * fy:(r + 1) * fy].astype(np.float64).reshape(fy, WIDTH, fx)
+    save("mars", mola_means(data, nodata, HEIGHT, WIDTH))
+    save_topography("mars", mola_means(data, nodata, HEIGHT * 2, WIDTH * 2))
+
+
+def mola_means(data: np.ndarray, nodata: int, out_h: int, out_w: int) -> np.ndarray:
+    """Mean of the valid source pixels in each output cell, one strip of rows at a time."""
+    h, w = data.shape
+    fy, fx = h // out_h, w // out_w
+    out = np.zeros((out_h, out_w))
+    for r in range(out_h):
+        block = data[r * fy:(r + 1) * fy].astype(np.float64).reshape(fy, out_w, fx)
         valid = block != nodata
         counts = valid.sum(axis=(0, 2))
         sums = np.where(valid, block, 0).sum(axis=(0, 2))
@@ -119,7 +140,7 @@ def make_mars(cache: Path) -> None:
         print(f"  note    {missing} cells had no data; filled with the mean of their row")
         row_means = np.nanmean(out, axis=1, keepdims=True)
         out = np.where(np.isnan(out), row_means, out)
-    save("mars", out)
+    return out
 
 
 def make_earth(cache: Path) -> None:
@@ -127,7 +148,11 @@ def make_earth(cache: Path) -> None:
     src = download(SOURCES["earth"][0], cache / SOURCES["earth"][1])
     grey = np.asarray(Image.open(src).convert("L"), dtype=np.float64)
     print(f"  source  {grey.shape[1]}x{grey.shape[0]}, 8-bit, grey {grey.min():.0f}-{grey.max():.0f}")
-    save("earth", block_mean(grey / 255.0 * 6400.0, HEIGHT, WIDTH))
+    metres = grey / 255.0 * 6400.0
+    save("earth", block_mean(metres, HEIGHT, WIDTH))
+    # 21600 is not a whole multiple of 2880, so average with Pillow's box filter (area-weighted mean).
+    sharp = Image.fromarray(metres.astype(np.float32), mode="F").resize((WIDTH * 2, HEIGHT * 2), Image.Resampling.BOX)
+    save_topography("earth", np.asarray(sharp, dtype=np.float64))
 
 
 if __name__ == "__main__":

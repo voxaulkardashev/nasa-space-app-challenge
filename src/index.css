@@ -2343,3 +2343,10 @@ body.is-resizing * {
 .flat-map__pin.is-selected {
   z-index: 5;
 }
+
+.view-switch__loading {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--text);
+}

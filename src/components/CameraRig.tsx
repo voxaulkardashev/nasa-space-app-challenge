@@ -1,7 +1,7 @@
 import { useFrame, useThree } from '@react-three/fiber';
 import { useEffect, useRef, type RefObject } from 'react';
 import { MathUtils, PerspectiveCamera, Vector3, type Group } from 'three';
-import { latLonToVector, type LatLon } from '../lib/geo';
+import { latLonToVector, vectorToLatLon, type LatLon } from '../lib/geo';
 import type { WorldId } from '../data/types';
 import { usesBottomPanel } from '../lib/layout';
 import type { OrbitControlsRef } from './SpaceScene';
@@ -23,10 +23,13 @@ interface CameraRigProps {
   selectedId: WorldId | null;
   /** Sidebar width in px (desktop). */
   panelWidth: number;
+  /** Topography view on Explore: raised-surface radius (planet radius = 1) at a point. The camera keeps above it. */
+  groundAt?: (lat: number, lon: number) => number;
 }
 
 const target = new Vector3();
 const flyEnd = new Vector3();
+const camLocal = new Vector3();
 
 /**
  * Moves the camera smoothly between screens and to sites.
@@ -50,6 +53,7 @@ export function CameraRig({
   spinnersRef,
   selectedId,
   panelWidth,
+  groundAt,
 }: CameraRigProps) {
   const camera = useThree((s) => s.camera);
   const size = useThree((s) => s.size);
@@ -100,10 +104,21 @@ export function CameraRig({
       if (camera.position.distanceTo(flyEnd) < 0.01 || flyTime.current > 3) flyTime.current = -1;
     }
 
+    // Height of the ground straight below the camera (raised terrain in the Topography view).
+    let ground = surfaceRadius;
+    const spinner = selectedId ? spinnersRef.current[selectedId] : undefined;
+    if (groundAt && spinner) {
+      spinner.updateWorldMatrix(true, false);
+      const below = vectorToLatLon(spinner.worldToLocal(camLocal.copy(camera.position)));
+      ground = surfaceRadius * groundAt(below.lat, below.lon);
+    }
+
     const controls = controlsRef.current;
     if (controls) {
+      // Never let the camera go into the ground (in the Topography view the ground is raised).
+      if (groundAt && userControlled) controls.minDistance = ground + surfaceRadius * 0.003;
       // Slower rotation close to the surface (height above surface ÷ radius).
-      const height = Math.max(camera.position.length() - surfaceRadius, 0.001);
+      const height = Math.max(camera.position.length() - ground, 0.001);
       controls.rotateSpeed = MathUtils.clamp((height / surfaceRadius) * 0.6, 0.005, 0.6);
       // Smaller zoom steps near the ground (each step changes the height by roughly 15%).
       controls.zoomSpeed = MathUtils.clamp((3 * height) / camera.position.length(), 0.02, 0.8);
@@ -111,7 +126,7 @@ export function CameraRig({
 
     if (camera instanceof PerspectiveCamera) {
       // Near clipping plane follows the height above the surface, so close-ups are never cut off.
-      const above = Math.max(camera.position.length() - surfaceRadius, 0.0001);
+      const above = Math.max(camera.position.length() - ground, 0.0001);
       const near = MathUtils.clamp(above * 0.3, 0.0002, 0.1);
       // (Set through the frame state's camera; setViewOffset below updates the projection.)
       const frameCamera = state.camera as PerspectiveCamera;

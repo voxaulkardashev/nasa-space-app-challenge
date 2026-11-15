@@ -1,6 +1,6 @@
 import { OrbitControls, Stars } from '@react-three/drei';
 import { Canvas, useThree } from '@react-three/fiber';
-import { useRef, type ComponentRef } from 'react';
+import { useMemo, useRef, type ComponentRef } from 'react';
 import type { Group } from 'three';
 import { WORLDS } from '../data/worlds';
 import { featuredSitesFor } from '../data/featuredSites';
@@ -11,7 +11,7 @@ import type { Screen, SelectedSite } from '../lib/navigation';
 import type { DetailStatus } from '../lib/tiles';
 import { DEFAULT_EXAGGERATION, TOPOGRAPHY } from '../data/elevation';
 import { MAP_LABELS } from '../data/mapLabels';
-import { maxRaise, type ViewMode } from '../lib/topography';
+import { maxRaise, raisedRadius, type ViewMode } from '../lib/topography';
 import { useElevationGrid } from '../lib/useElevationGrid';
 import { CameraRig } from './CameraRig';
 import { PlanetBody } from './PlanetBody';
@@ -111,6 +111,11 @@ function SceneContents({
   const topoGrid = topoOn && topoState.status === 'ready' ? topoState.grid : null;
   const exag = selectedId ? (exaggeration[selectedId] ?? DEFAULT_EXAGGERATION[selectedId]) : 1;
   const topoDataset = selectedId ? TOPOGRAPHY[selectedId] : undefined;
+  const radiusKm = selectedId ? WORLDS.find((w) => w.id === selectedId)!.meanRadiusKm : 1;
+  const groundAt = useMemo(
+    () => (topoGrid ? (lat: number, lon: number) => raisedRadius(topoGrid, lat, lon, exag, radiusKm) : undefined),
+    [topoGrid, exag, radiusKm],
+  );
   const raise = topoGrid && topoDataset && selectedId ? maxRaise(topoDataset.maxHeightM, exag, WORLDS.find((w) => w.id === selectedId)!.meanRadiusKm) : 0;
   const site = selectedId ? (sites[selectedId] ?? null) : null;
   const focusedScale = selectedId ? layout.bodies[selectedId].scale : 1;
@@ -182,6 +187,7 @@ function SceneContents({
         spinnersRef={spinners}
         panelWidth={panelWidth}
         selectedId={selectedId}
+        groundAt={exploring && !sideBySide ? groundAt : undefined}
       />
       <OrbitControls
         ref={controlsRef}
@@ -193,7 +199,8 @@ function SceneContents({
         rotateSpeed={0.6}
         zoomSpeed={0.8}
         // Explore lets you zoom right down towards the surface.
-        minDistance={exploring && !sideBySide ? focusedScale * (1.003 + raise) : 3.4}
+        // (In the Topography view CameraRig keeps this just above the ground below the camera.)
+        minDistance={exploring && !sideBySide ? focusedScale * (1.003 + (groundAt ? 0 : raise)) : 3.4}
         maxDistance={16}
       />
     </>
