@@ -2247,12 +2247,27 @@ body.is-resizing * {
   transform: translate(-50%, -50%);
 }
 
+/* Labels and pins are shifted so the centre of their DOT sits exactly on the
+   coordinates (globe and 2D map alike), whatever the length of the name. */
+.place-label.is-anchored,
+.site-pin.is-anchored {
+  /* Globe labels: start exactly at the projected point (not on a text line below it). */
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.place-label.is-anchored,
 .flat-map__label {
-  transform: translate(-3px, -50%);
+  transform: translate(-2px, -50%); /* half the 4px dot */
+}
+
+.site-pin.is-anchored,
+.flat-map__pin {
+  transform: translate(calc(-1px - 0.3rem - 4.5px), -50%); /* border + left padding + half the 9px dot */
 }
 
 .flat-map__pin {
-  transform: translate(-0.45rem, -50%);
   z-index: 2;
 }
 

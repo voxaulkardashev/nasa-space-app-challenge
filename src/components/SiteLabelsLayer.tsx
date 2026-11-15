@@ -69,11 +69,12 @@ function SiteLabel({ site, color, selected, onChoose, radius }: SiteLabelProps) 
 
   return (
     <group ref={group} position={position}>
-      <Html center zIndexRange={[15, 5]} style={{ pointerEvents: 'none' }}>
+      {/* Not `center`: the pin is shifted in CSS so its DOT, not the middle of the name, sits on the site. */}
+      <Html zIndexRange={[15, 5]} style={{ pointerEvents: 'none' }}>
         <button
           ref={labelRef}
           type="button"
-          className={`site-pin${selected ? ' is-selected' : ''}`}
+          className={`site-pin is-anchored${selected ? ' is-selected' : ''}`}
           style={{ ['--pin' as string]: color }}
           onClick={(e) => {
             e.stopPropagation();

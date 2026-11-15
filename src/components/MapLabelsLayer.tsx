@@ -44,8 +44,9 @@ function PlaceLabel({ label, radius }: { label: MapLabel; radius: number }) {
 
   return (
     <group ref={group} position={position}>
-      <Html center zIndexRange={[4, 0]} style={{ pointerEvents: 'none' }}>
-        <span ref={el} className={`place-label place-label--${label.worldId}`} title={label.kind}>
+      {/* Not `center`: the label is shifted in CSS so its DOT, not the middle of the text, sits on the coordinates. */}
+      <Html zIndexRange={[4, 0]} style={{ pointerEvents: 'none' }}>
+        <span ref={el} className={`place-label place-label--${label.worldId} is-anchored`} title={label.kind}>
           <span className="place-label__dot" aria-hidden="true" />
           {label.name}
         </span>
