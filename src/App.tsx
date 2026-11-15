@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { LoadingOverlay } from './components/LoadingOverlay';
+import { CompareModal } from './components/CompareModal';
 import { SpaceScene } from './components/SpaceScene';
 import { ALL_LAYER_IDS } from './data/geoLayers';
 import type { FeaturedSite, GeoLayerId, WorldId } from './data/types';
@@ -24,6 +25,7 @@ export default function App() {
   const [sites, setSites] = useState<Partial<Record<WorldId, SelectedSite>>>({});
   const [flyRequest, setFlyRequest] = useState(0);
   const [activeLayers, setActiveLayers] = useState<GeoLayerId[]>(ALL_LAYER_IDS);
+  const [compareOpen, setCompareOpen] = useState(false);
   const [detailStatus, setDetailStatus] = useState<DetailStatus>({ active: false, loading: false });
 
   const selectedWorld = selectedId ? getWorld(selectedId) : null;
@@ -104,8 +106,11 @@ export default function App() {
         onSwitchWorld={switchWorld}
         activeLayers={activeLayers}
         onLayersChange={setActiveLayers}
+        onCompare={() => setCompareOpen(true)}
         onBack={() => setScreen('overview')}
       />
+
+      {compareOpen && screen === 'explore' && site && <CompareModal site={site} onClose={() => setCompareOpen(false)} />}
 
       <LoadingOverlay />
     </main>

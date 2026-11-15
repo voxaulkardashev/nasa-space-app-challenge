@@ -119,6 +119,27 @@ NASA calls these *analogs*: places with things in common, not equivalents. The a
 
 **Geological layers** (`src/data/geoLayers.ts`): impact structures, aeolian processes, sediments & mineralogy, and terrain/glaciers/rivers. Each site is assigned by the team from its cited descriptions. For example, Hellas is in "aeolian" because NASA Image Library titles include "Hellas Dunes" and "Dunes in Hellas". The filter shows or hides sites; it is **not** a geological map overlay.
 
+### Compare view and new site photos (added 15 November 2026)
+
+**What the Compare view shows:**
+
+- The two sites side by side: NASA photos, coordinates, official diameter, and Mars elevation and slope. Earth elevation shows as a Placeholder, because no Earth elevation dataset has been added.
+- The pair's NASA-cited similarities and differences.
+- **What Earth cannot reproduce:** surface gravity (Mars 3.73 vs Earth 9.820 m/s²; NSSDCA Mars/Earth ratio 0.380), surface pressure (6.36 vs 1014 mbar, drawn on a log scale) and average temperature (~214 K vs 288 K). All values come from the NSSDCA fact sheets. Radiation shielding is shown with the NASA quotes listed under Space weather.
+
+**New photos** (NASA Image and Video Library, 15 November 2026):
+
+| Site | NASA ID | Title | Date | Credit |
+|---|---|---|---|---|
+| Utopia Planitia | PIA04023 | Viking Lander 2 Anniversary | 2002-12-13 | NASA/JPL/Arizona State University |
+| Phoenix landing site | PIA10701 | Color Image of Phoenix Lander on Mars Surface | 2008-05-27 | NASA/JPL-Caltech/University of Arizona |
+| Lake Salda | PIA24375 | Lake Salda Beach | 2021-01-27 | NASA/JPL-Caltech |
+| Death Valley | PIA23265 | NASA's Mars 2020 Mission Drops in on Death Valley | 2019-05-24 | NASA/JPL-Caltech |
+| Holuhraun | jsc2024e055198 | Artemis II Crew geology training in Iceland - jsc2024e055198 | 2024-08-01 | Robert Markowitz, NASA-JSC |
+
+- The Lake Salda photo caption is also quoted as a similarity. NASA's caption says "Jezero Carter", which we show as "Jezero [Crater]".
+- Verde Valley, Atacama and Pilot Valley have no matching image in the library.
+
 ## Space weather (World Overview, `src/data/donki.json`)
 
 - **Data:** NASA **DONKI** (Space Weather Database Of Notifications, Knowledge, Information), run by NASA's Community Coordinated Modeling Center.

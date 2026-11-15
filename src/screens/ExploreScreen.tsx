@@ -70,6 +70,7 @@ export function ExploreScreen({
         <SitePanel
           world={world}
           site={currentSite}
+          onCompare={onCompare}
           extraFacts={currentSite ? elevationFacts(world, currentSite, elevation) : []}
           siteList={
             <FeaturedSiteList

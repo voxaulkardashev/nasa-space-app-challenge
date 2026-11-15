@@ -15,10 +15,12 @@ interface SitePanelProps {
   /** Featured-site picker (added below the site details). */
   siteList?: ReactNode;
   actions?: ReactNode;
+  /** Opens the Compare view for the selected site. */
+  onCompare?: () => void;
 }
 
 /** Translucent panel on the Explore screen: the selected site's data, or how to pick one. */
-export function SitePanel({ world, site, extraFacts, siteList, actions }: SitePanelProps) {
+export function SitePanel({ world, site, extraFacts, siteList, actions, onCompare }: SitePanelProps) {
   const featured = site?.featuredId ? getFeaturedSite(site.featuredId) : undefined;
   const photo = featured ? SITE_PHOTOS[featured.id] : undefined;
   const panelRef = useRef<HTMLElement>(null);
@@ -43,6 +45,12 @@ export function SitePanel({ world, site, extraFacts, siteList, actions }: SitePa
               : 'Click anywhere on the globe, or choose a featured site below.'}
         </p>
       </header>
+
+      {site && onCompare && (
+        <button type="button" className="btn btn--primary site-panel__compare" onClick={onCompare}>
+          Compare with {world.id === 'mars' ? 'Earth' : 'Mars'}
+        </button>
+      )}
 
       {photo && <SitePhotoCard key={photo.nasaId} photo={photo} />}
 

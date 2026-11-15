@@ -33,6 +33,7 @@ export const ANALOGUE_PAIRS: AnaloguePair[] = [
     similarities: [
       'NASA: Jezero Crater “has geological and mineral characteristics in common with Lake Salda.”',
       'Light-coloured sediments at Lake Salda’s edge may have formed with the help of tiny living things; Perseverance is searching Jezero for similar signs of ancient life.',
+      'NASA photo caption (PIA24375): the eastern shore of Lake Salda “is a good analog for what an ancient lake may have looked like at Jezero [Crater]”; its white sands and rocks are carbonate minerals that precipitated in the lake.',
     ],
     differences: [
       'Lake Salda holds water today; Jezero is an ancient Martian lakebed (evidence of former river flow along its rim).',

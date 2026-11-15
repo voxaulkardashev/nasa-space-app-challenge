@@ -1,0 +1,199 @@
+import { useEffect, useState } from 'react';
+import { pairsForSite } from '../data/analogues';
+import { getFeaturedSite } from '../data/featuredSites';
+import { SITE_PHOTOS } from '../data/sitePhotos';
+import { RADIATION_CONTEXT } from '../data/spaceWeather';
+import type { FeaturedSite } from '../data/types';
+import { WORLD_METRICS } from '../data/worldComparison';
+import { getWorld } from '../data/worlds';
+import { elevationFacts } from '../lib/elevationFacts';
+import { formatLatLon } from '../lib/geo';
+import type { SelectedSite } from '../lib/navigation';
+import { useElevationGrid } from '../lib/useElevationGrid';
+import { FactRow } from './FactRow';
+import { MetricBars } from './MetricBars';
+import { SitePhotoCard } from './SitePhotoCard';
+
+interface CompareModalProps {
+  site: SelectedSite;
+  onClose: () => void;
+}
+
+/**
+ * Compare view: a Mars site and its NASA-documented Earth analogue side by
+ * side, with cited similarities and differences, and the world-level things
+ * Earth cannot reproduce (gravity, thin atmosphere, radiation).
+ */
+export function CompareModal({ site, onClose }: CompareModalProps) {
+  const featured = site.featuredId ? getFeaturedSite(site.featuredId) : undefined;
+  const pairs = featured ? pairsForSite(featured.id) : [];
+  const [pairIndex, setPairIndex] = useState(0);
+  const pair = pairs[Math.min(pairIndex, pairs.length - 1)];
+  const marsElevation = useElevationGrid('mars', true);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.stopPropagation();
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', onKey, true);
+    return () => window.removeEventListener('keydown', onKey, true);
+  }, [onClose]);
+
+  const marsSite = pair?.marsSiteId ? getFeaturedSite(pair.marsSiteId) : site.worldId === 'mars' ? featured : undefined;
+  const earthSite = pair ? getFeaturedSite(pair.earthSiteId) : site.worldId === 'earth' ? featured : undefined;
+  const title = pair
+    ? `${marsSite?.name ?? 'Mars (in general)'} ⇄ ${earthSite?.name ?? 'Earth'}`
+    : `${featured?.name ?? 'Selected site'} · Mars vs Earth`;
+
+  return (
+    <div className="compare-backdrop" onClick={onClose}>
+      <div className="compare" role="dialog" aria-modal="true" aria-labelledby="compare-title" onClick={(e) => e.stopPropagation()}>
+        <header className="compare__header">
+          <div>
+            <p className="info-panel__eyebrow">Compare</p>
+            <h2 id="compare-title" className="compare__title">
+              {title}
+            </h2>
+          </div>
+          <button type="button" className="btn btn--ghost" onClick={onClose} aria-label="Close compare view">
+            ✕ Close
+          </button>
+        </header>
+
+        {pairs.length > 1 && (
+          <div className="compare__tabs" role="tablist">
+            {pairs.map((p, i) => {
+              const otherId = site.worldId === 'mars' ? p.earthSiteId : p.marsSiteId;
+              return (
+                <button key={p.id} type="button" role="tab" aria-selected={i === pairIndex} className={`compare__tab${i === pairIndex ? ' is-active' : ''}`} onClick={() => setPairIndex(i)}>
+                  {(otherId && getFeaturedSite(otherId)?.name) ?? 'Mars (in general)'}
+                </button>
+              );
+            })}
+          </div>
+        )}
+
+        <section className="compare__sites">
+          <SiteColumn label="Mars" site={marsSite} elevation={marsSite ? elevationFacts(getWorld('mars'), marsSite, marsElevation) : []} />
+          <SiteColumn
+            label="Earth"
+            site={earthSite}
+            elevation={
+              earthSite
+                ? [{ id: 'elevation', label: 'Elevation', value: 'Not yet available', status: 'placeholder', reason: 'No Earth elevation dataset has been added yet.' }]
+                : []
+            }
+          />
+        </section>
+
+        {pair ? (
+          <section className="compare__lists">
+            <div>
+              <h3>Similarities</h3>
+              <ul>
+                {pair.similarities.map((s) => (
+                  <li key={s}>{s}</li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h3>Differences at these sites</h3>
+              {pair.differences.length ? (
+                <ul>
+                  {pair.differences.map((d) => (
+                    <li key={d}>{d}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="compare__muted">NASA’s description of this pair lists no site-specific differences. The world-level differences below always apply.</p>
+              )}
+            </div>
+            <p className="compare__source">
+              Source:{' '}
+              <a href={pair.source.url} target="_blank" rel="noreferrer">
+                {pair.source.name}
+              </a>{' '}
+              — “{pair.title}” (accessed {pair.source.accessed}). NASA calls these places <em>analogs</em>: they share some features; they are not the same.
+            </p>
+          </section>
+        ) : (
+          <p className="compare__muted compare__nopair">
+            No NASA-documented analogue pair for this site in our list yet, so only world-level differences are shown.
+          </p>
+        )}
+
+        <section className="compare__world">
+          <h3>What Earth cannot reproduce</h3>
+          <div className="compare__metrics">
+            {WORLD_METRICS.map((m) => (
+              <MetricBars key={m.id} metric={m} />
+            ))}
+          </div>
+          <div className="compare__radiation">
+            <h4>Radiation shielding</h4>
+            <div className="compare__radiation-grid">
+              {(['mars', 'earth'] as const).map((id) => (
+                <blockquote key={id}>
+                  <strong>{getWorld(id).name}:</strong> “{RADIATION_CONTEXT[id].quote}”
+                  <cite>
+                    <a href={RADIATION_CONTEXT[id].quoteSource.url} target="_blank" rel="noreferrer">
+                      {RADIATION_CONTEXT[id].quoteSource.name}
+                    </a>
+                  </cite>
+                </blockquote>
+              ))}
+            </div>
+            <p className="compare__muted">
+              NASA describes two layers of protection on Earth: a thick atmosphere and a global magnetic field. Mars has a far
+              thinner atmosphere (6.36 vs 1014 mbar) and no global magnetic field, so it lacks both. No Earth analogue site can
+              reproduce Mars’s gravity, thin air or radiation environment.
+            </p>
+          </div>
+        </section>
+      </div>
+    </div>
+  );
+}
+
+interface SiteColumnProps {
+  label: string;
+  site: FeaturedSite | undefined;
+  elevation: ReturnType<typeof elevationFacts>;
+}
+
+function SiteColumn({ label, site, elevation }: SiteColumnProps) {
+  if (!site) {
+    return (
+      <div className="compare__site is-empty">
+        <p className="compare__site-world">{label}</p>
+        <p className="compare__muted">No specific {label} site for this comparison.</p>
+      </div>
+    );
+  }
+  const photo = SITE_PHOTOS[site.id];
+  return (
+    <div className="compare__site">
+      <p className="compare__site-world">{label}</p>
+      <h3 className="compare__site-name">{site.name}</h3>
+      {photo ? <SitePhotoCard key={photo.nasaId} photo={photo} /> : <div className="compare__nophoto">No NASA photo for this site in our list.</div>}
+      <ul className="info-panel__facts">
+        <FactRow
+          data={
+            site.coordinateStatus === 'measured'
+              ? { id: 'coords', label: 'Coordinates', value: formatLatLon(site), status: 'measured', source: site.coordinateSource }
+              : { id: 'coords', label: 'Coordinates', value: formatLatLon(site), status: 'estimated', method: site.coordinateMethod ?? 'Approximate location.', source: site.coordinateSource }
+          }
+        />
+        {site.facts.map((f) => (
+          <FactRow key={f.id} data={f} />
+        ))}
+        {elevation.map((f) => (
+          <FactRow key={f.id} data={f} />
+        ))}
+      </ul>
+    </div>
+  );
+}
