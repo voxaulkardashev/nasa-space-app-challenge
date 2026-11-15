@@ -33,7 +33,6 @@ Image.MAX_IMAGE_PIXELS = 400_000_000
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 OUT = PROJECT_ROOT / "public" / "textures"
 
-SVS = "https://svs.gsfc.nasa.gov/vis/a000000/a004700/a004720"
 BMNG = (
     "https://assets.science.nasa.gov/content/dam/science/esd/eo/images/bmng/"
     "bmng-topography-bathymetry/july/world.topo.bathy.200407.3x5400x2700.jpg"
@@ -104,15 +103,6 @@ def main() -> None:
     cache = Path(sys.argv[1]).resolve()
     if PROJECT_ROOT in cache.parents or cache == PROJECT_ROOT:
         sys.exit("Please choose a cache folder outside the project.")
-
-    print("Moon colour (NASA SVS CGI Moon Kit, LROC WAC, 2019 map)")
-    src = download(f"{SVS}/lroc_color_poles_4k.tif", cache / "lroc_color_poles_4k.tif")
-    save_jpg(Image.open(src).convert("RGB"), OUT / "moon" / "moon_color.jpg", COLOR_SIZE)
-
-    print("Moon elevation (NASA SVS CGI Moon Kit, LOLA 16 px/deg)")
-    src = download(f"{SVS}/ldem_16_uint.tif", cache / "ldem_16_uint.tif")
-    elev = to_8bit_grayscale(Image.open(src))
-    save_jpg(elev, OUT / "moon" / "moon_elevation.jpg", ELEVATION_SIZE)
 
     print("Earth colour (NASA Blue Marble Next Generation, July 2004, topography + bathymetry)")
     src = download(BMNG, cache / "world.topo.bathy.200407.3x5400x2700.jpg")

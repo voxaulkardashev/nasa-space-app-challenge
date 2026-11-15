@@ -7,10 +7,9 @@ public/data/elevation/. This script documents exactly how they were made.
 Requirements: Python 3.9+ with Pillow and NumPy (pip install pillow numpy).
 
 Usage (from the project root):
-    python scripts/prepare_elevation.py <download-cache-folder> [moon] [mars]
-    (with no world names, both are made)
+    python scripts/prepare_elevation.py <download-cache-folder>
 
-Output format (both worlds):
+Output format:
     Raw little-endian signed 16-bit integers, heights in METRES,
     1440 columns x 720 rows (4 cells per degree).
     Row 0 is the northernmost row (90°N to 89.75°N);
@@ -18,9 +17,6 @@ Output format (both worlds):
     inside that 0.25° x 0.25° cell.
 
 Sources (also in docs/SOURCES.md):
-  Moon: NASA SVS CGI Moon Kit, ldem_16_uint.tif — LOLA elevation, 16 px/deg,
-        unsigned 16-bit half-metres offset by +20,000, relative to a
-        1737.4 km sphere.
   Mars: USGS Astrogeology Mars_MGS_MOLA_DEM_mosaic_global_463m.tif —
         MGS MOLA elevation, 46080 x 23040, signed 16-bit metres.
 """
@@ -41,7 +37,6 @@ OUT = PROJECT_ROOT / "public" / "data" / "elevation"
 WIDTH, HEIGHT = 1440, 720
 
 SOURCES = {
-    "moon": ("https://svs.gsfc.nasa.gov/vis/a000000/a004700/a004720/ldem_16_uint.tif", "ldem_16_uint.tif"),
     "mars": (
         "https://planetarymaps.usgs.gov/mosaic/Mars_MGS_MOLA_DEM_mosaic_global_463m.tif",
         "Mars_MGS_MOLA_DEM_mosaic_global_463m.tif",
@@ -83,21 +78,8 @@ def main() -> None:
         print(__doc__)
         sys.exit(1)
     cache = Path(sys.argv[1]).resolve()
-    worlds = set(sys.argv[2:]) or {"moon", "mars"}
-
-    if "moon" in worlds:
-        make_moon(cache)
-    if "mars" in worlds:
-        make_mars(cache)
+    make_mars(cache)
     print("Done.")
-
-
-def make_moon(cache: Path) -> None:
-    print("Moon (LOLA via NASA SVS CGI Moon Kit)")
-    src = download(SOURCES["moon"][0], cache / SOURCES["moon"][1])
-    raw = np.asarray(Image.open(src), dtype=np.float64)  # half-metres + 20000
-    metres = (raw - 20000.0) / 2.0
-    save("moon", block_mean(metres, HEIGHT, WIDTH))
 
 
 def make_mars(cache: Path) -> None:

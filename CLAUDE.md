@@ -1,6 +1,6 @@
 # Planetary Analogue Explorer
 
-A web app built by a team of six high school students for the NASA Space Apps Challenge. Users pick a world (Moon, Mars or Earth), explore it on a 3D globe, select a site, and see which Earth locations resemble it and why, using measured NASA data.
+A web app built by a team of six high school students for the NASA Space Apps Challenge. Users pick a world (Mars or Earth; the Moon was removed on 15 November 2026), explore it on a 3D globe, select a site, and see which Earth locations resemble it and why, using measured NASA data.
 
 The person you are working with is a beginner at software development. Explain what you are doing in plain language, give exact commands to run, and say what they should see when it works.
 

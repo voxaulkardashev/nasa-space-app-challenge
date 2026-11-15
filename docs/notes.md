@@ -34,7 +34,7 @@ Short explanations of the less obvious parts of the code.
 
 | Service | Where | Called from | Key |
 |---|---|---|---|
-| Moon/Mars Trek WMTS, GIBS | Explore close-up tiles | Visitors' browsers | No |
+| Mars Trek WMTS, GIBS | Explore close-up tiles | Visitors' browsers | No |
 | NASA Image and Video Library | Featured-site photos (`src/data/sitePhotos.ts`) | Chosen once by hand; images load from `images-assets.nasa.gov` | No |
 | DONKI (CCMC service or api.nasa.gov) | Space weather on the World Overview | The deploy workflow (`scripts/fetch_donki.mjs`), on push and daily | `NASA_API_KEY` repo secret if set, else `DEMO_KEY` |
 
@@ -64,5 +64,5 @@ The screens do not need changes. The Select screen layout spaces however many wo
 - three.js is large, so `npm run build` prints a "chunks larger than 500 kB" **warning**. It is not an error. The app's code is about 330 kB after compression; the textures (~5.7 MB) load separately.
 - A harmless console warning, "THREE.Clock: This module has been deprecated", comes from inside React Three Fiber, not from our code.
 - Elevation is used only for lighting (bump map). The surface is not physically raised. True-height displacement would need much more detail and visible exaggeration, so it is left for later.
-- Elevation values come from 4-cells-per-degree grids (7.6 km cells on the Moon, 14.8 km on Mars), so small features such as a single crater rim are averaged out. There's no elevation for Earth yet; it shows as a Placeholder.
-- Close-up imagery needs an internet connection to NASA's servers. The Moon close-ups are greyscale, because that's the sharpest global Moon mosaic on Trek.
+- Elevation values come from 4-cells-per-degree grids (14.8 km cells on Mars), so small features such as a single crater rim are averaged out. There's no elevation for Earth yet; it shows as a Placeholder.
+- Close-up imagery needs an internet connection to NASA's servers.

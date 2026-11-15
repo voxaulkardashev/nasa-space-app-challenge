@@ -7,13 +7,6 @@ import type { SourceRef } from './types';
 
 const ACCESSED = '14 November 2026';
 
-export const NSSDCA_MOON: SourceRef = {
-  name: 'NASA NSSDCA Moon Fact Sheet',
-  url: 'https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html',
-  sourceDate: 'Last updated 11 January 2024',
-  accessed: ACCESSED,
-};
-
 export const NSSDCA_MARS: SourceRef = {
   name: 'NASA NSSDCA Mars Fact Sheet',
   url: 'https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html',
@@ -25,13 +18,6 @@ export const NSSDCA_EARTH: SourceRef = {
   name: 'NASA NSSDCA Earth Fact Sheet',
   url: 'https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html',
   sourceDate: 'Last updated 15 November 2024',
-  accessed: ACCESSED,
-};
-
-export const SVS_CGI_MOON_KIT: SourceRef = {
-  name: "NASA Scientific Visualization Studio — CGI Moon Kit (ID 4720)",
-  url: 'https://svs.gsfc.nasa.gov/4720',
-  sourceDate: 'Released 6 September 2019; page updated 9 January 2026',
   accessed: ACCESSED,
 };
 

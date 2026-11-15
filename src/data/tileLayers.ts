@@ -23,7 +23,7 @@ export interface TileLayerDef {
 
 const ACCESSED = '14 November 2026';
 
-const trek = (body: 'Mars' | 'Moon', layer: string) => (z: number, row: number, col: number) =>
+const trek = (body: 'Mars', layer: string) => (z: number, row: number, col: number) =>
   `https://trek.nasa.gov/tiles/${body}/EQ/${layer}/1.0.0//default/default028mm/${z}/${row}/${col}.jpg`;
 
 export const TILE_LAYERS: Partial<Record<WorldId, TileLayerDef>> = {
@@ -40,20 +40,6 @@ export const TILE_LAYERS: Partial<Record<WorldId, TileLayerDef>> = {
       accessed: ACCESSED,
     },
     caveat: 'Colorized mosaic: colours are approximate.',
-  },
-  moon: {
-    label: 'NASA Moon Trek — LRO WAC global mosaic (greyscale)',
-    url: trek('Moon', 'LRO_WAC_Mosaic_Global_303ppd_v02'),
-    tileSize: 256,
-    level0TileDeg: 180,
-    maxLevel: 8,
-    source: {
-      name: 'NASA Solar System Treks (Moon Trek) — layer LRO_WAC_Mosaic_Global_303ppd_v02',
-      url: 'https://trek.nasa.gov/tiles/Moon/EQ/LRO_WAC_Mosaic_Global_303ppd_v02/1.0.0/WMTSCapabilities.xml',
-      sourceDate: 'Date not stated by the tile service',
-      accessed: ACCESSED,
-    },
-    caveat: 'Greyscale mosaic, so close-ups look grey rather than tinted.',
   },
   earth: {
     label: 'NASA GIBS — Blue Marble Shaded Relief and Bathymetry (MODIS)',

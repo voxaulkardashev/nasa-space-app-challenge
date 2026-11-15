@@ -4,8 +4,6 @@ import {
   MARS_TREK_VIKING,
   NSSDCA_EARTH,
   NSSDCA_MARS,
-  NSSDCA_MOON,
-  SVS_CGI_MOON_KIT,
 } from './sources';
 import type { PlaceholderValue, World, WorldId } from './types';
 
@@ -27,45 +25,6 @@ const analoguePlaceholder: PlaceholderValue = {
 };
 
 export const WORLDS: World[] = [
-  {
-    id: 'moon',
-    name: 'Moon',
-    tagline: "Earth's natural satellite",
-    textures: {
-      color: 'textures/moon/moon_color.jpg',
-      elevation: 'textures/moon/moon_elevation.jpg',
-      bumpScale: 3,
-    },
-    imagery: [
-      {
-        role: 'Surface colour',
-        dataset: 'LROC WAC colour map, 2019 version (lroc_color_poles_4k.tif)',
-        source: SVS_CGI_MOON_KIT,
-        processing: 'Converted from 4096×2048 TIFF to JPEG.',
-        caveat:
-          'NASA notes this map is "optimized for aesthetics, not science". Latitudes beyond ±70° are filled with lower-resolution LOLA albedo data.',
-      },
-      {
-        role: 'Elevation (bump shading)',
-        dataset: 'LOLA displacement map, 16 pixels/degree (ldem_16_uint.tif)',
-        source: SVS_CGI_MOON_KIT,
-        processing:
-          'Resized from 5760×2880 to 2048×1024 and contrast-stretched to 8-bit. Used only for lighting effects; heights are not read from it.',
-      },
-    ],
-    meanRadiusKm: 1737.4,
-    initialLongitudeDeg: 0,
-    highlightColor: '#cfd8e3',
-    facts: [
-      { id: 'radius', label: 'Mean radius', value: '1,737.4 km', note: 'Volumetric mean radius', status: 'measured', source: NSSDCA_MOON },
-      { id: 'gravity', label: 'Surface gravity', value: '1.62 m/s²', status: 'measured', source: NSSDCA_MOON },
-      { id: 'day', label: 'Length of day', value: '29.53 Earth days', note: 'Synodic period (sunrise to sunrise)', status: 'measured', source: NSSDCA_MOON },
-      { id: 'pressure', label: 'Surface pressure', value: '3 × 10⁻¹⁵ bar', note: 'Night-time value', status: 'measured', source: NSSDCA_MOON },
-      { id: 'temperature', label: 'Temperature range', value: '95 K to 390 K', note: 'Equator, day–night range', status: 'measured', source: NSSDCA_MOON },
-      { id: 'distance', label: 'Mean distance from Earth', value: '384,400 km', note: 'Orbit semimajor axis (0.3844 × 10⁶ km)', status: 'measured', source: NSSDCA_MOON },
-      analoguePlaceholder,
-    ],
-  },
   {
     id: 'mars',
     name: 'Mars',

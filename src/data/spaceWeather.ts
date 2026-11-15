@@ -1,5 +1,5 @@
 import donkiSnapshot from './donki.json';
-import { NSSDCA_EARTH, NSSDCA_MARS, NSSDCA_MOON } from './sources';
+import { NSSDCA_EARTH, NSSDCA_MARS } from './sources';
 import type { SourceRef, WorldId } from './types';
 
 /**
@@ -58,13 +58,6 @@ const NASA_MAVEN_AURORAS: SourceRef = {
 };
 
 export const RADIATION_CONTEXT: Record<WorldId, RadiationContext> = {
-  moon: {
-    quote:
-      'The Moon is not a magnet, so it has no global magnetic field, although some areas on the Moon have localized magnetic fields.',
-    quoteSource: NASA_SOLAR_WIND_ON_MOON,
-    detail: 'Night-time surface pressure: 3 × 10⁻¹⁵ bar.',
-    detailSource: NSSDCA_MOON,
-  },
   mars: {
     quote: 'Mars does not have a global magnetic field like Earth.',
     quoteSource: NASA_MAVEN_AURORAS,

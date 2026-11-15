@@ -1,6 +1,6 @@
 # Planetary Analogue Explorer
 
-A web app for the NASA Space Apps Challenge. Pick a world (Moon, Mars or Earth) and explore it on an interactive 3D globe made from real NASA imagery. Later milestones will let you pick a site and see which Earth locations resemble it and why, using measured NASA data.
+A web app for the NASA Space Apps Challenge. Pick a world (Mars or Earth) and explore it on an interactive 3D globe made from real NASA imagery. Later milestones will let you pick a site and see which Earth locations resemble it and why, using measured NASA data.
 
 **Current status: Milestone 2.** Three screens:
 
@@ -47,12 +47,12 @@ The terminal shows a local address, usually **http://localhost:5173/**. Open it 
 
 ### 3. What you should see
 
-1. A dark starry background, the title **Select a World**, and the Moon, Mars and Earth.
+1. A dark starry background, the title **Select a World**, and Mars and Earth.
 2. Hovering a world makes it glow and grow slightly. Clicking it (or its name) glides into its overview.
 3. In the overview: drag to rotate, scroll (or pinch) to zoom. The panel lists facts, each with a **Measured** or **Placeholder** label. Tap a label to see its source.
 4. **Explore** opens the Explore screen:
-   - Click the globe to drop a marker. The panel shows the coordinates, elevation and regional slope at that spot (Moon and Mars), each labelled.
-   - Choose a **featured site** (for example Jezero or Apollo 11) and the camera flies there.
+   - Click the globe to drop a marker. The panel shows the coordinates, elevation and regional slope at that spot (Mars), each labelled.
+   - Choose a **featured site** (for example Jezero or Gale) and the camera flies there.
    - Zoom in close and sharper NASA imagery loads in. A credit line appears at the bottom left.
    - Featured sites show an official **NASA photo** with its caption and credit.
 5. **← (world name)**, **Back to overview**, **All worlds** or the Esc key go back.

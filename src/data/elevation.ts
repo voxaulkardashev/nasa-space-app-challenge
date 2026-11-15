@@ -19,19 +19,6 @@ export interface ElevationDataset {
 const ACCESSED = '14 November 2026';
 
 export const ELEVATION: Partial<Record<WorldId, ElevationDataset>> = {
-  moon: {
-    path: 'data/elevation/moon_elevation_4ppd.bin',
-    width: 1440,
-    height: 720,
-    reference: 'relative to a 1,737.4 km sphere',
-    dataset: 'LRO LOLA gridded elevation (ldem_16_uint.tif), averaged to 4 cells per degree',
-    source: {
-      name: 'NASA SVS — CGI Moon Kit (ID 4720), LOLA displacement map',
-      url: 'https://svs.gsfc.nasa.gov/4720',
-      sourceDate: 'LOLA gridded products as of spring 2019 (page updated 9 January 2026)',
-      accessed: ACCESSED,
-    },
-  },
   mars: {
     path: 'data/elevation/mars_elevation_4ppd.bin',
     width: 1440,

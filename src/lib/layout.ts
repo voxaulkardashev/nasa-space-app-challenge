@@ -6,7 +6,7 @@ import type { Screen } from './navigation';
  * Pure maths, no React, so it is easy to read and change.
  *
  * Units are "scene units"; a body with scale 1 has radius 1.
- * Sizes are NOT to scale (the real Moon is ~27% of Earth's radius);
+ * Sizes are NOT to scale (Mars's real radius is about 53% of Earth's);
  * the Select screen says so on screen.
  */
 
@@ -40,13 +40,15 @@ export function computeLayout(
   aspect: number,
 ): SceneLayout {
   const portrait = isPortrait(aspect);
-  const spacing = portrait ? 2.4 : 3.3;
-  const selectScale = portrait ? 0.75 : 1.15;
+  // Fewer worlds → bigger globes on the Select screen.
+  const few = order.length <= 2;
+  const spacing = portrait ? (few ? 3.0 : 2.4) : few ? 4.2 : 3.3;
+  const selectScale = portrait ? (few ? 1.0 : 0.75) : few ? 1.55 : 1.15;
   const overviewScale = portrait ? 1.35 : 2.1;
   const selectCameraDistance = portrait ? 12 : 10;
   const labelGap = portrait ? 0.3 : 0.45;
   // On phones the stack sits a little low, leaving room for the title.
-  const stackCentreY = portrait ? -0.45 : 0.15;
+  const stackCentreY = portrait ? (few ? -0.6 : -0.45) : 0.05;
 
   const bodies = {} as Record<WorldId, BodyPose>;
   order.forEach((id, index) => {

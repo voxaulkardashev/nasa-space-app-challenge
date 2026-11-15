@@ -7,7 +7,7 @@
  * source, an Estimated value without a method, or a Placeholder without a reason.
  */
 
-export type WorldId = 'moon' | 'mars' | 'earth';
+export type WorldId = 'mars' | 'earth';
 
 export type DataStatus = 'measured' | 'estimated' | 'placeholder';
 

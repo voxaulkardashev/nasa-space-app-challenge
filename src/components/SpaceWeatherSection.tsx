@@ -53,7 +53,7 @@ export function SpaceWeatherSection({ worldId }: SpaceWeatherSectionProps) {
       <p className="space-weather__note">
         Events catalogued by NASA&apos;s DONKI from {DONKI.window.start} to {DONKI.window.end} (updated{' '}
         {DONKI.fetchedAt.slice(0, 10)}). DONKI records activity at the Sun and near Earth; it does not tell us which
-        events reached the Moon or Mars.
+        events reached Mars.
       </p>
     </details>
   );
