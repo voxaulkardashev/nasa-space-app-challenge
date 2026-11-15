@@ -3,8 +3,7 @@ import { FeaturedSiteList } from '../components/FeaturedSiteList';
 import { LayerFilter } from '../components/LayerFilter';
 import { PanelResizeHandle } from '../components/PanelResizeHandle';
 import { SiteSearch } from '../components/SiteSearch';
-import { UseCasesModal } from '../components/UseCasesModal';
-import { useState, type ComponentProps, type ReactNode } from 'react';
+import type { ComponentProps, ReactNode } from 'react';
 import { SitePanel } from '../components/SitePanel';
 import { featuredSitesFor, getFeaturedSite } from '../data/featuredSites';
 import { getTileLayer } from '../data/tileLayers';
@@ -94,7 +93,6 @@ export function ExploreScreen({
   const allSites = world ? featuredSitesFor(world.id) : [];
   const shownSites = allSites.filter((f) => f.layers.some((l) => activeLayers.includes(l)));
   const featured = currentSite?.featuredId ? getFeaturedSite(currentSite.featuredId) : undefined;
-  const [useCasesOpen, setUseCasesOpen] = useState(false);
   // Elevation data downloads only once the Explore screen is opened.
   const elevation = useElevationGrid(world?.id ?? null, active);
   return (
@@ -135,9 +133,6 @@ export function ExploreScreen({
             <span aria-hidden="true">?</span> Tour
           </button>
         )}
-        <button type="button" className="btn explore-topbar__btn" onClick={() => setUseCasesOpen(true)}>
-          <span aria-hidden="true">★</span> Use cases
-        </button>
         <button
           type="button"
           className={`btn explore-topbar__btn side-by-side-toggle${sideBySide ? ' is-on' : ''}`}
@@ -148,7 +143,6 @@ export function ExploreScreen({
         </button>
       </div>
 
-      {useCasesOpen && <UseCasesModal onClose={() => setUseCasesOpen(false)} onGo={onChooseFeatured} />}
 
       {world && (
         <div className="world-switch-wrap">

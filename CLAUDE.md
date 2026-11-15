@@ -62,8 +62,8 @@ Dark navy to black background with subtle stars; realistic textures and lighting
   - Big Explore button, and a Mars | Earth switch.
   - Site pins, and geological layer filters.
   - NASA-documented Earth ⇄ Mars analogue pairs, with a corresponding-site pop-up.
-  - Compare view, side-by-side mode, draggable sidebar, search, and a Use cases page.
-  - Comparisons show cited similarities and differences, never a similarity percentage (rule 4).
+  - Compare view, side-by-side mode, draggable sidebar and search. (The Use cases page was removed later the same day, at the team's request.)
+  - Comparisons never show a similarity percentage for sites (rule 4).
 - **15 November 2026 (weather):**
   - 📍 Drop pin button on Explore (clicks drop a pin only in pin mode).
   - Weather assistant at the top of the sidebar: rule-based, real data only. Earth from NASA POWER (labelled Estimated, MERRA-2); Mars from Curiosity REMS at Gale crater (labelled Measured, with distance from pin and the CAB disclaimer). Feed copy refreshed by `scripts/fetch_rems.mjs`.
@@ -76,6 +76,10 @@ Dark navy to black background with subtle stars; realistic textures and lighting
 - **15 November 2026 (Gale research):** in the Compare view, Gale's column shows the team's six research sections (`src/data/siteResearch.ts`, `SiteResearchColumn`) with four NASA images, clickable citations [1]–[7] and PSG Mars Explorer weather (EMARS MY32, Estimated). Citation [5] (ADS) is still to be confirmed.
 - **15 November 2026 (Mars right now):** the weather assistant shows NASA Goddard PSG Mars Explorer's current model values at any Mars pin (PSG's exact reading for that spot, matching its website), plus an optional colour layer on the globe and 2D map from PSG's global grids. Labelled Estimated, never presented as measured live weather. In Gale's Compare column, Temperature/Weather shows PSG's live reading for Gale. Team decision: the website shows only live weather values (no daily maxima or past dates); the six-date 2026 daily values are kept in `docs/gale-weather-2026.md`.
 - **15 November 2026 (Jezero research):** in the Compare view, Jezero's column shows the team's six sections (`src/data/jezeroResearch.ts`, same component as Gale) with four NASA images, citations [1]–[14], "Other credits", and PSG weather for Jezero labelled as a prediction from past data. Two general statements are still uncited (see docs/SOURCES.md).
+- **15 November 2026 (removals, team request):**
+  - Compare: no Similarities/Differences lists and no "Radiation shielding" box. "What Earth cannot reproduce" stays, with a one-line radiation note (rule 5).
+  - World Overview: no "Key NASA datasets" box.
+  - Explore: no Use cases button or pop-up.
 - **15 November 2026 (guided tour):** 14-step tour (`src/data/tutorial.ts`, `TutorialOverlay`) from the landing page through Overview and Explore. Started from "Take the tour" (landing and overviews), "? Tour" (Explore) and a one-time first-visit offer.
 - **Not built:** a computed analogue engine (scores from measured per-dimension Earth data) and the Python back end. Do not build them until asked.
 - Deadline: Sunday 15 November 2026, 11:59 PM Pacific.

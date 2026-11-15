@@ -2,7 +2,6 @@ import type { ReactNode } from 'react';
 import { ANALOG_OVERVIEW } from '../data/analogOverview';
 import type { FeaturedSite, World } from '../data/types';
 import { AnalogSitesList } from './AnalogSitesList';
-import { DatasetList } from './DatasetList';
 import { FactRow } from './FactRow';
 import { ImageryCredits } from './ImageryCredits';
 import { SpaceWeatherSection } from './SpaceWeatherSection';
@@ -17,7 +16,7 @@ interface InfoPanelProps {
 
 /**
  * Translucent World Overview panel: analog-relevant conditions, the analog
- * site pairs in this app, and NASA datasets used in analog science.
+ * site pairs in this app, and recent space weather.
  * Content comes from src/data/analogOverview.ts.
  */
 export function InfoPanel({ world, actions, onOpenSite }: InfoPanelProps) {
@@ -50,13 +49,6 @@ export function InfoPanel({ world, actions, onOpenSite }: InfoPanelProps) {
         </h3>
         <AnalogSitesList worldId={world.id} onOpenSite={onOpenSite} />
         <p className="info-panel__hint">From NASA’s Planetary Analog Explorer. Analogs share features; they are not the same.</p>
-      </section>
-
-      <section className="info-box" aria-labelledby="ov-datasets">
-        <h3 id="ov-datasets" className="info-box__title">
-          Key NASA datasets for analog &amp; astrobiology work
-        </h3>
-        <DatasetList datasets={overview.datasets} />
       </section>
 
       <SpaceWeatherSection worldId={world.id} />

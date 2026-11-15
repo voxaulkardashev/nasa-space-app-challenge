@@ -52,7 +52,6 @@ The terminal shows a local address, usually **http://localhost:5173/**. Open it 
 3. In the overview: drag to rotate, scroll (or pinch) to zoom. The sidebar shows analog-science data:
    - **Conditions:** atmosphere, water vapour, temperature range, winds, ice, terrain and magnetic field, each labelled Measured or Estimated (tap a label to see its source).
    - **Analog sites:** the NASA-documented pairs in the app. Click one to open it in Explore.
-   - **Key NASA datasets:** with **Debated** tags where scientists disagree.
 
    On the landing page, **About the project** (bottom centre) explains the project, and **Take the tour** starts a guided tour of the app. First-time visitors are offered the tour once; it is also under **? Tour** on Explore and **Take the tour** on each overview.
    - **Globe | 2D | Topography** (top left, also on Explore) changes the view:
@@ -64,8 +63,8 @@ The terminal shows a local address, usually **http://localhost:5173/**. Open it 
    - Featured sites appear as labelled pins on the globe. **Geological layers** (top left) filters them by impact structures, aeolian processes, sediments & mineralogy, or terrain/glaciers/rivers.
    - **Search** (top of the sidebar) finds sites on both worlds.
    - Choosing a site shows its **corresponding site on the other world** (NASA-documented analogues) in a pop-up; click it to jump there.
-   - **Compare** opens Mars and Earth side by side: NASA photos, cited similarities and differences, and what Earth cannot reproduce (gravity, thin air, radiation).
-   - **Side by side** shows both globes at once; **Use cases** lists how NASA has used these places, with sources.
+   - **Compare** opens Mars and Earth side by side: each site's details (team research for Gale and Jezero), the NASA source of the pair, and what Earth cannot reproduce (gravity, thin air, radiation).
+   - **Side by side** shows both globes at once.
    - Drag the sidebar's left edge to make it wider.
    - Press **📍 Drop pin** (top bar), then click the globe to drop a pin. The panel shows the coordinates, elevation and regional slope at that spot (Mars), each labelled. Esc cancels.
    - The **Weather assistant** at the top of the sidebar: pick a date and press **Analyze**. It describes the weather from real NASA data only (Earth: NASA POWER at your pin; Mars: Curiosity's measurements in Gale crater, with the distance from your pin). Ask it questions or tap a suggestion.

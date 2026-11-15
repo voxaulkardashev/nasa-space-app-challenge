@@ -90,39 +90,15 @@ export function CompareModal({ site, onClose }: CompareModalProps) {
         </section>
 
         {pair ? (
-          <section className="compare__lists">
-            <div>
-              <h3>Similarities</h3>
-              <ul>
-                {pair.similarities.map((s) => (
-                  <li key={s}>{s}</li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h3>Differences at these sites</h3>
-              {pair.differences.length ? (
-                <ul>
-                  {pair.differences.map((d) => (
-                    <li key={d}>{d}</li>
-                  ))}
-                </ul>
-              ) : (
-                <p className="compare__muted">NASA’s description of this pair lists no site-specific differences. The world-level differences below always apply.</p>
-              )}
-            </div>
-            <p className="compare__source">
-              Source:{' '}
-              <a href={pair.source.url} target="_blank" rel="noreferrer">
-                {pair.source.name}
-              </a>{' '}
-              — “{pair.title}” (accessed {pair.source.accessed}). NASA calls these places <em>analogs</em>: they share some features; they are not the same.
-            </p>
-          </section>
-        ) : (
-          <p className="compare__muted compare__nopair">
-            No NASA-documented analogue pair for this site in our list yet, so only world-level differences are shown.
+          <p className="compare__source compare__pair-source">
+            Analogue pair from{' '}
+            <a href={pair.source.url} target="_blank" rel="noreferrer">
+              {pair.source.name}
+            </a>{' '}
+            — “{pair.title}” (accessed {pair.source.accessed}). NASA calls these places <em>analogs</em>: they share some features; they are not the same.
           </p>
+        ) : (
+          <p className="compare__muted compare__nopair">No NASA-documented analogue pair for this site in our list yet.</p>
         )}
 
         <EarthLimits />

@@ -141,7 +141,9 @@ NASA calls these *analogs*: places with things in common, not equivalents. The a
 - The Lake Salda photo caption is also quoted as a similarity. NASA's caption says "Jezero Carter", which we show as "Jezero [Crater]".
 - Verde Valley, Atacama and Pilot Valley have no matching image in the library.
 
-### Use cases page (`src/data/useCases.ts`, added 15 November 2026)
+### Use cases page (removed 15 November 2026)
+
+> **Removed at the team's request (15 November 2026):** the Use cases button, its pop-up and `src/data/useCases.ts` were deleted. The rest of this section is kept for the record.
 
 This page lists **documented NASA uses** of the featured places. It is not a ranking: the app does not rate which site is "best".
 
@@ -316,6 +318,8 @@ In the Compare view, Jezero's column (left) shows the team's research in six sec
 - "Organic molecules make up proteins, carbohydrates, lipids and nucleic acids": general biology, kept from the team's text.
 
 Both are left without a citation rather than given one that wasn't read.
+
+> **Also removed 15 November 2026 (team request):** the World Overview's "Key NASA datasets for analog & astrobiology work" box and its data, and, in the Compare view, the Similarities/Differences lists and the "Radiation shielding" box. "What Earth cannot reproduce" stays, including a one-line radiation note required by CLAUDE.md rule 5.
 
 ## Space weather (World Overview, `src/data/donki.json`)
 
