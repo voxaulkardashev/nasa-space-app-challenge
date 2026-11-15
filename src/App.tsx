@@ -1,6 +1,7 @@
 import { useEffect, useState, type CSSProperties } from 'react';
 import { LoadingOverlay } from './components/LoadingOverlay';
 import { CompareModal } from './components/CompareModal';
+import { WeatherComparison } from './components/WeatherComparison';
 import { SpaceScene } from './components/SpaceScene';
 import { pairsForSite } from './data/analogues';
 import { getFeaturedSite } from './data/featuredSites';
@@ -11,6 +12,7 @@ import type { LatLon } from './lib/geo';
 import type { Screen, SelectedSite } from './lib/navigation';
 import { PanelWidthContext, clampPanelWidth, initialPanelWidth } from './lib/panelWidth';
 import type { DetailStatus } from './lib/tiles';
+import { useWeather } from './lib/weather/useWeather';
 import { ExploreScreen } from './screens/ExploreScreen';
 import { SelectWorldScreen } from './screens/SelectWorldScreen';
 import { WorldOverviewScreen } from './screens/WorldOverviewScreen';
@@ -32,6 +34,10 @@ export default function App() {
   const [sideBySide, setSideBySide] = useState(false);
   const [panelWidth, setPanelWidth] = useState(initialPanelWidth);
   const [detailStatus, setDetailStatus] = useState<DetailStatus>({ active: false, loading: false });
+  // Drop-pin mode: the next click on a globe drops a pin (then the mode turns off).
+  const [pinMode, setPinMode] = useState(false);
+  const [weatherCompareOpen, setWeatherCompareOpen] = useState(false);
+  const weather = useWeather();
 
   const selectedWorld = selectedId ? getWorld(selectedId) : null;
   const site = selectedId ? (sites[selectedId] ?? null) : null;
@@ -44,6 +50,8 @@ export default function App() {
   const returnToWorlds = () => setScreen('select');
 
   const pickSite = (worldId: WorldId, point: LatLon) => {
+    if (!pinMode) return; // clicks only drop a pin after pressing Drop pin
+    setPinMode(false);
     setSelectedId(worldId); // in side-by-side mode the sidebar follows the globe you clicked
     setSites((prev) => ({ ...prev, [worldId]: { worldId, lat: point.lat, lon: point.lon, picked: 'click' } }));
   };
@@ -75,8 +83,8 @@ export default function App() {
 
   // Pointer cursor when hovering a world on the Select screen; crosshair while exploring.
   useEffect(() => {
-    document.body.style.cursor = screen === 'select' && hoveredId ? 'pointer' : screen === 'explore' ? 'crosshair' : '';
-  }, [screen, hoveredId]);
+    document.body.style.cursor = screen === 'select' && hoveredId ? 'pointer' : screen === 'explore' && pinMode ? 'crosshair' : '';
+  }, [screen, hoveredId, pinMode]);
 
   // Keep the sidebar within limits when the window is resized.
   useEffect(() => {
@@ -89,11 +97,15 @@ export default function App() {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== 'Escape') return;
+      if (pinMode) {
+        setPinMode(false); // Esc first cancels drop-pin mode
+        return;
+      }
       setScreen((s) => (s === 'explore' ? 'overview' : 'select'));
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, []);
+  }, [pinMode]);
 
   return (
     <PanelWidthContext.Provider value={{ width: panelWidth, setWidth: setPanelWidth }}>
@@ -137,10 +149,30 @@ export default function App() {
         onCompare={() => setCompareOpen(true)}
         sideBySide={sideBySide}
         onToggleSideBySide={() => setSideBySide((v) => !v)}
-        onBack={() => setScreen('overview')}
+        onBack={() => {
+          setPinMode(false);
+          setScreen('overview');
+        }}
+        pinMode={pinMode}
+        onTogglePinMode={() => setPinMode((v) => !v)}
+        weatherState={weather.forSite(site)}
+        onAnalyzeWeather={weather.analyze}
+        otherSite={selectedId ? (sites[selectedId === 'mars' ? 'earth' : 'mars'] ?? null) : null}
+        onCompareWeather={() => setWeatherCompareOpen(true)}
       />
 
       {compareOpen && screen === 'explore' && site && <CompareModal site={site} onClose={() => setCompareOpen(false)} />}
+
+      {weatherCompareOpen && screen === 'explore' && sites.earth && sites.mars && (
+        <WeatherComparison
+          earthSite={sites.earth}
+          marsSite={sites.mars}
+          earthState={weather.forSite(sites.earth)}
+          marsState={weather.forSite(sites.mars)}
+          onAnalyze={weather.analyze}
+          onClose={() => setWeatherCompareOpen(false)}
+        />
+      )}
 
       <LoadingOverlay />
     </main>

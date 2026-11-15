@@ -63,7 +63,9 @@ The terminal shows a local address, usually **http://localhost:5173/**. Open it 
    - **Compare** opens Mars and Earth side by side: NASA photos, cited similarities and differences, and what Earth cannot reproduce (gravity, thin air, radiation).
    - **Side by side** shows both globes at once; **Use cases** lists how NASA has used these places, with sources.
    - Drag the sidebar's left edge to make it wider.
-   - Click the globe to drop a marker. The panel shows the coordinates, elevation and regional slope at that spot (Mars), each labelled.
+   - Press **📍 Drop pin** (top bar), then click the globe to drop a pin. The panel shows the coordinates, elevation and regional slope at that spot (Mars), each labelled. Esc cancels.
+   - The **Weather assistant** at the top of the sidebar: pick a date and press **Analyze**. It describes the weather from real NASA data only (Earth: NASA POWER at your pin; Mars: Curiosity's measurements in Gale crater, with the distance from your pin). Ask it questions or tap a suggestion.
+   - With a pin (or site) on both worlds, **Compare weather** gives a similarity percentage with every value and score behind it.
    - Choose a **featured site** (for example Jezero or Gale) and the camera flies there.
    - Zoom in close and sharper NASA imagery loads in. A credit line appears at the bottom left.
    - Featured sites show an official **NASA photo** with its caption and credit.
@@ -91,7 +93,7 @@ One-time setup on GitHub:
 2. Push to `main` (or open the **Actions** tab → *Deploy to GitHub Pages* → **Run workflow**).
 3. The site appears at `https://voxaulkardashev.github.io/nasa-space-app-challenge/`.
 
-The workflow also runs **once a day** to refresh the space-weather data from NASA's DONKI database (`scripts/fetch_donki.mjs`).
+The workflow also runs **once a day** to refresh the space-weather data from NASA's DONKI database (`scripts/fetch_donki.mjs`) and the copy of NASA's Curiosity weather feed (`scripts/fetch_rems.mjs`).
 
 **Recommended: add your free NASA API key** so the daily refresh isn't limited by NASA's shared demo key:
 
@@ -119,6 +121,7 @@ scripts/
   fetch_textures.py      re-downloads and resizes the textures (not needed to run the app)
   prepare_elevation.py   rebuilds the elevation grids (not needed to run the app)
   fetch_donki.mjs        refreshes the space-weather snapshot (run automatically on deploy)
+  fetch_rems.mjs         refreshes the copy of NASA's Curiosity weather feed (run automatically on deploy)
 CLAUDE.md            project rules, including the scientific integrity rules
 ```
 
@@ -132,4 +135,5 @@ Every value shown in the app is labelled **Measured** (named source and date), *
 - **PowerShell says "running scripts is disabled"**: run `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned`, answer `Y`, then try again.
 - **Grey world with "Texture missing"**: a file in `public/textures/` is missing or renamed. Check the names against `docs/SOURCES.md`.
 - **Black screen**: your browser or computer may have WebGL turned off. Test at <https://get.webgl.org>.
+- **Weather assistant says it couldn't reach NASA** (Earth): it calls power.larc.nasa.gov from your browser. Check your connection or whether a network blocks that site.
 - **Zoomed-in Explore view stays blurry**: the sharp imagery comes from trek.nasa.gov, gibs.earthdata.nasa.gov and, for the closest Mars views, astro.arcgis.com (Esri, which serves NASA Trek's CTX mosaic). Check your internet connection, or whether a school network blocks those sites.

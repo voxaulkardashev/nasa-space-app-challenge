@@ -10,6 +10,8 @@ import { featuredSitesFor, getFeaturedSite } from '../data/featuredSites';
 import { getTileLayer } from '../data/tileLayers';
 import { WORLDS } from '../data/worlds';
 import { WorldSwitch } from '../components/WorldSwitch';
+import { WeatherAssistant } from '../components/WeatherAssistant';
+import { siteKey, type WeatherState } from '../lib/weather/useWeather';
 import type { FeaturedSite, GeoLayerId, World } from '../data/types';
 import { elevationFacts } from '../lib/elevationFacts';
 import type { SelectedSite } from '../lib/navigation';
@@ -31,6 +33,14 @@ interface ExploreScreenProps {
   onCompare?: () => void;
   sideBySide: boolean;
   onToggleSideBySide: () => void;
+  /** Drop-pin mode: the next globe click drops a pin. */
+  pinMode: boolean;
+  onTogglePinMode: () => void;
+  weatherState: WeatherState | undefined;
+  onAnalyzeWeather: (site: SelectedSite, date: string) => void;
+  /** The pin on the other world (for the weather comparison). */
+  otherSite: SelectedSite | null;
+  onCompareWeather: () => void;
 }
 
 /** Credit line for the close-up imagery source currently on screen. */
@@ -62,6 +72,12 @@ export function ExploreScreen({
   onCompare,
   sideBySide,
   onToggleSideBySide,
+  pinMode,
+  onTogglePinMode,
+  weatherState,
+  onAnalyzeWeather,
+  otherSite,
+  onCompareWeather,
 }: ExploreScreenProps) {
   const currentSite = world && site?.worldId === world.id ? site : null;
   const allSites = world ? featuredSitesFor(world.id) : [];
@@ -93,6 +109,14 @@ export function ExploreScreen({
       {featured && <CounterpartPopup site={featured} onGo={onChooseFeatured} onCompare={onCompare} />}
 
       <div className="explore-topbar">
+        <button
+          type="button"
+          className={`btn explore-topbar__btn pin-toggle${pinMode ? ' is-on' : ''}`}
+          aria-pressed={pinMode}
+          onClick={onTogglePinMode}
+        >
+          <span aria-hidden="true">📍</span> {pinMode ? 'Click the globe… (Esc cancels)' : 'Drop pin'}
+        </button>
         <button type="button" className="btn explore-topbar__btn" onClick={() => setUseCasesOpen(true)}>
           <span aria-hidden="true">★</span> Use cases
         </button>
@@ -120,6 +144,17 @@ export function ExploreScreen({
           site={currentSite}
           onCompare={onCompare}
           search={<SiteSearch onChoose={onChooseFeatured} />}
+          assistant={
+            <WeatherAssistant
+              key={`${world.id}:${currentSite ? siteKey(currentSite) : 'none'}`}
+              world={world}
+              site={currentSite}
+              state={weatherState}
+              onAnalyze={onAnalyzeWeather}
+              otherSite={otherSite}
+              onCompareWeather={onCompareWeather}
+            />
+          }
           extraFacts={currentSite ? elevationFacts(world, currentSite, elevation) : []}
           siteList={
             <FeaturedSiteList
@@ -140,8 +175,12 @@ export function ExploreScreen({
         {detailStatus.active && detailStatus.sourceId && <ImageryCredit sourceId={detailStatus.sourceId} />}
         <p>
           {sideBySide
-            ? 'Side by side · Drag a globe to spin it · Click either globe to pick a site'
-            : 'Click to pick a site · Drag to rotate · Scroll or pinch to zoom'}
+            ? pinMode
+              ? 'Click either globe to drop your pin'
+              : 'Side by side · Drag a globe to spin it · 📍 Drop pin, then click a globe'
+            : pinMode
+              ? 'Click the globe to drop your pin · Esc cancels'
+              : '📍 Drop pin, then click the globe · Drag to rotate · Scroll or pinch to zoom'}
         </p>
       </div>
     </section>

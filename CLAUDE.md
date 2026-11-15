@@ -64,6 +64,10 @@ Dark navy to black background with subtle stars; realistic textures and lighting
   - NASA-documented Earth ⇄ Mars analogue pairs, with a corresponding-site pop-up.
   - Compare view, side-by-side mode, draggable sidebar, search, and a Use cases page.
   - Comparisons show cited similarities and differences, never a similarity percentage (rule 4).
+- **15 November 2026 (weather):**
+  - 📍 Drop pin button on Explore (clicks drop a pin only in pin mode).
+  - Weather assistant at the top of the sidebar: rule-based, real data only. Earth from NASA POWER (labelled Estimated, MERRA-2); Mars from Curiosity REMS at Gale crater (labelled Measured, with distance from pin and the CAB disclaimer). Feed copy refreshed by `scripts/fetch_rems.mjs`.
+  - Weather comparison between a Mars pin and an Earth pin: an Estimated similarity percentage, always shown with every per-dimension value and score.
 - **Not built:** a computed analogue engine (scores from measured per-dimension Earth data) and the Python back end. Do not build them until asked.
 - Deadline: Sunday 15 November 2026, 11:59 PM Pacific.
 

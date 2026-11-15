@@ -1,6 +1,6 @@
 # Builds the app and publishes it to GitHub Pages.
 # Runs automatically on every push to `main`, once a day (to refresh the NASA
-# DONKI space-weather data), or by hand from the Actions tab.
+# DONKI space-weather data and the Curiosity weather copy), or by hand from the Actions tab.
 # One-time setup: repository Settings → Pages → Source: "GitHub Actions".
 name: Deploy to GitHub Pages
 
@@ -38,6 +38,10 @@ jobs:
         run: node scripts/fetch_donki.mjs
         env:
           NASA_API_KEY: ${{ secrets.NASA_API_KEY }}
+      # Refresh the copy of NASA's Curiosity (REMS) weather feed used by the Explore
+      # weather assistant. If mars.nasa.gov cannot be reached, the committed copy is kept.
+      - name: Fetch NASA Curiosity weather feed
+        run: node scripts/fetch_rems.mjs
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:

@@ -19,10 +19,12 @@ interface SitePanelProps {
   onCompare?: () => void;
   /** Search box shown at the top of the panel. */
   search?: ReactNode;
+  /** Weather assistant, shown at the top of the panel under the search box. */
+  assistant?: ReactNode;
 }
 
 /** Translucent panel on the Explore screen: the selected site's data, or how to pick one. */
-export function SitePanel({ world, site, extraFacts, siteList, actions, onCompare, search }: SitePanelProps) {
+export function SitePanel({ world, site, extraFacts, siteList, actions, onCompare, search, assistant }: SitePanelProps) {
   const featured = site?.featuredId ? getFeaturedSite(site.featuredId) : undefined;
   const photo = featured ? SITE_PHOTOS[featured.id] : undefined;
   const panelRef = useRef<HTMLElement>(null);
@@ -35,6 +37,7 @@ export function SitePanel({ world, site, extraFacts, siteList, actions, onCompar
   return (
     <aside ref={panelRef} className="info-panel site-panel" aria-labelledby="site-panel-title" aria-live="polite">
       {search}
+      {assistant}
       <header className="info-panel__header">
         <p className="info-panel__eyebrow">Explore · {world.name}</p>
         <h2 id="site-panel-title" className="info-panel__title">
@@ -44,8 +47,8 @@ export function SitePanel({ world, site, extraFacts, siteList, actions, onCompar
           {featured
             ? featured.description
             : site
-              ? 'Click elsewhere on the globe to move the marker.'
-              : 'Click anywhere on the globe, or choose a featured site below.'}
+              ? 'Press 📍 Drop pin and click the globe to move your pin.'
+              : 'Press 📍 Drop pin and click the globe, or choose a featured site below.'}
         </p>
       </header>
 

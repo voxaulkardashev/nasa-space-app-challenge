@@ -196,6 +196,29 @@ The closest zoom is now about 0.3% of the radius above the surface: roughly 10 k
 
 All pages were accessed 15 November 2026.
 
+## Weather assistant and weather comparison (Explore, added 15 November 2026)
+
+The assistant only repeats and summarises values downloaded from these NASA sources. It is rule-based (no AI language model), so it cannot make up numbers; when a feed has no value, it says so.
+
+| World | Source | What is used | Label in the app |
+|---|---|---|---|
+| Earth | [NASA POWER Daily API](https://power.larc.nasa.gov/docs/services/api/temporal/daily/) (`power.larc.nasa.gov/api/temporal/daily/point`, community RE). Called live from the visitor's browser when they press **Analyze**. | `T2M`, `T2M_MAX`, `T2M_MIN` (air temperature at 2 m, °C), `PS` (surface pressure, kPa, shown ×10 as mbar), `WS2M` (wind at 2 m, m/s), `RH2M` (relative humidity, %), `PRECTOTCORR` (precipitation, mm/day), `ALLSKY_SFC_SW_DWN` (all-sky sunlight at the surface, kWh/m²/day). Daily values from 1 January 1981 to about 3 days ago; missing values (`-999`) are shown as “no value”. | **Estimated**: POWER's weather values come from NASA's MERRA-2 reanalysis (observations combined with a weather model) on a grid of about 0.5° × 0.625°, so they describe the grid cell around the pin, not a weather station at it. |
+| Mars | [NASA Mars weather feed](https://mars.nasa.gov/rss/api/?feed=weather&category=msl&feedtype=json) on mars.nasa.gov: daily summaries from the Curiosity rover's REMS instrument, provided by Centro de Astrobiología (CAB). A copy is saved to `public/data/weather/msl_rems.json` by `scripts/fetch_rems.mjs` (run by the deploy workflow on every push and daily); values are not changed, only unused fields are dropped. First copy saved 15 November 2026: 4,745 sols, 7 August 2012 to 25 August 2026. | `min_temp`, `max_temp` (air, °C), `pressure` (Pa, shown ÷100 as mbar), `min_gts_temp`, `max_gts_temp` (ground, °C), `atmo_opacity`, `local_uv_irradiance_index`, `season`, `ls`, `sunrise`, `sunset`. Wind and humidity fields exist but are always blank (`--`), so the app says “no data in this NASA feed”. | **Measured** (named feed, sol and date). The feed's own disclaimer is shown with every Mars result: the data are for outreach, measured at the rover (which can influence them), and some days are missing; scientific REMS data are in NASA's Planetary Data System. |
+
+**Mars pins away from Gale crater.** Curiosity is the only Mars station with a daily NASA feed used here, so any Mars pin gets Gale crater's weather. The app always says this, with the distance from the pin to Gale crater's centre (−5.37°, 137.81° E, IAU/USGS Gazetteer of Planetary Nomenclature). The distance is labelled **Estimated**: great-circle distance on a sphere of Mars's mean radius, 3,389.5 km (NASA NSSDCA Mars fact sheet).
+
+**Not used:** the Perseverance MEDA feed on mars.nasa.gov (almost empty when checked on 15 November 2026) and api.nasa.gov InSight weather (only seven sols from October 2020).
+
+**Weather similarity percentage** (`src/lib/weather/compare.ts`). Labelled **Estimated**; calculated by this app, not a NASA product. It uses the days with data within ±3 days of each chosen date:
+
+| Dimension | Score |
+|---|---|
+| Average daily low, average daily high, average day–night swing | 100% if equal, falling in a straight line to 0% at a 40 °C difference |
+| Day-to-day variability: standard deviation of the daily midpoint, (low + high) ÷ 2 | 100% if equal, 0% at a 10 °C difference |
+| Average surface air pressure | lower pressure ÷ higher pressure |
+
+The overall percentage is the plain average of the dimensions that have data. Every dimension's values and score are shown with it (CLAUDE.md rule 4), along with what is not compared (wind, humidity and precipitation, which have no Mars values) and what Earth cannot reproduce (gravity, thin atmosphere, radiation). The 40 °C and 10 °C ranges are the team's choice for a readable scale, not a scientific standard.
+
 ## Space weather (World Overview, `src/data/donki.json`)
 
 - **Data:** NASA **DONKI** (Space Weather Database Of Notifications, Knowledge, Information), run by NASA's Community Coordinated Modeling Center.

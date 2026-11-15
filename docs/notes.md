@@ -33,6 +33,12 @@ Short explanations of the less obvious parts of the code.
   - Close-up tiles use their own loading manager, so they never trigger it.
   - New tiles fade in, and while a sharp tile downloads, its blurrier parent tile stays in its place.
   - A small "Loading detail…" hint shows in the corner.
+- **Drop pin.** Clicking the globe only drops a pin after pressing **📍 Drop pin** (`pinMode` in `App.tsx`); the mode turns off after one pin, and Esc cancels it. Featured-site labels stay clickable at all times.
+- **Weather assistant** (`src/components/WeatherAssistant.tsx`, logic in `src/lib/weather/`):
+  - `power.ts` calls NASA POWER for the chosen date ±3 days; `rems.ts` loads the saved copy of the Curiosity feed once; `report.ts` picks the nearest day with data and, for Mars, the distance to Gale crater.
+  - `assistant.ts` writes every reply from the report with fixed sentence templates. Typed questions are matched by keywords (temperature, pressure, wind…). There is no AI model on purpose: a key can't be hidden on GitHub Pages, and a language model could invent numbers.
+  - Reports are kept per world in `App.tsx` (`useWeather.ts`), so the comparison can use both pins.
+- **Weather comparison** (`WeatherComparison.tsx`, maths in `compare.ts`): see docs/SOURCES.md for the scoring rules.
 - **Camera settings** in `SpaceScene.tsx` are a constant on purpose. Passing a new object on every render could make React Three Fiber reset the camera and undo the user's zoom.
 
 ## NASA APIs used
@@ -41,6 +47,8 @@ Short explanations of the less obvious parts of the code.
 |---|---|---|---|
 | Mars Trek WMTS, GIBS | Explore close-up tiles | Visitors' browsers | No |
 | NASA Image and Video Library | Featured-site photos (`src/data/sitePhotos.ts`) | Chosen once by hand; images load from `images-assets.nasa.gov` | No |
+| NASA POWER Daily API | Weather assistant, Earth pins | Visitors' browsers, when they press Analyze | No |
+| Mars weather feed (mars.nasa.gov, Curiosity REMS) | Weather assistant, Mars pins | The deploy workflow (`scripts/fetch_rems.mjs`) saves a copy to `public/data/weather/` | No |
 | DONKI (CCMC service or api.nasa.gov) | Space weather on the World Overview | The deploy workflow (`scripts/fetch_donki.mjs`), on push and daily | `NASA_API_KEY` repo secret if set, else `DEMO_KEY` |
 
 - **Why the workflow fetches DONKI, not the visitor's browser:** the demo key has small hourly and daily limits per internet address, and a whole school network shares one address. A key built into the website would also be public.
@@ -71,3 +79,6 @@ The screens do not need changes. The Select screen layout spaces however many wo
 - Elevation is used only for lighting (bump map). The surface is not physically raised. True-height displacement would need much more detail and visible exaggeration, so it is left for later.
 - Elevation values come from 4-cells-per-degree grids (14.8 km cells on Mars), so small features such as a single crater rim are averaged out. There's no elevation for Earth yet; it shows as a Placeholder.
 - Close-up imagery needs an internet connection to NASA's servers.
+- **Mars weather comes from one place.** Curiosity's daily reports from Gale crater are the only Mars weather feed used, so every Mars pin gets Gale's weather (the app says so, with the distance). The feed's newest sol is usually weeks to months behind today; the assistant then uses the nearest date with data and says how far away it is.
+- mars.nasa.gov refuses automated "HeadlessChrome" browsers. That is one reason the feed is copied at build time instead of fetched by visitors' browsers.
+- NASA POWER fills in its newest days about 3 days late (sunlight a little later), so the Earth date picker stops 3 days before today.
