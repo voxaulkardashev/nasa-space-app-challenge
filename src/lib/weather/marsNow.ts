@@ -124,3 +124,78 @@ export function sampleMarsGrid(grid: MarsGrid, lat: number, lon: number): number
   // Wind: interpolate both parts, then combine into a speed (same order as the PSG app).
   return grid.north ? Math.hypot(interp(grid.values), interp(grid.north)) : interp(grid.values);
 }
+
+/** PSG's own reading for one spot and the current time: exactly what its website shows for that location. */
+export interface PsgLocal {
+  lat: number;
+  lon: number;
+  fetchedAt: string;
+  model: string | null;
+  marsTime: string | null;
+  /** Height PSG's model uses for this spot (m). */
+  altitudeM: number | null;
+  airNowC: number | null;
+  groundNowC: number | null;
+  windKmh: number | null;
+  pressureMbar: number | null;
+  dustTau: number | null;
+  iceTau: number | null;
+  vaporPrUm: number | null;
+  /** The "Today" row: daily air temperature range. */
+  todayMinC: number | null;
+  todayMaxC: number | null;
+}
+
+const num = (m: RegExpExecArray | null, i = 1) => (m ? Number(m[i]) : null);
+
+/** Reads the numbers out of PSG's page text (null where a value is missing). */
+export function parsePsgPage(html: string): Omit<PsgLocal, 'lat' | 'lon' | 'fetchedAt'> {
+  const t = html
+    .replace(/<(script|style)[\s\S]*?<\/\1>/g, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    // HTML codes PSG uses around its numbers (no-break spaces, "<" signs, degree signs).
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&deg;/g, '°')
+    .replace(/&amp;/g, '&')
+    .replace(/\s+/g, ' ');
+  const head = /Climatological data based on (.+?) (-?\d+(?:\.\d+)?) °C Surface at (-?\d+(?:\.\d+)?)°C/.exec(t);
+  const today = /Today < ([\d.]+) mbar < (\d+) km\/h < ([\d.]+) tau (-?\d+)°C (-?\d+)°C/.exec(t);
+  return {
+    model: head?.[1]?.trim() ?? null,
+    marsTime: /MY\d+, Sol \d+ [\d:]+ MTC \(Ls [\d.]+\)/.exec(t)?.[0] ?? null,
+    altitudeM: num(/Altitude: (-?\d+) m/.exec(t)),
+    airNowC: num(head, 2),
+    groundNowC: num(head, 3),
+    windKmh: num(/Wind and Pressure ([\d.]+) km\/h/.exec(t)),
+    pressureMbar: num(/km\/h ([\d.]+) mbar/.exec(t)),
+    dustTau: num(/Dust ([\d.]+) Ice/.exec(t)),
+    iceTau: num(/Ice ([\d.]+) [\d.]+ pr-um/.exec(t)),
+    vaporPrUm: num(/([\d.]+) pr-um of water vapor/.exec(t)),
+    todayMinC: num(today, 4),
+    todayMaxC: num(today, 5),
+  };
+}
+
+/** Asks PSG's Mars Explorer for its reading at one spot, for the current UTC time (same form fields its own page sends). */
+export async function fetchPsgLocal(lat: number, lon: number): Promise<PsgLocal> {
+  const now = new Date();
+  const body = new URLSearchParams({
+    location: 'Localized region',
+    latitude: lat.toFixed(4),
+    longitude: (((lon % 360) + 360) % 360).toFixed(4),
+    dateyear: String(now.getUTCFullYear()),
+    datemonth: String(now.getUTCMonth() + 1),
+    dateday: String(now.getUTCDate()),
+    datetime: `${String(now.getUTCHours()).padStart(2, '0')}:${String(now.getUTCMinutes()).padStart(2, '0')}`,
+    units: 'SI',
+    model: 'EMARS',
+    modelmode: 'Optimum',
+  });
+  const res = await fetch(PSG_MARS_URL, { method: 'POST', body });
+  if (!res.ok) throw new Error(`PSG returned HTTP ${res.status}`);
+  const parsed = parsePsgPage(await res.text());
+  if (parsed.airNowC === null && parsed.pressureMbar === null) throw new Error('could not read PSG’s reply');
+  return { lat, lon, fetchedAt: now.toISOString(), ...parsed };
+}

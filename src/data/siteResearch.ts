@@ -60,7 +60,7 @@ const CITATIONS: ResearchCitation[] = [
 const PSG_URL = 'https://psg.gsfc.nasa.gov/apps/mars/';
 /** How the PSG values were obtained (shown with every weather value). */
 const PSG_METHOD =
-  'Model values from NASA Goddard’s PSG Mars Explorer app (EMARS, Mars Year 32) for 5.37° S, 137.81° E, read on 15 November 2026. EMARS is a reanalysis: computer-model weather for a past Mars year, not readings from Curiosity’s own instruments.';
+  'Model values from NASA Goddard’s PSG Mars Explorer app for 5.37° S, 137.81° E on the date shown (12:00 UT, daily minimum/maximum from its “Today” row), read on 15 November 2026. For 2026 dates PSG uses EMARS data from the most similar past Mars year (Mars Year 32): computer-model weather, not readings from Curiosity’s own instruments.';
 const psg = (id: string, label: string, value: string, note: string): DataValue => ({
   id,
   label,
@@ -68,7 +68,7 @@ const psg = (id: string, label: string, value: string, note: string): DataValue 
   note,
   status: 'estimated',
   method: PSG_METHOD,
-  source: { name: 'NASA Goddard PSG Mars Explorer (EMARS MY32)', url: PSG_URL, sourceDate: 'Mars Year 32 (31 Jul 2013 – 18 Jun 2015)', accessed: ACCESSED },
+  source: { name: 'NASA Goddard PSG Mars Explorer (EMARS, most similar Mars year: MY32)', url: PSG_URL, sourceDate: '15 Mar 2026 and 15 Nov 2026 (built from Mars Year 32 data)', accessed: ACCESSED },
 });
 
 const GALE: SiteResearch = {
@@ -152,22 +152,22 @@ const GALE: SiteResearch = {
       id: 'weather',
       title: 'Temperature/Weather',
       paragraphs: [
-        'These are past (historical) values for Gale Crater, not live weather. They come from NASA Goddard’s Planetary Spectrum Generator Mars Explorer, using its EMARS data for Mars Year 32 (31 July 2013 to 18 June 2015, while Curiosity was exploring Gale) at 5.37° S, 137.81° E. [[7]]',
-        'In the cold season near aphelion (Mars farthest from the Sun, Ls 69, 28 December 2013), the air ranged from −90 °C before sunrise to −44 °C in the afternoon. In the dust-storm season near perihelion (Ls 233, 14 November 2014), it was warmer, from −69 °C to −16 °C, with dustier skies. Surface pressure stayed below 7 mbar, under 1% of Earth’s (1,014 mbar on NASA’s Earth fact sheet), and the model shows strong winds in both seasons. [[7]]',
+        'These are values for Gale Crater on two dates in 2026 (up to today), not a live feed. They come from NASA Goddard’s Planetary Spectrum Generator Mars Explorer at 5.37° S, 137.81° E. PSG has no measured 2026 weather: for 2026 dates it uses EMARS model data from the most similar past Mars year (it reports “EMARS MY32 Moderate dust”, i.e. Mars Year 32, 2013–2015) at each date’s season and time of day. [[7]]',
+        'On 15 March 2026 (dust-storm season, near perihelion when Mars is closest to the Sun, Ls 244), the air at Gale ranged from −68 °C to −16 °C, with very dusty skies and winds up to 91 km/h. On 15 November 2026 (northern spring, heading towards aphelion, Ls 22), it was colder, from −82 °C to −33 °C, with clearer skies. Surface pressure stayed below 7 mbar, under 1% of Earth’s (1,014 mbar on NASA’s Earth fact sheet). [[7]]',
       ],
       facts: [
-        psg('wx-cold-temp', 'Air temperature, cold season', '−90 °C to −44 °C', '28 Dec 2013 · Mars Year 32, sol 146, Ls 69 (near aphelion)'),
-        psg('wx-cold-pres', 'Surface pressure (daily maximum)', '6.76 mbar', '28 Dec 2013'),
-        psg('wx-cold-wind', 'Wind speed (daily maximum)', '81 km/h', '28 Dec 2013'),
-        psg('wx-cold-dust', 'Dust opacity τ (daily maximum)', '0.777', '28 Dec 2013 · higher = dustier sky'),
-        psg('wx-warm-temp', 'Air temperature, dust-storm season', '−69 °C to −16 °C', '14 Nov 2014 · Mars Year 32, sol 459, Ls 233 (near perihelion)'),
-        psg('wx-warm-pres', 'Surface pressure (daily maximum)', '6.92 mbar', '14 Nov 2014'),
-        psg('wx-warm-wind', 'Wind speed (daily maximum)', '78 km/h', '14 Nov 2014'),
-        psg('wx-warm-dust', 'Dust opacity τ (daily maximum)', '1.166', '14 Nov 2014 · higher = dustier sky'),
+        psg('wx-dust-temp', 'Air temperature, dust-storm season', '−68 °C to −16 °C', '15 Mar 2026 · Mars Year 38, sol 475, Ls 244 (near perihelion)'),
+        psg('wx-dust-pres', 'Surface pressure (daily maximum)', '6.92 mbar', '15 Mar 2026'),
+        psg('wx-dust-wind', 'Wind speed (daily maximum)', '91 km/h', '15 Mar 2026'),
+        psg('wx-dust-dust', 'Dust opacity τ (daily maximum)', '1.182', '15 Mar 2026 · higher = dustier sky'),
+        psg('wx-now-temp', 'Air temperature, northern spring', '−82 °C to −33 °C', '15 Nov 2026 · Mars Year 39, sol 45, Ls 22'),
+        psg('wx-now-pres', 'Surface pressure (daily maximum)', '6.64 mbar', '15 Nov 2026'),
+        psg('wx-now-wind', 'Wind speed (daily maximum)', '57 km/h', '15 Nov 2026'),
+        psg('wx-now-dust', 'Dust opacity τ (daily maximum)', '0.488', '15 Nov 2026 · higher = dustier sky'),
       ],
       notes: [
-        'Limitations: these are model values for a large grid area around Gale (the model gives this point an altitude of 182 m), so they smooth out the deep crater and Mount Sharp, and can differ from what Curiosity measured on the ground. The app itself says it is “undergoing active development” and “should be only used for testing purposes”.',
-        'To check these numbers: open the app, set the location to 5.37° S, 137.81° E, the model to EMARS “MY32 Moderate dust”, and the date to 28 December 2013 or 14 November 2014 (12:00 UT).',
+        'Limitations: these are model values (built from Mars Year 32), not measurements from Curiosity or any other spacecraft in 2026. They describe a large area around Gale (the model gives this point an altitude of 182 m), so they smooth out the deep crater and Mount Sharp. The app itself says it is “undergoing active development” and “should be only used for testing purposes”.',
+        'To check these numbers: open the app, set the location to 5.37° S, 137.81° E, the model to EMARS “Most similar MY”, and the date to 15 March 2026 or 15 November 2026 at 12:00 UT, then read the “Today” row.',
       ],
     },
     {
