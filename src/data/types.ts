@@ -89,6 +89,18 @@ export interface World {
   /** Colour for the hover / selection highlight (CSS colour). */
   highlightColor: string;
   facts: DataValue[];
+  /**
+   * Optional text boxes for the World Overview sidebar, each with a title.
+   * To add another box, add one more entry here; the panel shows them in order.
+   */
+  infoSections?: InfoSection[];
+}
+
+/** A titled box of descriptive text in the World Overview sidebar (written by the team). */
+export interface InfoSection {
+  id: string;
+  title: string;
+  body: string;
 }
 
 /** A named place the user can jump to on the Explore screen. */

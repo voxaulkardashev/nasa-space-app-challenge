@@ -1641,3 +1641,33 @@ body.is-resizing * {
     letter-spacing: 0.12em;
   }
 }
+
+/* ---------- Overview: titled text boxes (e.g. Earth) ---------------------- */
+
+.info-box {
+  margin-top: 0.9rem;
+  padding: 1rem 1.1rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--panel-border);
+}
+
+.info-box:first-of-type {
+  margin-top: 0.2rem;
+}
+
+.info-box__title {
+  margin: 0 0 0.45rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.info-box__body {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--text);
+}

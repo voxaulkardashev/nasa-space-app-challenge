@@ -22,12 +22,25 @@ export function InfoPanel({ world, actions }: InfoPanelProps) {
         <p className="info-panel__tagline">{world.tagline}</p>
       </header>
 
-      <ul className="info-panel__facts">
-        {world.facts.map((fact) => (
-          <FactRow key={fact.id} data={fact} />
-        ))}
-      </ul>
-      <p className="info-panel__hint">Tap a label to see where a value comes from.</p>
+      {world.facts.length > 0 && (
+        <>
+          <ul className="info-panel__facts">
+            {world.facts.map((fact) => (
+              <FactRow key={fact.id} data={fact} />
+            ))}
+          </ul>
+          <p className="info-panel__hint">Tap a label to see where a value comes from.</p>
+        </>
+      )}
+
+      {world.infoSections?.map((section) => (
+        <section key={section.id} className="info-box" aria-labelledby={`info-box-${section.id}`}>
+          <h3 id={`info-box-${section.id}`} className="info-box__title">
+            {section.title}
+          </h3>
+          <p className="info-box__body">{section.body}</p>
+        </section>
+      ))}
 
       <SpaceWeatherSection worldId={world.id} />
 

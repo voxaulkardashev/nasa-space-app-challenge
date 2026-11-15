@@ -32,7 +32,9 @@ Notes on how fact-sheet entries map to the panel:
 - **Mean radius**: "Volumetric mean radius".
 - **Mars and Earth, mean distance from the Sun**: "Semimajor axis" in 10⁶ km.
 
-Each world's panel also has one **Placeholder** row, "Earth analogue sites: Not yet available". It is not real data; the analogue comparison is a later milestone.
+**Earth's sidebar (from 15 November 2026)** no longer lists facts. It shows three text boxes written by the team (Geological Significance, Geological Analog Sites, Scientific & Exploratory Applications), stored as `infoSections` in `src/data/worlds.ts`. Earth's NSSDCA values are still used in the Compare view.
+
+The Mars panel also has one **Placeholder** row, "Earth analogue sites: Not yet available". It is not real data; the analogue comparison is a later milestone.
 
 ## Explore screen (Milestone 2)
 

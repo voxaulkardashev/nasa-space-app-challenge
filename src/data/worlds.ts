@@ -2,7 +2,6 @@ import {
   BLUE_MARBLE_NG,
   MARS_TREK_MOLA,
   MARS_TREK_VIKING,
-  NSSDCA_EARTH,
   NSSDCA_MARS,
 } from './sources';
 import type { PlaceholderValue, World, WorldId } from './types';
@@ -83,14 +82,24 @@ export const WORLDS: World[] = [
     meanRadiusKm: 6371.0,
     initialLongitudeDeg: 15,
     highlightColor: '#8ec5ff',
-    facts: [
-      { id: 'radius', label: 'Mean radius', value: '6,371.0 km', note: 'Volumetric mean radius', status: 'measured', source: NSSDCA_EARTH },
-      { id: 'gravity', label: 'Surface gravity', value: '9.820 m/s²', note: 'Mean value', status: 'measured', source: NSSDCA_EARTH },
-      { id: 'day', label: 'Length of day', value: '24.0000 hours', status: 'measured', source: NSSDCA_EARTH },
-      { id: 'pressure', label: 'Surface pressure', value: '1014 mbar', status: 'measured', source: NSSDCA_EARTH },
-      { id: 'temperature', label: 'Average temperature', value: '288 K (15 °C)', status: 'measured', source: NSSDCA_EARTH },
-      { id: 'distance', label: 'Mean distance from Sun', value: '149.598 million km', note: 'Orbit semimajor axis', status: 'measured', source: NSSDCA_EARTH },
-      analoguePlaceholder,
+    // Earth's sidebar shows the team's text boxes below instead of a list of facts.
+    facts: [],
+    infoSections: [
+      {
+        id: 'significance',
+        title: 'Geological Significance',
+        body: 'Earth’s diverse field environments give us a window into the mechanisms and processes of similar far-off Martian landscapes that we cannot yet study with our own eyes. Understanding and discovering new planetary analog sites is critical for the future of space exploration.',
+      },
+      {
+        id: 'analog-sites',
+        title: 'Geological Analog Sites',
+        body: 'Impact structures, sediments, mineralogy, terrain, glacier landscapes, past water structures, & evidence of Aeolian processes.',
+      },
+      {
+        id: 'applications',
+        title: 'Scientific & Exploratory Applications',
+        body: 'Understanding erosion, sediment transportation, mineral formation, Martian glacial landscapes, and locating freshwater sources for astronauts.',
+      },
     ],
   },
 ];
