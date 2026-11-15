@@ -127,4 +127,4 @@ Every value shown in the app is labelled **Measured** (named source and date), *
 - **PowerShell says "running scripts is disabled"**: run `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned`, answer `Y`, then try again.
 - **Grey world with "Texture missing"**: a file in `public/textures/` is missing or renamed. Check the names against `docs/SOURCES.md`.
 - **Black screen**: your browser or computer may have WebGL turned off. Test at <https://get.webgl.org>.
-- **Zoomed-in Explore view stays blurry**: the sharp imagery comes from NASA's servers (trek.nasa.gov, gibs.earthdata.nasa.gov). Check your internet connection, or whether a school network blocks those sites.
+- **Zoomed-in Explore view stays blurry**: the sharp imagery comes from trek.nasa.gov, gibs.earthdata.nasa.gov and, for the closest Mars views, astro.arcgis.com (Esri, which serves NASA Trek's CTX mosaic). Check your internet connection, or whether a school network blocks those sites.

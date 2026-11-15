@@ -183,7 +183,7 @@ export function PlanetBody({
           </TextureErrorBoundary>
         </group>
         {pickable && !sideBySide && TILE_LAYERS[world.id] && (
-          <DetailTiles layer={TILE_LAYERS[world.id]!} onStatusChange={onDetailStatusChange} />
+          <DetailTiles layers={TILE_LAYERS[world.id]!} onStatusChange={onDetailStatusChange} />
         )}
         {site && <SiteMarker site={site} />}
         {pickable && labelledSites && activeLayers && onChooseFeatured && (

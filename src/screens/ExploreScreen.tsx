@@ -7,7 +7,7 @@ import { UseCasesModal } from '../components/UseCasesModal';
 import { useState } from 'react';
 import { SitePanel } from '../components/SitePanel';
 import { featuredSitesFor, getFeaturedSite } from '../data/featuredSites';
-import { TILE_LAYERS } from '../data/tileLayers';
+import { getTileLayer } from '../data/tileLayers';
 import { WORLDS } from '../data/worlds';
 import { WorldSwitch } from '../components/WorldSwitch';
 import type { FeaturedSite, GeoLayerId, World } from '../data/types';
@@ -31,6 +31,21 @@ interface ExploreScreenProps {
   onCompare?: () => void;
   sideBySide: boolean;
   onToggleSideBySide: () => void;
+}
+
+/** Credit line for the close-up imagery source currently on screen. */
+function ImageryCredit({ sourceId }: { sourceId: string }) {
+  const layer = getTileLayer(sourceId);
+  if (!layer) return null;
+  return (
+    <p className="imagery-credit">
+      Close-up imagery ({layer.finestDetail} at most):{' '}
+      <a href={layer.source.url} target="_blank" rel="noreferrer">
+        {layer.label}
+      </a>
+      {layer.caveat && <> · {layer.caveat}</>}
+    </p>
+  );
 }
 
 /** Screen 3: pick a site on the globe and see data about that spot. */
@@ -122,15 +137,7 @@ export function ExploreScreen({
             <span className="detail-loading__spinner" aria-hidden="true" /> Loading detail…
           </p>
         )}
-        {detailStatus.active && world && TILE_LAYERS[world.id] && (
-          <p className="imagery-credit">
-            Close-up imagery:{' '}
-            <a href={TILE_LAYERS[world.id]!.source.url} target="_blank" rel="noreferrer">
-              {TILE_LAYERS[world.id]!.label}
-            </a>
-            {TILE_LAYERS[world.id]!.caveat && <> · {TILE_LAYERS[world.id]!.caveat}</>}
-          </p>
-        )}
+        {detailStatus.active && detailStatus.sourceId && <ImageryCredit sourceId={detailStatus.sourceId} />}
         <p>
           {sideBySide
             ? 'Side by side · Drag a globe to spin it · Click either globe to pick a site'

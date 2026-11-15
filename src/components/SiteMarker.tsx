@@ -21,7 +21,7 @@ export function SiteMarker({ site }: SiteMarkerProps) {
   const { position, quaternion } = useMemo(() => {
     const normal = latLonToVector(site.lat, site.lon);
     return {
-      position: normal.clone().multiplyScalar(1.002),
+      position: normal.clone().multiplyScalar(1.0002),
       // Turn the marker so its "up" (Y) points straight out of the surface.
       quaternion: new Quaternion().setFromUnitVectors(new Vector3(0, 1, 0), normal),
     };
@@ -34,7 +34,7 @@ export function SiteMarker({ site }: SiteMarkerProps) {
     const parentScale = g.parent.getWorldScale(new Vector3()).x || 1;
     const distance = camera.position.distanceTo(worldPos);
     // Constant size on screen, whatever the zoom.
-    g.scale.setScalar(MathUtils.clamp(distance * 0.014, 0.002, 0.16) / parentScale);
+    g.scale.setScalar(MathUtils.clamp(distance * 0.014, 0.00002, 0.16) / parentScale);
     if (ring.current) {
       const pulse = 1 + 0.25 * Math.sin(clock.elapsedTime * 3);
       ring.current.scale.set(pulse, 1, pulse);

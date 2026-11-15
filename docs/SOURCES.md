@@ -151,6 +151,17 @@ Each entry is quoted or closely paraphrased from its source:
 - The NASA Planetary Analog Explorer
 - NASA's "10 Things to Know About Planetary Analogs"
 
+### Deeper zoom: sharper close-up sources (added 15 November 2026)
+
+When you zoom in past what the first layer can show, Explore switches to a sharper one. The on-screen credit always names the source in use.
+
+| World | Source | Detail we use | Notes |
+|---|---|---|---|
+| Mars | **MRO Context Camera (CTX) global mosaic, beta**. NASA Mars Trek layer `CTX_beta01_uncontrolled_5m_Caltech` ("CTX Global BETA Uncontrolled 5m Caltech"), [capabilities](https://trek.nasa.gov/tiles/Mars/EQ/CTX_beta01_uncontrolled_5m_Caltech/1.0.0/WMTSCapabilities.xml) | Levels up to 10, about 20 m per pixel | Tiles are served by Esri's `astro.arcgis.com` (the URL given in NASA Trek's capabilities file), not by NASA. Greyscale. "Beta" and "uncontrolled" mean positions may be slightly offset. Level-11 tiles came back only partly drawn when tested, so we stop at level 10. **To do:** find the mosaic's own publication or credit page and cite it. |
+| Earth | **Landsat WELD true colour, global annual composite (v3.1)**. NASA GIBS layer `Landsat_WELD_CorrectedReflectance_TrueColor_Global_Annual`, time 2000-12-01, 31.25m tile set ([capabilities](https://gibs.earthdata.nasa.gov/wmts/epsg4326/best/1.0.0/WMTSCapabilities.xml)) | Levels up to 11, about 30 m per pixel | The layer only offers 1983–85, 1988–90 and 1998–2000; we use 2000. It covers land only: its pure-black "no data" pixels (oceans, lakes) are made transparent in the browser, so the Blue Marble image shows through. Very dark real pixels (values ≤ 4 out of 255) are treated the same way. |
+
+The closest zoom is now about 0.3% of the radius above the surface: roughly 10 km on Mars and 19 km on Earth.
+
 ## Space weather (World Overview, `src/data/donki.json`)
 
 - **Data:** NASA **DONKI** (Space Weather Database Of Notifications, Knowledge, Information), run by NASA's Community Coordinated Modeling Center.

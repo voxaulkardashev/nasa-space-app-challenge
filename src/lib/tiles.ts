@@ -7,6 +7,8 @@ import { normalizeLon, type LatLon } from './geo';
  */
 
 export interface TileKey {
+  /** Id of the tile source (layer) this tile comes from. */
+  source: string;
   z: number;
   row: number;
   col: number;
@@ -26,7 +28,7 @@ const BASE_MAP_WIDTH_PX = 4096;
 const MAX_TILES = 96;
 const FOV_DEG = 45;
 
-export const tileKeyId = (k: { z: number; row: number; col: number }) => `${k.z}/${k.row}/${k.col}`;
+export const tileKeyId = (k: { source: string; z: number; row: number; col: number }) => `${k.source}/${k.z}/${k.row}/${k.col}`;
 
 export function tileDeg(layer: TileLayerDef, z: number): number {
   return layer.level0TileDeg / 2 ** z;
@@ -111,7 +113,7 @@ export function makeTileKey(layer: TileLayerDef, z: number, row: number, col: nu
   if (west >= 180 || north <= -90 || row < 0 || col < 0) return null;
   const south = Math.max(-90, north - d);
   const east = Math.min(180, west + d);
-  return { z, row, col, west, east, north, south, uSpan: (east - west) / d, vSpan: (north - south) / d };
+  return { source: layer.id, z, row, col, west, east, north, south, uSpan: (east - west) / d, vSpan: (north - south) / d };
 }
 
 /**
@@ -128,6 +130,35 @@ export function parentKey(layer: TileLayerDef, key: TileKey): TileKey | null {
 export interface DetailStatus {
   active: boolean;
   loading: boolean;
+  /** Which source is supplying the close-up tiles (for the credit line). */
+  sourceId?: string;
+}
+
+/** Degrees of surface per screen pixel, looking straight down from `distance` (radius = 1). */
+export function screenDegPerPx(distance: number, viewportHeightPx: number): number {
+  const altitude = Math.max(distance - 1, 1e-4);
+  const halfFov = ((FOV_DEG / 2) * Math.PI) / 180;
+  return ((2 * altitude * Math.tan(halfFov)) * 180) / Math.PI / viewportHeightPx;
+}
+
+/** Degrees per pixel at a source's finest level. */
+export function finestDegPerPx(layer: TileLayerDef): number {
+  return tileDeg(layer, layer.maxLevel) / layer.tileSize;
+}
+
+/**
+ * Pick the source for the current view from a stack (coarsest first): the first
+ * one that is at least as sharp as the screen, otherwise the sharpest.
+ */
+export function chooseLayer(layers: TileLayerDef[], distance: number, viewportHeightPx: number): TileLayerDef {
+  const need = screenDegPerPx(distance, viewportHeightPx);
+  return layers.find((l) => finestDegPerPx(l) <= need) ?? layers[layers.length - 1];
+}
+
+/** The tile of a given level that contains a point. */
+export function coveringKey(layer: TileLayerDef, z: number, lat: number, lon: number): TileKey | null {
+  const d = tileDeg(layer, z);
+  return makeTileKey(layer, z, Math.floor((90 - lat) / d), Math.floor((lon + 180) / d));
 }
 
 /** Great-circle angle between two points, in degrees. */

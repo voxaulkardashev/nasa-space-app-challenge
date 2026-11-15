@@ -163,7 +163,7 @@ function SceneContents({
         rotateSpeed={0.6}
         zoomSpeed={0.8}
         // Explore lets you zoom right down towards the surface.
-        minDistance={exploring ? focusedScale * 1.04 : 3.4}
+        minDistance={exploring && !sideBySide ? focusedScale * 1.003 : 3.4}
         maxDistance={16}
       />
     </>

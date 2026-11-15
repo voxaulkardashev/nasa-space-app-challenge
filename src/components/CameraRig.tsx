@@ -72,7 +72,7 @@ export function CameraRig({
     return () => controls.removeEventListener('start', cancel);
   }, [controlsRef]);
 
-  useFrame((_, delta) => {
+  useFrame((state, delta) => {
     progress.current = MathUtils.damp(progress.current, focused ? 1 : 0, 4, delta);
 
     if (!userControlled) {
@@ -104,10 +104,18 @@ export function CameraRig({
     if (controls) {
       // Slower rotation close to the surface (height above surface ÷ radius).
       const height = Math.max(camera.position.length() - surfaceRadius, 0.001);
-      controls.rotateSpeed = MathUtils.clamp((height / surfaceRadius) * 0.6, 0.02, 0.6);
+      controls.rotateSpeed = MathUtils.clamp((height / surfaceRadius) * 0.6, 0.005, 0.6);
+      // Smaller zoom steps near the ground (each step changes the height by roughly 15%).
+      controls.zoomSpeed = MathUtils.clamp((3 * height) / camera.position.length(), 0.02, 0.8);
     }
 
     if (camera instanceof PerspectiveCamera) {
+      // Near clipping plane follows the height above the surface, so close-ups are never cut off.
+      const above = Math.max(camera.position.length() - surfaceRadius, 0.0001);
+      const near = MathUtils.clamp(above * 0.3, 0.0002, 0.1);
+      // (Set through the frame state's camera; setViewOffset below updates the projection.)
+      const frameCamera = state.camera as PerspectiveCamera;
+      if (Math.abs(frameCamera.near - near) / near > 0.05) frameCamera.near = near;
       const { width, height } = size;
       const bottomPanel = usesBottomPanel(width);
       // Centre the world in the space left of the sidebar (sidebar + its 20 px margin, halved).

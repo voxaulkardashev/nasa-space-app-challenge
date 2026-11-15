@@ -1,22 +1,33 @@
 import { useFrame, useThree } from '@react-three/fiber';
 import { useEffect, useRef, useState } from 'react';
 import {
+  CanvasTexture,
   ClampToEdgeWrapping,
+  ImageLoader,
   LoadingManager,
   SRGBColorSpace,
+  Texture,
   TextureLoader,
   Vector3,
   type Group,
-  type Texture,
 } from 'three';
 import type { TileLayerDef } from '../data/tileLayers';
 import { vectorToLatLon } from '../lib/geo';
-import { parentKey, tileKeyId, visibleTiles, type DetailStatus, type TileKey } from '../lib/tiles';
+import {
+  chooseLayer,
+  coveringKey,
+  parentKey,
+  tileKeyId,
+  visibleTiles,
+  type DetailStatus,
+  type TileKey,
+} from '../lib/tiles';
 import { TileMesh } from './TileMesh';
 
 interface DetailTilesProps {
-  layer: TileLayerDef;
-  /** Reports whether close-up tiles are showing and whether more are downloading. */
+  /** Tile sources for this world, coarsest first. */
+  layers: TileLayerDef[];
+  /** Reports whether close-up tiles are showing, whether more are downloading, and from which source. */
   onStatusChange?: (status: DetailStatus) => void;
 }
 
@@ -28,12 +39,16 @@ const CACHE_LIMIT = 300;
 const MAX_FALLBACK_LEVELS = 4;
 /** Keep the stand-in for this long (ms) after the sharp tile arrives, while it fades in. */
 const FADE_OVERLAP_MS = 600;
+/** Pixels darker than this in every channel count as "no data" for blackIsNoData sources. */
+const NO_DATA_MAX = 4;
 
 /**
  * Tiles use their OWN loading manager. The default one drives the full-screen
  * "Loading NASA imagery" overlay; tiles must load quietly in the background.
  */
-const loader = new TextureLoader(new LoadingManager()).setCrossOrigin('anonymous');
+const manager = new LoadingManager();
+const textureLoader = new TextureLoader(manager).setCrossOrigin('anonymous');
+const imageLoader = new ImageLoader(manager).setCrossOrigin('anonymous');
 const localCamera = new Vector3();
 
 interface CacheEntry {
@@ -48,27 +63,45 @@ interface CacheEntry {
 interface ShownTile {
   key: TileKey;
   texture: Texture;
+  transparent: boolean;
+}
+
+/** Makes pure-black "no data" pixels see-through (e.g. oceans in a land-only Landsat layer). */
+function blackToTransparent(image: HTMLImageElement): Texture {
+  const canvas = document.createElement('canvas');
+  canvas.width = image.width;
+  canvas.height = image.height;
+  const ctx = canvas.getContext('2d', { willReadFrequently: true })!;
+  ctx.drawImage(image, 0, 0);
+  const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  const px = data.data;
+  for (let i = 0; i < px.length; i += 4) {
+    if (px[i] <= NO_DATA_MAX && px[i + 1] <= NO_DATA_MAX && px[i + 2] <= NO_DATA_MAX) px[i + 3] = 0;
+  }
+  ctx.putImageData(data, 0, 0);
+  return new CanvasTexture(canvas);
 }
 
 /**
- * Streams sharper NASA map tiles for the part of the world in view, the way
- * online maps do: nothing blocks the screen, new tiles fade in, and while a
- * sharp tile is still downloading its blurrier "parent" tile (if already
- * downloaded) stays in its place, so the view never drops back to blurry.
+ * Streams sharper map tiles for the part of the world in view, the way online
+ * maps do: nothing blocks the screen, new tiles fade in, and while a sharp tile
+ * is still downloading a blurrier one stays in its place. When you zoom past
+ * what the first source can show, it switches to the next, sharper source.
  *
  * Must be placed inside the world's rotating group (same coordinates as the
  * unit sphere). The normal globe always shows underneath.
  */
-export function DetailTiles({ layer, onStatusChange }: DetailTilesProps) {
+export function DetailTiles({ layers, onStatusChange }: DetailTilesProps) {
   const group = useRef<Group>(null);
   const size = useThree((s) => s.size);
   const cache = useRef(new Map<string, CacheEntry>());
   const sinceCheck = useRef(CHECK_INTERVAL);
   const [shown, setShown] = useState<ShownTile[]>([]);
   const [loading, setLoading] = useState(false);
+  const [sourceId, setSourceId] = useState<string | undefined>(undefined);
 
   /** Starts downloading a tile unless it is already cached (or being downloaded). */
-  const requestTile = (key: TileKey, now: number) => {
+  const requestTile = (layer: TileLayerDef, key: TileKey, now: number) => {
     const id = tileKeyId(key);
     const existing = cache.current.get(id);
     if (existing) {
@@ -77,29 +110,31 @@ export function DetailTiles({ layer, onStatusChange }: DetailTilesProps) {
     }
     const entry: CacheEntry = { key, texture: null, failed: false, lastUsed: now, loadedAt: 0 };
     cache.current.set(id, entry);
-    loader.load(
-      layer.url(key.z, key.row, key.col),
-      (texture) => {
-        texture.colorSpace = SRGBColorSpace;
-        texture.wrapS = texture.wrapT = ClampToEdgeWrapping;
-        // Crop tiles that overhang the edge of the map (GIBS at 180°E / 90°S).
-        texture.repeat.set(key.uSpan, key.vSpan);
-        texture.offset.set(0, 1 - key.vSpan);
-        entry.texture = texture;
-        entry.loadedAt = performance.now();
-        sinceCheck.current = CHECK_INTERVAL; // redraw on the next frame
-      },
-      undefined,
-      () => {
-        entry.failed = true; // e.g. offline: the normal globe simply stays visible
-      },
-    );
+    const done = (texture: Texture) => {
+      texture.colorSpace = SRGBColorSpace;
+      texture.wrapS = texture.wrapT = ClampToEdgeWrapping;
+      // Crop tiles that overhang the edge of the map (GIBS at 180°E / 90°S).
+      texture.repeat.set(key.uSpan, key.vSpan);
+      texture.offset.set(0, 1 - key.vSpan);
+      texture.needsUpdate = true;
+      entry.texture = texture;
+      entry.loadedAt = performance.now();
+      sinceCheck.current = CHECK_INTERVAL; // redraw on the next frame
+    };
+    const fail = () => {
+      entry.failed = true; // e.g. offline: the normal globe simply stays visible
+    };
+    const url = layer.url(key.z, key.row, key.col);
+    if (layer.blackIsNoData) imageLoader.load(url, (img) => done(blackToTransparent(img)), undefined, fail);
+    else textureLoader.load(url, done, undefined, fail);
   };
+
+  const readyTexture = (key: TileKey | null) => (key ? cache.current.get(tileKeyId(key))?.texture : null);
 
   useFrame(({ camera }, delta) => {
     sinceCheck.current += delta;
     const g = group.current;
-    if (!g || sinceCheck.current < CHECK_INTERVAL) return;
+    if (!g || sinceCheck.current < CHECK_INTERVAL || layers.length === 0) return;
     sinceCheck.current = 0;
 
     // Camera position in the world's own coordinates (radius 1, rotation undone).
@@ -108,42 +143,65 @@ export function DetailTiles({ layer, onStatusChange }: DetailTilesProps) {
     g.worldToLocal(localCamera);
     const distance = localCamera.length();
     const centre = vectorToLatLon(localCamera);
+    const layer = chooseLayer(layers, distance, size.height);
+    const coarser = layers.slice(0, layers.indexOf(layer));
     const wanted = visibleTiles(layer, centre, distance, size.height, size.width / size.height);
 
     const now = performance.now();
-    for (const key of wanted) requestTile(key, now);
+    for (const key of wanted) requestTile(layer, key, now);
 
-    // Build the list to draw: each wanted tile if ready, otherwise its nearest ready ancestor.
+    // Each wanted tile if ready; otherwise (or while it fades in) the nearest ready stand-in:
+    // an ancestor in the same source, then the coarser sources' sharpest tile covering it.
     const toDraw = new Map<string, ShownTile>();
+    const add = (key: TileKey, texture: Texture, l: TileLayerDef) =>
+      toDraw.set(tileKeyId(key), { key, texture, transparent: Boolean(l.transparent || l.blackIsNoData) });
     let pending = 0;
     for (const key of wanted) {
       const entry = cache.current.get(tileKeyId(key));
       if (entry?.texture) {
-        toDraw.set(tileKeyId(key), { key, texture: entry.texture });
-        if (now - entry.loadedAt > FADE_OVERLAP_MS) continue; // fully faded in: no stand-in needed
+        add(key, entry.texture, layer);
+        if (now - entry.loadedAt > FADE_OVERLAP_MS && !layer.transparent && !layer.blackIsNoData) continue;
       } else if (!entry?.failed) {
         pending++;
       }
+      let standIn = false;
       let parent = parentKey(layer, key);
       for (let i = 0; parent && i < MAX_FALLBACK_LEVELS; i++, parent = parentKey(layer, parent)) {
-        const parentEntry = cache.current.get(tileKeyId(parent));
-        if (parentEntry?.texture) {
-          parentEntry.lastUsed = now;
-          toDraw.set(tileKeyId(parent), { key: parent, texture: parentEntry.texture });
+        const tex = readyTexture(parent);
+        if (tex) {
+          cache.current.get(tileKeyId(parent))!.lastUsed = now;
+          add(parent, tex, layer);
+          standIn = true;
           break;
+        }
+      }
+      // Transparent sources always need something underneath (e.g. oceans in Landsat).
+      if (!standIn || layer.transparent || layer.blackIsNoData) {
+        const lat = (key.north + key.south) / 2;
+        const lon = (key.west + key.east) / 2;
+        for (const c of [...coarser].reverse()) {
+          const under = coveringKey(c, c.maxLevel, lat, lon);
+          const tex = readyTexture(under);
+          if (under && tex) {
+            cache.current.get(tileKeyId(under))!.lastUsed = now;
+            add(under, tex, c);
+            break;
+          }
+          if (under && !cache.current.has(tileKeyId(under))) requestTile(c, under, now);
         }
       }
     }
 
     evictOld(cache.current, new Set(toDraw.keys()));
-    const next = [...toDraw.values()].sort((a, b) => a.key.z - b.key.z); // coarse first, sharp on top
+    const next = [...toDraw.values()].sort((a, b) => layerRank(layers, a.key) - layerRank(layers, b.key) || a.key.z - b.key.z);
     setShown((prev) => (sameTiles(prev, next) ? prev : next));
     setLoading(pending > 0);
+    setSourceId(wanted.length ? layer.id : undefined);
   });
 
   useEffect(() => {
-    onStatusChange?.({ active: shown.length > 0, loading });
-  }, [shown.length, loading, onStatusChange]);
+    onStatusChange?.({ active: shown.length > 0, loading, sourceId: shown.length ? sourceId : undefined });
+  }, [shown.length, loading, sourceId, onStatusChange]);
 
   // Free GPU memory when leaving the Explore screen.
   useEffect(() => {
@@ -157,11 +215,20 @@ export function DetailTiles({ layer, onStatusChange }: DetailTilesProps) {
 
   return (
     <group ref={group}>
-      {shown.map(({ key, texture }) => (
-        <TileMesh key={tileKeyId(key)} tile={key} texture={texture} />
+      {shown.map(({ key, texture, transparent }) => (
+        <TileMesh key={tileKeyId(key)} tile={key} texture={texture} transparent={transparent} layerIndex={layerRankByKey(layers, key)} />
       ))}
     </group>
   );
+}
+
+function layerRankByKey(layers: TileLayerDef[], key: TileKey): number {
+  return Math.max(0, layers.findIndex((l) => l.id === key.source));
+}
+
+/** Draw order: coarser sources first, then sharper ones on top. */
+function layerRank(layers: TileLayerDef[], key: TileKey): number {
+  return layerRankByKey(layers, key) * 100;
 }
 
 function sameTiles(a: ShownTile[], b: ShownTile[]): boolean {

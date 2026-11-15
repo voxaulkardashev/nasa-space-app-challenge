@@ -47,7 +47,7 @@ interface SiteLabelProps {
 function SiteLabel({ site, color, selected, onChoose }: SiteLabelProps) {
   const group = useRef<Group>(null);
   const labelRef = useRef<HTMLButtonElement>(null);
-  const position = useMemo(() => latLonToVector(site.lat, site.lon, 1.003), [site.lat, site.lon]);
+  const position = useMemo(() => latLonToVector(site.lat, site.lon, 1.0003), [site.lat, site.lon]);
 
   useFrame(({ camera }) => {
     const g = group.current;
