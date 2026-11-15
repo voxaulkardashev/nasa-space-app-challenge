@@ -120,6 +120,10 @@ export default function App() {
         active={screen === 'overview'}
         onExplore={() => setScreen('explore')}
         onReturn={returnToWorlds}
+        onOpenSite={(featured) => {
+          chooseFeatured(featured);
+          setScreen('explore');
+        }}
       />
       <ExploreScreen
         world={selectedWorld}

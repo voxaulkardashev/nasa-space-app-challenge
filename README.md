@@ -49,7 +49,12 @@ The terminal shows a local address, usually **http://localhost:5173/**. Open it 
 
 1. A dark starry background, the title **Select a World**, and Mars and Earth.
 2. Hovering a world makes it glow and grow slightly. Clicking it (or its name) glides into its overview.
-3. In the overview: drag to rotate, scroll (or pinch) to zoom. The panel lists facts, each with a **Measured** or **Placeholder** label. Tap a label to see its source.
+3. In the overview: drag to rotate, scroll (or pinch) to zoom. The sidebar shows analog-science data:
+   - **Conditions:** atmosphere, water vapour, temperature range, winds, ice, terrain and magnetic field, each labelled Measured or Estimated (tap a label to see its source).
+   - **Analog sites:** the NASA-documented pairs in the app. Click one to open it in Explore.
+   - **Key NASA datasets:** with **Debated** tags where scientists disagree.
+
+   On the landing page, **About the project** (bottom centre) explains the project.
 4. **Explore** (the big glowing button under the globe) opens the Explore screen:
    - The **Mars | Earth** switch at the top right flips between worlds; each remembers its selected site.
    - Featured sites appear as labelled pins on the globe. **Geological layers** (top left) filters them by impact structures, aeolian processes, sediments & mineralogy, or terrain/glaciers/rivers.

@@ -32,9 +32,8 @@ Notes on how fact-sheet entries map to the panel:
 - **Mean radius**: "Volumetric mean radius".
 - **Mars and Earth, mean distance from the Sun**: "Semimajor axis" in 10⁶ km.
 
-**Earth's sidebar (from 15 November 2026)** no longer lists facts. It shows three text boxes written by the team (Geological Significance, Geological Analog Sites, Scientific & Exploratory Applications), stored as `infoSections` in `src/data/worlds.ts`. Earth's NSSDCA values are still used in the Compare view.
+**World Overview sidebars (from 15 November 2026)** no longer list day length, radius, distance or gravity. See *World Overview: analog-science data* below. The team's three text sections moved to the landing page's **About the project** pop-up (`src/data/about.ts`).
 
-The Mars panel also has one **Placeholder** row, "Earth analogue sites: Not yet available". It is not real data; the analogue comparison is a later milestone.
 
 ## Explore screen (Milestone 2)
 
@@ -163,6 +162,39 @@ When you zoom in past what the first layer can show, Explore switches to a sharp
 | Earth | **Landsat WELD true colour, global annual composite (v3.1)**. NASA GIBS layer `Landsat_WELD_CorrectedReflectance_TrueColor_Global_Annual`, time 2000-12-01, 31.25m tile set ([capabilities](https://gibs.earthdata.nasa.gov/wmts/epsg4326/best/1.0.0/WMTSCapabilities.xml)) | Levels up to 11, about 30 m per pixel | The layer only offers 1983–85, 1988–90 and 1998–2000; we use 2000. It covers land only: its pure-black "no data" pixels (oceans, lakes) are made transparent in the browser, so the Blue Marble image shows through. Very dark real pixels (values ≤ 4 out of 255) are treated the same way. |
 
 The closest zoom is now about 0.3% of the radius above the surface: roughly 10 km on Mars and 19 km on Earth.
+
+### World Overview: analog-science data (`src/data/analogOverview.ts`, added 15 November 2026)
+
+**Conditions** (each with a Measured or Estimated label in the app):
+
+- **Mars**, from the [NSSDCA Mars Fact Sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html) (last updated 19 May 2025):
+  - atmosphere 95.1% CO₂, 2.59% N₂, 1.94% Ar, 0.16% O₂
+  - water vapour 210 ppm
+  - pressure 6.36 mbar (4.0–8.7)
+  - daily temperature range 184–242 K (Viking 1 Lander site)
+  - winds 2–7 / 5–10 / 17–30 m/s (Viking Lander sites)
+  - topographic range 30 km
+- **Mars, other sources:**
+  - **No global magnetic field:** [NASA MAVEN auroras article](https://science.nasa.gov/missions/maven/nasas-maven-illuminates-new-understanding-of-auroras-at-mars/).
+  - **Near-surface water ice "believed to consist of 50% water ice by volume"** in mapped areas, from the [Mars Odyssey instruments page](https://science.nasa.gov/mission/odyssey/science-instruments/). Labelled **Estimated**, because NASA says "believed".
+- **Earth**, from the [NSSDCA Earth Fact Sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html) (last updated 15 November 2024):
+  - dry air 78.08% N₂, 20.95% O₂, Ar 9,340 ppm, CO₂ 420 ppm
+  - water about 1%, highly variable
+  - pressure 1014 mbar
+  - daily range 283–293 K
+  - winds 0–100 m/s
+  - topographic range 20.4 km
+  - surface magnetic field 0.24–0.66 gauss
+- The "about 160 times" pressure ratio is our calculation (1014 ÷ 6.36).
+
+**Datasets list:** CRISM ([NASA resource page, 19 June 2006](https://science.nasa.gov/resource/spectrometer-for-mars-reconnaissance-orbiter/)), Mars Odyssey GRS and THEMIS (instruments page above), Curiosity SAM ([largest organic molecules article](https://science.nasa.gov/missions/mars-science-laboratory/nasas-curiosity-rover-detects-largest-organic-molecules-found-on-mars/)), Perseverance SHERLOC (["Bright Angel" photojournal](https://science.nasa.gov/photojournal/perseverances-sherloc-finds-organic-molecules-in-bright-angel/)), MOLA (USGS), Landsat WELD, SRTM/ASTER GDEM and Blue Marble (GIBS capabilities), and the Planetary Analog Explorer.
+
+**Marked "Debated"** (rule 6):
+
+- **SAM organics:** NASA says "there's no way to confirm the source".
+- **SHERLOC organics:** NASA says they "can be created by both geological as well as biological sources".
+
+All pages were accessed 15 November 2026.
 
 ## Space weather (World Overview, `src/data/donki.json`)
 

@@ -1,5 +1,8 @@
 import type { ReactNode } from 'react';
-import type { World } from '../data/types';
+import { ANALOG_OVERVIEW } from '../data/analogOverview';
+import type { FeaturedSite, World } from '../data/types';
+import { AnalogSitesList } from './AnalogSitesList';
+import { DatasetList } from './DatasetList';
 import { FactRow } from './FactRow';
 import { ImageryCredits } from './ImageryCredits';
 import { SpaceWeatherSection } from './SpaceWeatherSection';
@@ -8,39 +11,53 @@ interface InfoPanelProps {
   world: World;
   /** Optional buttons shown near the bottom of the panel. */
   actions?: ReactNode;
+  /** Opens a featured site on the Explore screen (from the analog sites list). */
+  onOpenSite?: (site: FeaturedSite) => void;
 }
 
-/** Translucent panel with the selected world's key facts. */
-export function InfoPanel({ world, actions }: InfoPanelProps) {
+/**
+ * Translucent World Overview panel: analog-relevant conditions, the analog
+ * site pairs in this app, and NASA datasets used in analog science.
+ * Content comes from src/data/analogOverview.ts.
+ */
+export function InfoPanel({ world, actions, onOpenSite }: InfoPanelProps) {
+  const overview = ANALOG_OVERVIEW[world.id];
   return (
     <aside className="info-panel" aria-labelledby="info-panel-title">
       <header className="info-panel__header">
-        <p className="info-panel__eyebrow">World overview</p>
+        <p className="info-panel__eyebrow">World overview · analog science</p>
         <h2 id="info-panel-title" className="info-panel__title">
           {world.name}
         </h2>
-        <p className="info-panel__tagline">{world.tagline}</p>
+        <p className="info-panel__tagline">{overview.intro}</p>
       </header>
 
-      {world.facts.length > 0 && (
-        <>
-          <ul className="info-panel__facts">
-            {world.facts.map((fact) => (
-              <FactRow key={fact.id} data={fact} />
-            ))}
-          </ul>
-          <p className="info-panel__hint">Tap a label to see where a value comes from.</p>
-        </>
-      )}
+      <section className="info-box" aria-labelledby="ov-conditions">
+        <h3 id="ov-conditions" className="info-box__title">
+          Conditions that matter for analog science
+        </h3>
+        <ul className="info-panel__facts">
+          {overview.conditions.map((fact) => (
+            <FactRow key={fact.id} data={fact} />
+          ))}
+        </ul>
+        <p className="info-panel__hint">Tap a label to see where a value comes from.</p>
+      </section>
 
-      {world.infoSections?.map((section) => (
-        <section key={section.id} className="info-box" aria-labelledby={`info-box-${section.id}`}>
-          <h3 id={`info-box-${section.id}`} className="info-box__title">
-            {section.title}
-          </h3>
-          <p className="info-box__body">{section.body}</p>
-        </section>
-      ))}
+      <section className="info-box" aria-labelledby="ov-sites">
+        <h3 id="ov-sites" className="info-box__title">
+          Analog sites in this app
+        </h3>
+        <AnalogSitesList worldId={world.id} onOpenSite={onOpenSite} />
+        <p className="info-panel__hint">From NASA’s Planetary Analog Explorer. Analogs share features; they are not the same.</p>
+      </section>
+
+      <section className="info-box" aria-labelledby="ov-datasets">
+        <h3 id="ov-datasets" className="info-box__title">
+          Key NASA datasets for analog &amp; astrobiology work
+        </h3>
+        <DatasetList datasets={overview.datasets} />
+      </section>
 
       <SpaceWeatherSection worldId={world.id} />
 

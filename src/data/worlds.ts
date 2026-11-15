@@ -2,26 +2,17 @@ import {
   BLUE_MARBLE_NG,
   MARS_TREK_MOLA,
   MARS_TREK_VIKING,
-  NSSDCA_MARS,
 } from './sources';
-import type { PlaceholderValue, World, WorldId } from './types';
+import type { World, WorldId } from './types';
 
 /**
  * World definitions. To add a new world, add an entry here (and its textures
  * in public/textures/<id>/); the screens read everything from this list.
  *
- * Every "measured" value below is copied exactly from the named NSSDCA fact
- * sheet. Please re-check them against the source if you edit anything.
+ * The World Overview sidebar content (analog-relevant conditions and datasets)
+ * lives in src/data/analogOverview.ts.
  */
 
-const analoguePlaceholder: PlaceholderValue = {
-  id: 'analogues',
-  label: 'Earth analogue sites',
-  value: 'Not yet available',
-  status: 'placeholder',
-  reason:
-    'The location comparison is planned for a later milestone. No analogue data has been loaded.',
-};
 
 export const WORLDS: World[] = [
   {
@@ -52,15 +43,6 @@ export const WORLDS: World[] = [
     meanRadiusKm: 3389.5,
     initialLongitudeDeg: -70,
     highlightColor: '#f0a27a',
-    facts: [
-      { id: 'radius', label: 'Mean radius', value: '3,389.5 km', note: 'Volumetric mean radius', status: 'measured', source: NSSDCA_MARS },
-      { id: 'gravity', label: 'Surface gravity', value: '3.73 m/s²', note: 'Mean value', status: 'measured', source: NSSDCA_MARS },
-      { id: 'day', label: 'Length of day', value: '24.6597 hours', status: 'measured', source: NSSDCA_MARS },
-      { id: 'pressure', label: 'Surface pressure', value: '6.36 mbar', note: 'At mean radius; varies 4.0–8.7 mbar with season', status: 'measured', source: NSSDCA_MARS },
-      { id: 'temperature', label: 'Average temperature', value: '~214 K (−59 °C)', status: 'measured', source: NSSDCA_MARS },
-      { id: 'distance', label: 'Mean distance from Sun', value: '227.956 million km', note: 'Orbit semimajor axis', status: 'measured', source: NSSDCA_MARS },
-      analoguePlaceholder,
-    ],
   },
   {
     id: 'earth',
@@ -82,25 +64,6 @@ export const WORLDS: World[] = [
     meanRadiusKm: 6371.0,
     initialLongitudeDeg: 15,
     highlightColor: '#8ec5ff',
-    // Earth's sidebar shows the team's text boxes below instead of a list of facts.
-    facts: [],
-    infoSections: [
-      {
-        id: 'significance',
-        title: 'Geological Significance',
-        body: 'Earth’s diverse field environments give us a window into the mechanisms and processes of similar far-off Martian landscapes that we cannot yet study with our own eyes. Understanding and discovering new planetary analog sites is critical for the future of space exploration.',
-      },
-      {
-        id: 'analog-sites',
-        title: 'Geological Analog Sites',
-        body: 'Impact structures, sediments, mineralogy, terrain, glacier landscapes, past water structures, & evidence of Aeolian processes.',
-      },
-      {
-        id: 'applications',
-        title: 'Scientific & Exploratory Applications',
-        body: 'Understanding erosion, sediment transportation, mineral formation, Martian glacial landscapes, and locating freshwater sources for astronauts.',
-      },
-    ],
   },
 ];
 

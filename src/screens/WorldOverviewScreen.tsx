@@ -1,16 +1,18 @@
 import { InfoPanel } from '../components/InfoPanel';
 import { PanelResizeHandle } from '../components/PanelResizeHandle';
-import type { World } from '../data/types';
+import type { FeaturedSite, World } from '../data/types';
 
 interface WorldOverviewScreenProps {
   world: World | null;
   active: boolean;
   onExplore: () => void;
   onReturn: () => void;
+  /** Opens a featured site on the Explore screen. */
+  onOpenSite: (site: FeaturedSite) => void;
 }
 
 /** Screen 2: the selected world large in 3D (rotate/zoom) plus its info panel. */
-export function WorldOverviewScreen({ world, active, onExplore, onReturn }: WorldOverviewScreenProps) {
+export function WorldOverviewScreen({ world, active, onExplore, onReturn, onOpenSite }: WorldOverviewScreenProps) {
   return (
     <section
       className={`screen screen--overview${active ? ' is-active' : ''}`}
@@ -21,7 +23,7 @@ export function WorldOverviewScreen({ world, active, onExplore, onReturn }: Worl
         <span aria-hidden="true">←</span> All worlds
       </button>
 
-      {world && <InfoPanel world={world} />}
+      {world && <InfoPanel world={world} onOpenSite={onOpenSite} />}
       {world && <PanelResizeHandle />}
 
       {world && (

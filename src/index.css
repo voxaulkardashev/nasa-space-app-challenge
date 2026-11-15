@@ -1671,3 +1671,135 @@ body.is-resizing * {
   line-height: 1.55;
   color: var(--text);
 }
+
+/* ---------- Landing page: About button ------------------------------------ */
+
+.select-about {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 3.2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.select-about__btn {
+  padding: 0.8rem 1.6rem;
+  font-size: 1rem;
+}
+
+.about {
+  width: min(720px, 100%);
+}
+
+/* ---------- Overview: analog sites list and datasets ---------------------- */
+
+.analog-list,
+.dataset-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.7rem;
+}
+
+.analog-list__pair {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem;
+  font-size: 0.92rem;
+}
+
+.analog-list__site {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+}
+
+.analog-list__site:hover {
+  text-decoration: underline;
+}
+
+.analog-list__arrow {
+  color: var(--text-muted);
+}
+
+.analog-list__why {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.72rem;
+  color: var(--text-faint);
+}
+
+.dataset-list__item {
+  padding-top: 0.6rem;
+  border-top: 1px solid rgba(160, 190, 255, 0.1);
+}
+
+.dataset-list__item:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.dataset-list__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.dataset-list__name {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.dataset-list__debated {
+  flex: 0 0 auto;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--estimated);
+  color: var(--estimated);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.dataset-list__mission {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.dataset-list__what,
+.dataset-list__debate-note {
+  margin: 0.3rem 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.dataset-list__debate-note {
+  padding-left: 0.6rem;
+  border-left: 2px solid var(--estimated);
+  color: var(--text-muted);
+}
+
+.dataset-list__source {
+  font-size: 0.7rem;
+}
+
+.info-panel .info-box .info-panel__facts .fact-row:first-child {
+  border-top: 0;
+}
+
+@media (max-width: 760px) {
+  .select-about {
+    bottom: 3.6rem;
+  }
+}
