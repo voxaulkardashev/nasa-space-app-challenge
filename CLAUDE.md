@@ -57,7 +57,14 @@ Dark navy to black background with subtle stars; realistic textures and lighting
   - Sharp zoom imagery streamed from NASA Trek / GIBS.
   - NASA Image Library photos for featured sites.
   - DONKI space-weather context.
-- **Next (not started):** the location-comparison system and the analogue engine (Milestone 3). Do not build them until asked. The Explore screen already shows a "Similar Earth sites" Placeholder row where results will go.
+- **15 November 2026 (team wireframe):**
+  - Moon removed.
+  - Big Explore button, and a Mars | Earth switch.
+  - Site pins, and geological layer filters.
+  - NASA-documented Earth ⇄ Mars analogue pairs, with a corresponding-site pop-up.
+  - Compare view, side-by-side mode, draggable sidebar, search, and a Use cases page.
+  - Comparisons show cited similarities and differences, never a similarity percentage (rule 4).
+- **Not built:** a computed analogue engine (scores from measured per-dimension Earth data) and the Python back end. Do not build them until asked.
 - Deadline: Sunday 15 November 2026, 11:59 PM Pacific.
 
 The full requirements are in `docs/requirements.md` (copy of the team's requirements document, if present).

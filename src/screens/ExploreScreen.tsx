@@ -2,6 +2,9 @@ import { CounterpartPopup } from '../components/CounterpartPopup';
 import { FeaturedSiteList } from '../components/FeaturedSiteList';
 import { LayerFilter } from '../components/LayerFilter';
 import { PanelResizeHandle } from '../components/PanelResizeHandle';
+import { SiteSearch } from '../components/SiteSearch';
+import { UseCasesModal } from '../components/UseCasesModal';
+import { useState } from 'react';
 import { SitePanel } from '../components/SitePanel';
 import { featuredSitesFor, getFeaturedSite } from '../data/featuredSites';
 import { TILE_LAYERS } from '../data/tileLayers';
@@ -49,6 +52,7 @@ export function ExploreScreen({
   const allSites = world ? featuredSitesFor(world.id) : [];
   const shownSites = allSites.filter((f) => f.layers.some((l) => activeLayers.includes(l)));
   const featured = currentSite?.featuredId ? getFeaturedSite(currentSite.featuredId) : undefined;
+  const [useCasesOpen, setUseCasesOpen] = useState(false);
   // Elevation data downloads only once the Explore screen is opened.
   const elevation = useElevationGrid(world?.id ?? null, active);
   return (
@@ -73,14 +77,21 @@ export function ExploreScreen({
 
       {featured && <CounterpartPopup site={featured} onGo={onChooseFeatured} onCompare={onCompare} />}
 
-      <button
-        type="button"
-        className={`btn side-by-side-toggle${sideBySide ? ' is-on' : ''}`}
-        aria-pressed={sideBySide}
-        onClick={onToggleSideBySide}
-      >
-        <span aria-hidden="true">◐◑</span> {sideBySide ? 'Single view' : 'Side by side'}
-      </button>
+      <div className="explore-topbar">
+        <button type="button" className="btn explore-topbar__btn" onClick={() => setUseCasesOpen(true)}>
+          <span aria-hidden="true">★</span> Use cases
+        </button>
+        <button
+          type="button"
+          className={`btn explore-topbar__btn side-by-side-toggle${sideBySide ? ' is-on' : ''}`}
+          aria-pressed={sideBySide}
+          onClick={onToggleSideBySide}
+        >
+          <span aria-hidden="true">◐◑</span> {sideBySide ? 'Single view' : 'Side by side'}
+        </button>
+      </div>
+
+      {useCasesOpen && <UseCasesModal onClose={() => setUseCasesOpen(false)} onGo={onChooseFeatured} />}
 
       {world && (
         <div className="world-switch-wrap">
@@ -93,6 +104,7 @@ export function ExploreScreen({
           world={world}
           site={currentSite}
           onCompare={onCompare}
+          search={<SiteSearch onChoose={onChooseFeatured} />}
           extraFacts={currentSite ? elevationFacts(world, currentSite, elevation) : []}
           siteList={
             <FeaturedSiteList

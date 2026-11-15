@@ -140,6 +140,17 @@ NASA calls these *analogs*: places with things in common, not equivalents. The a
 - The Lake Salda photo caption is also quoted as a similarity. NASA's caption says "Jezero Carter", which we show as "Jezero [Crater]".
 - Verde Valley, Atacama and Pilot Valley have no matching image in the library.
 
+### Use cases page (`src/data/useCases.ts`, added 15 November 2026)
+
+This page lists **documented NASA uses** of the featured places. It is not a ranking: the app does not rate which site is "best".
+
+Each entry is quoted or closely paraphrased from its source:
+
+- NASA Image and Video Library records: PIA23239 (Jezero), PIA15292 (Gale), PIA04023 (Viking 2 / Utopia), PIA23265 (Death Valley Lander Vision System test), ARC-2007-ACD09-0255-001 (K-10 Red rover at Haughton) and jsc2024e055198 (Artemis II geology training in Iceland)
+- The NSSDCA Phoenix record
+- The NASA Planetary Analog Explorer
+- NASA's "10 Things to Know About Planetary Analogs"
+
 ## Space weather (World Overview, `src/data/donki.json`)
 
 - **Data:** NASA **DONKI** (Space Weather Database Of Notifications, Knowledge, Information), run by NASA's Community Coordinated Modeling Center.

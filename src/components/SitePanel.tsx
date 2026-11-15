@@ -17,10 +17,12 @@ interface SitePanelProps {
   actions?: ReactNode;
   /** Opens the Compare view for the selected site. */
   onCompare?: () => void;
+  /** Search box shown at the top of the panel. */
+  search?: ReactNode;
 }
 
 /** Translucent panel on the Explore screen: the selected site's data, or how to pick one. */
-export function SitePanel({ world, site, extraFacts, siteList, actions, onCompare }: SitePanelProps) {
+export function SitePanel({ world, site, extraFacts, siteList, actions, onCompare, search }: SitePanelProps) {
   const featured = site?.featuredId ? getFeaturedSite(site.featuredId) : undefined;
   const photo = featured ? SITE_PHOTOS[featured.id] : undefined;
   const panelRef = useRef<HTMLElement>(null);
@@ -32,6 +34,7 @@ export function SitePanel({ world, site, extraFacts, siteList, actions, onCompar
 
   return (
     <aside ref={panelRef} className="info-panel site-panel" aria-labelledby="site-panel-title" aria-live="polite">
+      {search}
       <header className="info-panel__header">
         <p className="info-panel__eyebrow">Explore · {world.name}</p>
         <h2 id="site-panel-title" className="info-panel__title">

@@ -50,7 +50,14 @@ The terminal shows a local address, usually **http://localhost:5173/**. Open it 
 1. A dark starry background, the title **Select a World**, and Mars and Earth.
 2. Hovering a world makes it glow and grow slightly. Clicking it (or its name) glides into its overview.
 3. In the overview: drag to rotate, scroll (or pinch) to zoom. The panel lists facts, each with a **Measured** or **Placeholder** label. Tap a label to see its source.
-4. **Explore** opens the Explore screen:
+4. **Explore** (the big glowing button under the globe) opens the Explore screen:
+   - The **Mars | Earth** switch at the top right flips between worlds; each remembers its selected site.
+   - Featured sites appear as labelled pins on the globe. **Geological layers** (top left) filters them by impact structures, aeolian processes, sediments & mineralogy, or terrain/glaciers/rivers.
+   - **Search** (top of the sidebar) finds sites on both worlds.
+   - Choosing a site shows its **corresponding site on the other world** (NASA-documented analogues) in a pop-up; click it to jump there.
+   - **Compare** opens Mars and Earth side by side: NASA photos, cited similarities and differences, and what Earth cannot reproduce (gravity, thin air, radiation).
+   - **Side by side** shows both globes at once; **Use cases** lists how NASA has used these places, with sources.
+   - Drag the sidebar's left edge to make it wider.
    - Click the globe to drop a marker. The panel shows the coordinates, elevation and regional slope at that spot (Mars), each labelled.
    - Choose a **featured site** (for example Jezero or Gale) and the camera flies there.
    - Zoom in close and sharper NASA imagery loads in. A credit line appears at the bottom left.
