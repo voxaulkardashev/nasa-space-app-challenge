@@ -28,16 +28,6 @@ export interface ResearchFigure {
   height: number;
 }
 
-export interface ResearchTable {
-  caption: string;
-  /** The label (Measured / Estimated) that applies to every value in the table. */
-  label: DataValue;
-  columns: string[];
-  rows: string[][];
-  /** Rows to highlight (by index). */
-  highlight?: number[];
-}
-
 export interface ResearchSection {
   id: string;
   title: string;
@@ -45,12 +35,8 @@ export interface ResearchSection {
   figure?: ResearchFigure;
   /** Labelled values (Measured / Estimated) shown under the text. */
   facts?: DataValue[];
-  /** Labelled values in groups, each under its own small heading (e.g. one group per date). */
-  factGroups?: { title: string; facts: DataValue[] }[];
   /** Live conditions at this spot, read from NASA's PSG Mars Explorer when the section is shown. */
   live?: { lat: number; lon: number; place: string };
-  /** A comparison table; every value in it shares the one label given. */
-  table?: ResearchTable;
   /** Small print under the section (caveats). */
   notes?: string[];
 }
@@ -73,7 +59,6 @@ const CITATIONS: ResearchCitation[] = [
   { n: 7, title: 'NASA Goddard Planetary Spectrum Generator — Mars Explorer app', url: 'https://psg.gsfc.nasa.gov/apps/mars/' },
 ];
 
-const PSG_URL = 'https://psg.gsfc.nasa.gov/apps/mars/';
 
 const GALE: SiteResearch = {
   siteId: 'gale',
@@ -160,41 +145,7 @@ const GALE: SiteResearch = {
       ],
       live: { lat: -5.37, lon: 137.81, place: 'Gale Crater (5.37° S, 137.81° E)' },
       notes: [
-        'Limitations: model values for a large area around Gale (the model gives this point an altitude of 182 m), so they smooth out the deep crater and Mount Sharp, and can differ from what Curiosity measures on the ground. The app says it is “undergoing active development” and “should be only used for testing purposes”. See the next section for how the weather changes through the year.',
-      ],
-    },
-    {
-      id: 'seasons',
-      title: 'Seasonal Weather Comparison',
-      paragraphs: [
-        'Mars’s orbit is more oval than Earth’s, so its seasons change Gale’s weather a lot. This table compares Gale on six dates through 2026, two months apart, from the same PSG Mars Explorer model (12:00 UT, daily minimum and maximum from its “Today” row). Like the live values, PSG builds these from Mars Year 32 data at each date’s season. [[7]]',
-        'In these values, the warmest afternoons (−15 °C and −16 °C) come around perihelion, when Mars is closest to the Sun, in January–March, which is also the dustiest time (τ 1.182 on 15 March). The coldest night (−82 °C) and the clearest sky (τ 0.488) are on 15 November, as Mars heads towards aphelion. The strongest daily wind (95 km/h) is on 15 May, and pressure ranges from 6.13 mbar (15 September) to 6.92 mbar (15 March). [[7]]',
-      ],
-      table: {
-        caption: 'Gale Crater through 2026 (NASA Goddard PSG Mars Explorer, model values)',
-        label: {
-          id: 'gale-seasons',
-          label: 'Seasonal comparison',
-          value: '',
-          status: 'estimated',
-          method:
-            'Model values from NASA Goddard’s PSG Mars Explorer for 5.37° S, 137.81° E on each date at 12:00 UT (daily minimum/maximum from its “Today” row), read on 15 November 2026. For 2026 dates PSG uses EMARS data from the most similar past Mars year (Mars Year 32): computer-model weather, not readings from Curiosity.',
-          source: { name: 'NASA Goddard PSG Mars Explorer (EMARS, most similar Mars year: MY32)', url: PSG_URL, sourceDate: '15 Jan – 15 Nov 2026 (built from Mars Year 32 data)', accessed: ACCESSED },
-        },
-        columns: ['Date (Mars season)', 'Air temperature', 'Max pressure', 'Max wind', 'Max dust'],
-        rows: [
-          ['15 Jan 2026 · Ls 208, dust-storm season begins', '−66 to −15 °C', '6.62 mbar', '61 km/h', 'τ 0.646'],
-          ['15 Mar 2026 · Ls 244, dust-storm season, near perihelion', '−68 to −16 °C', '6.92 mbar', '91 km/h', 'τ 1.182'],
-          ['15 May 2026 · Ls 283, dust-storm season', '−74 to −22 °C', '6.52 mbar', '95 km/h', 'τ 0.696'],
-          ['15 Jul 2026 · Ls 319, dust-storm season', '−76 to −22 °C', '6.22 mbar', '80 km/h', 'τ 0.635'],
-          ['15 Sep 2026 · Ls 352, dust-storm season ending', '−75 to −25 °C', '6.13 mbar', '43 km/h', 'τ 0.528'],
-          ['15 Nov 2026 · Ls 22, northern spring', '−82 to −33 °C', '6.64 mbar', '57 km/h', 'τ 0.488'],
-        ],
-        highlight: [1, 5],
-      },
-      notes: [
-        'Highlighted: the two contrasting days (dust-storm season near perihelion, and northern spring). Seasons are the northern-hemisphere names PSG uses; Gale is just south of the equator. Surface pressure stays below 7 mbar on every date, under 1% of Earth’s (1,014 mbar on NASA’s Earth fact sheet).',
-        'To check a row: open the app, set the location to 5.37° S, 137.81° E, the model to EMARS “Most similar MY”, and the date to the 15th of that month in 2026 at 12:00 UT, then read the “Today” row.',
+        'Limitations: model values for a large area around Gale (the model gives this point an altitude of 182 m), so they smooth out the deep crater and Mount Sharp, and can differ from what Curiosity measures on the ground. The app says it is “undergoing active development” and “should be only used for testing purposes”.',
       ],
     },
     {

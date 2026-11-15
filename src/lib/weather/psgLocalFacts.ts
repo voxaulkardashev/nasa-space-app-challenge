@@ -8,6 +8,7 @@ const fmt = (v: number | null, unit: string, digits = 0) => (v === null ? null :
 /**
  * PSG's exact reading for one spot as labelled rows (Estimated: model values).
  * Shared by the "Right now on Mars" card and the Gale research section.
+ * Only live values: the daily minimum/maximum PSG also gives are not shown (team decision).
  * τ goes in the value: the uppercase label style would turn it into a T-like Τ.
  */
 export function psgLocalFacts(exact: PsgLocal, place = 'your pin’s exact location'): DataValue[] {
@@ -21,7 +22,6 @@ export function psgLocalFacts(exact: PsgLocal, place = 'your pin’s exact locat
   return (
     [
       ['now-air', 'Air temperature now', fmt(exact.airNowC, '°C')],
-      ['now-range', 'Air temperature today', exact.todayMinC !== null && exact.todayMaxC !== null ? `${exact.todayMinC} °C to ${exact.todayMaxC} °C` : null],
       ['now-ground', 'Ground temperature now', fmt(exact.groundNowC, '°C')],
       ['now-pres', 'Surface pressure', fmt(exact.pressureMbar, 'mbar', 3)],
       ['now-wind', 'Wind speed', fmt(exact.windKmh, 'km/h')],
