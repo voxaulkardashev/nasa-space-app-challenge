@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { pairsForSite } from '../data/analogues';
 import { getFeaturedSite } from '../data/featuredSites';
 import { SITE_PHOTOS } from '../data/sitePhotos';
+import { SITE_RESEARCH } from '../data/siteResearch';
 import type { FeaturedSite } from '../data/types';
 import { getWorld } from '../data/worlds';
 import { elevationFacts } from '../lib/elevationFacts';
@@ -11,6 +12,7 @@ import { useElevationGrid } from '../lib/useElevationGrid';
 import { FactRow } from './FactRow';
 import { EarthLimits } from './EarthLimits';
 import { SitePhotoCard } from './SitePhotoCard';
+import { SiteResearchColumn } from './SiteResearchColumn';
 
 interface CompareModalProps {
   site: SelectedSite;
@@ -145,6 +147,17 @@ function SiteColumn({ label, site, elevation }: SiteColumnProps) {
     );
   }
   const photo = SITE_PHOTOS[site.id];
+  const research = SITE_RESEARCH[site.id];
+  if (research) {
+    // Sites with team research (Gale) show it in place of the standard photo + facts.
+    return (
+      <div className="compare__site">
+        <p className="compare__site-world">{label}</p>
+        <h3 className="compare__site-name">{site.name}</h3>
+        <SiteResearchColumn research={research} />
+      </div>
+    );
+  }
   return (
     <div className="compare__site">
       <p className="compare__site-world">{label}</p>

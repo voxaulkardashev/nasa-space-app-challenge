@@ -241,6 +241,31 @@ The surface is raised and lowered using these height grids (2880×1440 cells, 8 
 | Mars | `public/data/elevation/mars_topography_8ppd.bin.gz` | Same MOLA source as the Explore elevation values (see *Elevation grids* above), averaged to 8 cells per degree (about 7.4 km). MOLA is an instrument on NASA's Mars Global Surveyor; the mosaic file is published by USGS Astrogeology. | Range −8,144 to +21,157 m. | Measured |
 | Earth | `public/data/elevation/earth_topography_8ppd.bin.gz` (and `earth_elevation_4ppd.bin`, 4 per degree, not used by the app yet) | [NASA Earth Observatory — Blue Marble: Next Generation, Topography and Bathymetry Maps](https://science.nasa.gov/earth/earth-observatory/blue-marble-next-generation/topography-bathymetry-maps/), file `gebco_08_rev_elev_21600x10800.tif` (8-bit greyscale; server "last modified" 19 December 2025; imagery by Jesse Allen, NASA Earth Observatory, using GEBCO data). | NASA's page says "Data in these images were scaled 0-6400 meters", so grey value *g* is converted to *g* ÷ 255 × 6400 m (assumed linear), then averaged to 0.125° cells (area-weighted box filter). Range 0 to 6,239 m (each cell averages about 14 km, so peaks are lower than the real summits). Oceans and land below sea level are flat at 0 m. Used only for the Topography view, not as Explore values. | Estimated |
 
+## Compare view: Gale Crater research (`src/data/siteResearch.ts`, added 15 November 2026)
+
+In the Compare view, Gale's column (left) shows the team's research in six sections in place of the standard photo and facts. The text is the team's, edited for clarity and checked against each source. Citations [1]–[7] are clickable in the app.
+
+| # | Source | Checked |
+|---|---|---|
+| 1 | [NASA Science — Mineral Content Comparison at Two Gale Crater Sites](https://science.nasa.gov/resource/mineral-content-comparison-at-two-gale-crater-sites/) (13 Dec 2016, credit NASA/JPL-Caltech) | Yes. Wording corrected: the drill collects the samples and CheMin analyses them. The hematite detail was added from the caption. |
+| 2 | [NASA Science — A Guide to Gale Crater](https://science.nasa.gov/resource/a-guide-to-gale-crater/) (2 Aug 2017, video transcript) | Yes |
+| 3 | [Smithsonian NASM — 10 Years of Curiosity on Mars](https://airandspace.si.edu/stories/editorial/10-years-curiosity-mars) | Yes. "From hospitable to uninhabitable" was reworded to the article's "wetter, potentially habitable conditions … as conditions became drier". |
+| 4 | [NASA Science — Gale Crater's Surface Materials](https://science.nasa.gov/resource/gale-craters-surface-materials/) (19 Jun 2015) | Yes. The diameter, 96 miles (154 km), is stated there. "Mars is typically grayish-green" is clarified as describing this false-colour image. |
+| 5 | [ADS record 2013IJAsB..12...25W](https://ui.adsabs.harvard.edu/abs/2013IJAsB..12...25W/abstract) (International Journal of Astrobiology, vol. 12, p. 25, 2013) | **No.** ADS refused automated requests (HTTP 405). The link is kept as the team gave it. Every sentence it supports is also supported by [2]. **To do:** a teammate should confirm it. |
+| 6 | [NASA JPL — Topography of Gale Crater, PIA15093](https://www.jpl.nasa.gov/images/pia15093-topography-of-gale-crater/) (21 Nov 2011, credit NASA/JPL-Caltech) | Yes. The caption matches word for word. |
+| 7 | [NASA Goddard PSG — Mars Explorer](https://psg.gsfc.nasa.gov/apps/mars/) | Read 15 November 2026. Settings: 5.37° S, 137.81° E (Gale centre, IAU/USGS Gazetteer), model EMARS "MY32 Moderate dust", units SI, dates 28 Dec 2013 and 14 Nov 2014 at 12:00 UT. PSG reported Mars Year 32 sol 146 (Ls 68.70) and sol 459 (Ls 233.40). Values (daily min/max from the app's "Today" row): −90 to −44 °C, 6.76 mbar, 81 km/h, τ 0.777; and −69 to −16 °C, 6.92 mbar, 78 km/h, τ 1.166. **Estimated** (model reanalysis, not rover measurements). The app says it "should be only used for testing purposes", and the website says so too. Mars Year 32 dates (31 Jul 2013 – 18 Jun 2015) come from the Allison & McEwen (2000) formula used in the app's own script. |
+
+**Images** (`public/images/gale/`), downloaded 15 November 2026, resized for the web (no other changes):
+
+| File | Source | Credit |
+|---|---|---|
+| `mineral-comparison-pia21149.jpg` | [NASA Science page](https://science.nasa.gov/resource/mineral-content-comparison-at-two-gale-crater-sites/) (original 570×538) | NASA/JPL-Caltech |
+| `gale-terrain-themis-pia14290.jpg` | [Gale Crater: Future Home of Mars Rover Curiosity](https://science.nasa.gov/resource/gale-crater-future-home-of-mars-rover-curiosity/) (original 2200×1700, resized to 1200 wide) | NASA/JPL-Caltech/ASU |
+| `gale-surface-materials-pia19674.jpg` | [Original image](https://assets.science.nasa.gov/content/dam/science/psd/mars/downloadable_items/3/8/38715_Mars-Odyssey-THEMIS-Gale-Crater-Minerals-pia19674.jpg) (2965×3706, resized to 900 wide) | NASA/JPL-Caltech/Arizona State University |
+| `gale-topography-pia15093.jpg` | File from the [NASA Image and Video Library, PIA15093](https://images.nasa.gov/details/PIA15093) (788×720), the same image as on the [JPL page](https://www.jpl.nasa.gov/images/pia15093-topography-of-gale-crater/), which the app links to | NASA/JPL-Caltech |
+
+The team's mineral-image link was a Google redirect (`google.com/url?q=…`). The app links directly to its destination, the NASA page in source 1.
+
 ## Space weather (World Overview, `src/data/donki.json`)
 
 - **Data:** NASA **DONKI** (Space Weather Database Of Notifications, Knowledge, Information), run by NASA's Community Coordinated Modeling Center.
