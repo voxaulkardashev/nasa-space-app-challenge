@@ -19,11 +19,13 @@ export default function App() {
   const [screen, setScreen] = useState<Screen>('select');
   const [selectedId, setSelectedId] = useState<WorldId | null>(null);
   const [hoveredId, setHoveredId] = useState<WorldId | null>(null);
-  const [site, setSite] = useState<SelectedSite | null>(null);
+  // Each world remembers its own selected site, so switching Mars ⇄ Earth keeps both.
+  const [sites, setSites] = useState<Partial<Record<WorldId, SelectedSite>>>({});
   const [flyRequest, setFlyRequest] = useState(0);
   const [detailStatus, setDetailStatus] = useState<DetailStatus>({ active: false, loading: false });
 
   const selectedWorld = selectedId ? getWorld(selectedId) : null;
+  const site = selectedId ? (sites[selectedId] ?? null) : null;
 
   const selectWorld = (id: WorldId) => {
     setSelectedId(id);
@@ -34,12 +36,23 @@ export default function App() {
 
   const pickSite = (point: LatLon) => {
     if (!selectedId) return;
-    setSite({ worldId: selectedId, lat: point.lat, lon: point.lon, picked: 'click' });
+    setSites((prev) => ({ ...prev, [selectedId]: { worldId: selectedId, lat: point.lat, lon: point.lon, picked: 'click' } }));
   };
 
   const chooseFeatured = (featured: FeaturedSite) => {
-    setSite({ worldId: featured.worldId, lat: featured.lat, lon: featured.lon, picked: 'featured', featuredId: featured.id });
+    setSelectedId(featured.worldId);
+    setSites((prev) => ({
+      ...prev,
+      [featured.worldId]: { worldId: featured.worldId, lat: featured.lat, lon: featured.lon, picked: 'featured', featuredId: featured.id },
+    }));
     setFlyRequest((n) => n + 1);
+  };
+
+  /** Explore screen: jump to the other world, keeping each world's last site. */
+  const switchWorld = (id: WorldId) => {
+    if (id === selectedId) return;
+    setSelectedId(id);
+    if (sites[id]) setFlyRequest((n) => n + 1);
   };
 
   // Pointer cursor when hovering a world on the Select screen; crosshair while exploring.
@@ -84,8 +97,8 @@ export default function App() {
         detailStatus={detailStatus}
         active={screen === 'explore'}
         onChooseFeatured={chooseFeatured}
+        onSwitchWorld={switchWorld}
         onBack={() => setScreen('overview')}
-        onReturnToWorlds={returnToWorlds}
       />
 
       <LoadingOverlay />

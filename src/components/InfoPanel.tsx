@@ -6,8 +6,8 @@ import { SpaceWeatherSection } from './SpaceWeatherSection';
 
 interface InfoPanelProps {
   world: World;
-  /** Buttons shown at the bottom of the panel. */
-  actions: ReactNode;
+  /** Optional buttons shown near the bottom of the panel. */
+  actions?: ReactNode;
 }
 
 /** Translucent panel with the selected world's key facts. */
@@ -31,7 +31,7 @@ export function InfoPanel({ world, actions }: InfoPanelProps) {
 
       <SpaceWeatherSection worldId={world.id} />
 
-      <div className="info-panel__actions">{actions}</div>
+      {actions && <div className="info-panel__actions">{actions}</div>}
 
       <ImageryCredits imagery={world.imagery} />
     </aside>

@@ -14,7 +14,7 @@ interface SitePanelProps {
   extraFacts?: DataValue[];
   /** Featured-site picker (added below the site details). */
   siteList?: ReactNode;
-  actions: ReactNode;
+  actions?: ReactNode;
 }
 
 /** Translucent panel on the Explore screen: the selected site's data, or how to pick one. */
@@ -59,7 +59,7 @@ export function SitePanel({ world, site, extraFacts, siteList, actions }: SitePa
 
       {siteList}
 
-      <div className="info-panel__actions">{actions}</div>
+      {actions && <div className="info-panel__actions">{actions}</div>}
     </aside>
   );
 }

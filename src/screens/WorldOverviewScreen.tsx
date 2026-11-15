@@ -20,23 +20,19 @@ export function WorldOverviewScreen({ world, active, onExplore, onReturn }: Worl
         <span aria-hidden="true">←</span> All worlds
       </button>
 
-      {world && (
-        <InfoPanel
-          world={world}
-          actions={
-            <>
-              <button type="button" className="btn btn--primary" onClick={onExplore}>
-                Explore {world.name}
-              </button>
-              <button type="button" className="btn btn--ghost" onClick={onReturn}>
-                Return
-              </button>
-            </>
-          }
-        />
-      )}
+      {world && <InfoPanel world={world} />}
 
-      <p className="controls-hint">Drag to rotate · Scroll or pinch to zoom</p>
+      {world && (
+        <div className="explore-cta-wrap">
+          <button type="button" className="explore-cta" onClick={onExplore}>
+            <span className="explore-cta__main">
+              Explore {world.name} <span aria-hidden="true">→</span>
+            </span>
+            <span className="explore-cta__sub">Pick sites · see the data · compare Mars and Earth</span>
+          </button>
+          <p className="controls-hint controls-hint--inline">Drag to rotate · Scroll or pinch to zoom</p>
+        </div>
+      )}
     </section>
   );
 }
