@@ -122,7 +122,7 @@ function SceneContents({
 
   return (
     <>
-      <SceneLighting followCamera={exploring} />
+      <SceneLighting screen={screen} />
 
       {/* Decorative random starfield (not a real star catalogue). */}
       <Stars radius={120} depth={60} count={5000} factor={3.5} saturation={0} fade speed={0.4} />

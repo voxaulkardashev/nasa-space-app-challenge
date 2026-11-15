@@ -27,7 +27,7 @@ Short explanations of the less obvious parts of the code.
   - `chooseLayer` (in `src/lib/tiles.ts`) picks the first source that's sharp enough for the view.
   - While a sharp tile loads, its parent or the coarser source shows underneath.
   - `CameraRig` moves the near clipping plane with the height above the ground, and shrinks zoom steps near the surface, so close-ups don't clip or jump.
-- **Lighting** (`SceneLighting.tsx`): Select and Overview use a fixed Sun, so you see a real day/night side. In Explore the light follows the camera like a headlamp, so the area you're looking at is always lit. That's a viewing aid, not the real Sun direction.
+- **Lighting** (`SceneLighting.tsx`): Select and Overview use a fixed Sun, so you see a real day/night side. On the Overview a soft, slightly blue fill light from the other side (plus more ambient light) keeps the night side readable; it fades in and out smoothly. It's a viewing aid, like a photographer's fill light, not a real light source. In Explore the light follows the camera like a headlamp, so the area you're looking at is always lit. That's a viewing aid, not the real Sun direction.
 - **Loading like an online map**:
   - The full-screen "Loading NASA imagery" overlay only appears on first load.
   - Close-up tiles use their own loading manager, so they never trigger it.
