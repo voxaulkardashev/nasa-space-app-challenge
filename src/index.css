@@ -2060,3 +2060,271 @@ body.is-resizing * {
     display: none;
   }
 }
+
+/* ---------- Place labels (cities, named Martian features) ----------------- */
+
+.place-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: rgba(240, 244, 252, 0.92);
+  font-size: 0.68rem;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  text-shadow:
+    0 0 3px rgba(0, 0, 0, 0.95),
+    0 1px 4px rgba(0, 0, 0, 0.9);
+  pointer-events: none;
+  user-select: none;
+  transition: opacity 0.25s var(--ease);
+}
+
+.place-label__dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 1.5px rgba(0, 0, 0, 0.6);
+}
+
+.place-label--mars {
+  font-style: italic;
+  color: rgba(255, 228, 205, 0.95);
+}
+
+.place-label--mars .place-label__dot {
+  background: #ffcfa8;
+}
+
+/* ---------- Globe / 2D / Topography switch -------------------------------- */
+
+.view-switch {
+  position: absolute;
+  left: 1.25rem;
+  z-index: 1;
+  max-width: min(400px, calc(100vw - 2.5rem));
+  pointer-events: none;
+}
+
+.screen.is-active .view-switch > * {
+  pointer-events: auto;
+}
+
+.view-switch--overview {
+  top: 4.4rem;
+}
+
+.view-switch--explore {
+  top: 7.6rem;
+}
+
+.view-switch__modes {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 999px;
+  border: 1px solid var(--panel-border);
+  background: var(--panel-bg);
+  backdrop-filter: blur(14px);
+}
+
+.view-switch__mode {
+  padding: 0.4rem 0.7rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-muted);
+  font: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.view-switch__mode:hover:not(:disabled) {
+  color: var(--text);
+}
+
+.view-switch__mode.is-active {
+  background: rgba(91, 140, 255, 0.85);
+  color: #fff;
+}
+
+.view-switch__labels.is-active {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.view-switch__mode:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.view-switch__topo,
+.view-switch > .view-switch__note {
+  max-width: 330px;
+  margin-top: 0.45rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 10px;
+  border: 1px solid var(--panel-border);
+  background: var(--panel-bg);
+  backdrop-filter: blur(14px);
+}
+
+.view-switch__topo label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+}
+
+.view-switch__topo input[type='range'] {
+  width: 100%;
+  accent-color: #7fb2ff;
+}
+
+.view-switch__note {
+  margin: 0.35rem 0 0;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: var(--text-muted);
+}
+
+/* ---------- 2D map --------------------------------------------------------- */
+
+.flat-map {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  animation: fade-in 0.35s var(--ease);
+}
+
+.flat-map:active {
+  cursor: grabbing;
+}
+
+.flat-map.is-picking,
+.flat-map.is-picking:active {
+  cursor: crosshair;
+}
+
+.flat-map__world {
+  position: absolute;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(160, 190, 255, 0.25), 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+.flat-map__base,
+.flat-map__tile {
+  position: absolute;
+  display: block;
+  pointer-events: none;
+  image-rendering: auto;
+}
+
+.flat-map__base {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.flat-map__tile {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.flat-map__tile.is-loaded {
+  opacity: 1;
+}
+
+.flat-map__label,
+.flat-map__pin,
+.flat-map__marker {
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+.flat-map__label {
+  transform: translate(-3px, -50%);
+}
+
+.flat-map__pin {
+  transform: translate(-0.45rem, -50%);
+  z-index: 2;
+}
+
+.flat-map__marker {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 3px solid #ffd166;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 0 6px rgba(255, 209, 102, 0.3);
+  z-index: 3;
+  pointer-events: none;
+}
+
+.flat-map__zoom {
+  position: absolute;
+  top: 45%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 4;
+}
+
+.flat-map__zoom button {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid var(--panel-border);
+  background: var(--panel-bg);
+  color: var(--text);
+  font-size: 1.3rem;
+  cursor: pointer;
+  backdrop-filter: blur(14px);
+}
+
+.flat-map__zoom button:hover {
+  background: rgba(30, 50, 100, 0.85);
+}
+
+@media (max-width: 760px) {
+  .view-switch--overview {
+    top: 4rem;
+    left: 0.75rem;
+  }
+
+  .view-switch--explore {
+    top: 7rem;
+    left: 0.75rem;
+  }
+
+  .view-switch__mode {
+    padding: 0.35rem 0.55rem;
+    font-size: 0.74rem;
+  }
+
+  .view-switch__topo,
+  .view-switch > .view-switch__note {
+    display: none;
+  }
+
+  .view-switch__topo:has(input) {
+    display: block;
+  }
+
+  .flat-map__zoom {
+    top: 40vh;
+    bottom: auto;
+  }
+}
+
+.flat-map__pin:hover,
+.flat-map__pin:focus-visible,
+.flat-map__pin.is-selected {
+  z-index: 5;
+}

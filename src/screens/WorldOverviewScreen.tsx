@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { InfoPanel } from '../components/InfoPanel';
 import { PanelResizeHandle } from '../components/PanelResizeHandle';
 import type { FeaturedSite, World } from '../data/types';
@@ -9,10 +10,14 @@ interface WorldOverviewScreenProps {
   onReturn: () => void;
   /** Opens a featured site on the Explore screen. */
   onOpenSite: (site: FeaturedSite) => void;
+  /** Globe / 2D / Topography switch. */
+  viewSwitch?: ReactNode;
+  /** The flat 2D map is showing (drag pans instead of rotating). */
+  flatMap?: boolean;
 }
 
 /** Screen 2: the selected world large in 3D (rotate/zoom) plus its info panel. */
-export function WorldOverviewScreen({ world, active, onExplore, onReturn, onOpenSite }: WorldOverviewScreenProps) {
+export function WorldOverviewScreen({ world, active, onExplore, onReturn, onOpenSite, viewSwitch, flatMap = false }: WorldOverviewScreenProps) {
   return (
     <section
       className={`screen screen--overview${active ? ' is-active' : ''}`}
@@ -23,6 +28,7 @@ export function WorldOverviewScreen({ world, active, onExplore, onReturn, onOpen
         <span aria-hidden="true">←</span> All worlds
       </button>
 
+      {world && viewSwitch}
       {world && <InfoPanel world={world} onOpenSite={onOpenSite} />}
       {world && <PanelResizeHandle />}
 
@@ -34,7 +40,7 @@ export function WorldOverviewScreen({ world, active, onExplore, onReturn, onOpen
             </span>
             <span className="explore-cta__sub">Pick sites · see the data · compare Mars and Earth</span>
           </button>
-          <p className="controls-hint controls-hint--inline">Drag to rotate · Scroll or pinch to zoom</p>
+          <p className="controls-hint controls-hint--inline">{flatMap ? 'Drag to pan' : 'Drag to rotate'} · Scroll or pinch to zoom</p>
         </div>
       )}
     </section>

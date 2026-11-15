@@ -17,8 +17,12 @@ Output format:
     inside that 0.25° x 0.25° cell.
 
 Sources (also in docs/SOURCES.md):
-  Mars: USGS Astrogeology Mars_MGS_MOLA_DEM_mosaic_global_463m.tif —
-        MGS MOLA elevation, 46080 x 23040, signed 16-bit metres.
+  Mars:  USGS Astrogeology Mars_MGS_MOLA_DEM_mosaic_global_463m.tif —
+         MGS MOLA elevation, 46080 x 23040, signed 16-bit metres.
+  Earth: NASA Earth Observatory, Blue Marble: Next Generation topography,
+         gebco_08_rev_elev_21600x10800.tif — 8-bit greyscale land topography.
+         NASA's page says "Data in these images were scaled 0-6400 meters",
+         so grey value g becomes g / 255 * 6400 m. Oceans are 0 (sea level).
 """
 
 from __future__ import annotations
@@ -40,6 +44,10 @@ SOURCES = {
     "mars": (
         "https://planetarymaps.usgs.gov/mosaic/Mars_MGS_MOLA_DEM_mosaic_global_463m.tif",
         "Mars_MGS_MOLA_DEM_mosaic_global_463m.tif",
+    ),
+    "earth": (
+        "https://assets.science.nasa.gov/content/dam/science/esd/eo/images/bmng/topography/gebco_08_rev_elev_21600x10800.tif",
+        "gebco_08_rev_elev_21600x10800.tif",
     ),
 }
 
@@ -79,6 +87,7 @@ def main() -> None:
         sys.exit(1)
     cache = Path(sys.argv[1]).resolve()
     make_mars(cache)
+    make_earth(cache)
     print("Done.")
 
 
@@ -111,6 +120,14 @@ def make_mars(cache: Path) -> None:
         row_means = np.nanmean(out, axis=1, keepdims=True)
         out = np.where(np.isnan(out), row_means, out)
     save("mars", out)
+
+
+def make_earth(cache: Path) -> None:
+    print("Earth (NASA Earth Observatory Blue Marble topography, scaled 0-6400 m)")
+    src = download(SOURCES["earth"][0], cache / SOURCES["earth"][1])
+    grey = np.asarray(Image.open(src).convert("L"), dtype=np.float64)
+    print(f"  source  {grey.shape[1]}x{grey.shape[0]}, 8-bit, grey {grey.min():.0f}-{grey.max():.0f}")
+    save("earth", block_mean(grey / 255.0 * 6400.0, HEIGHT, WIDTH))
 
 
 if __name__ == "__main__":

@@ -68,6 +68,11 @@ Dark navy to black background with subtle stars; realistic textures and lighting
   - 📍 Drop pin button on Explore (clicks drop a pin only in pin mode).
   - Weather assistant at the top of the sidebar: rule-based, real data only. Earth from NASA POWER (labelled Estimated, MERRA-2); Mars from Curiosity REMS at Gale crater (labelled Measured, with distance from pin and the CAB disclaimer). Feed copy refreshed by `scripts/fetch_rems.mjs`.
   - Weather comparison between a Mars pin and an Earth pin: an Estimated similarity percentage, always shown with every per-dimension value and score.
+- **15 November 2026 (map views):**
+  - **Globe | 2D | Topography** switch on Overview and Explore:
+    - 2D uses NASA-hosted tiles only.
+    - Topography raises the surface with MOLA (Mars) and NASA Blue Marble topography (Earth, 0–6400 m), with the exaggeration shown.
+  - **Place labels:** Mars features from the IAU/USGS Gazetteer; Earth cities approximate, labelled Estimated, to be confirmed.
 - **Not built:** a computed analogue engine (scores from measured per-dimension Earth data) and the Python back end. Do not build them until asked.
 - Deadline: Sunday 15 November 2026, 11:59 PM Pacific.
 

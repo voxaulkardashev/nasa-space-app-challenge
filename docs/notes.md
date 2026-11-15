@@ -39,6 +39,10 @@ Short explanations of the less obvious parts of the code.
   - `assistant.ts` writes every reply from the report with fixed sentence templates. Typed questions are matched by keywords (temperature, pressure, wind…). There is no AI model on purpose: a key can't be hidden on GitHub Pages, and a language model could invent numbers.
   - Reports are kept per world in `App.tsx` (`useWeather.ts`), so the comparison can use both pins.
 - **Weather comparison** (`WeatherComparison.tsx`, maths in `compare.ts`): see docs/SOURCES.md for the scoring rules.
+- **View modes** (`viewMode` in `App.tsx`: `globe`, `map2d`, `topo`), switched by `ViewModeSwitch` on Overview and Explore. Side-by-side mode forces the globe.
+  - **2D** (`FlatMap.tsx`, maths in `src/lib/flatMap.ts`): a web-page layer above the 3D canvas (the globes shrink away). It draws the colour map, then NASA-hosted tiles positioned by their lat/lon boxes, then labels, pins and the marker. Drag pans, wheel/pinch zooms around the pointer, and a click drops a pin in pin mode.
+  - **Topography** (`TopoSurface.tsx`, `src/lib/topography.ts`): a 720×360-segment sphere whose vertices are pushed out by the height grid × exaggeration. Labels and the marker sit on the raised surface. Close-up tiles are off, because they would float above valleys or sink into mountains. The camera's closest distance is raised above the highest peak.
+- **Place labels** (`MapLabelsLayer.tsx`, data in `src/data/mapLabels.ts`): small HTML tags glued to the globe, hidden on the far side. On Explore, a place that is also a featured site shows only the featured pin.
 - **Camera settings** in `SpaceScene.tsx` are a constant on purpose. Passing a new object on every render could make React Three Fiber reset the camera and undo the user's zoom.
 
 ## NASA APIs used
@@ -79,6 +83,8 @@ The screens do not need changes. The Select screen layout spaces however many wo
 - Elevation is used only for lighting (bump map). The surface is not physically raised. True-height displacement would need much more detail and visible exaggeration, so it is left for later.
 - Elevation values come from 4-cells-per-degree grids (14.8 km cells on Mars), so small features such as a single crater rim are averaged out. There's no elevation for Earth yet; it shows as a Placeholder.
 - Close-up imagery needs an internet connection to NASA's servers.
+- Earth city labels are approximate and not from a NASA dataset (see docs/SOURCES.md). Labels can overlap where cities are close together; zoom in to separate them.
+- Topography uses 0.25° cells (about 15 km on Mars, 28 km on Earth), so it shows large landforms (Tharsis, Hellas, the Himalaya), not single craters or valleys.
 - **Mars weather comes from one place.** Curiosity's daily reports from Gale crater are the only Mars weather feed used, so every Mars pin gets Gale's weather (the app says so, with the distance). The feed's newest sol is usually weeks to months behind today; the assistant then uses the nearest date with data and says how far away it is.
 - mars.nasa.gov refuses automated "HeadlessChrome" browsers. That is one reason the feed is copied at build time instead of fetched by visitors' browsers.
 - NASA POWER fills in its newest days about 3 days late (sunlight a little later), so the Earth date picker stops 3 days before today.

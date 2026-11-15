@@ -5,6 +5,8 @@ import { latLonToVector, type LatLon } from '../lib/geo';
 
 interface SiteMarkerProps {
   site: LatLon;
+  /** Scene radius of the surface at the site (raised in the Topography view). */
+  radius?: number;
 }
 
 const worldPos = new Vector3();
@@ -14,18 +16,18 @@ const worldPos = new Vector3();
  * It lives inside the rotating world, so it stays glued to its spot, and it
  * resizes with the camera distance so it is visible at any zoom.
  */
-export function SiteMarker({ site }: SiteMarkerProps) {
+export function SiteMarker({ site, radius = 1 }: SiteMarkerProps) {
   const group = useRef<Group>(null);
   const ring = useRef<Group>(null);
 
   const { position, quaternion } = useMemo(() => {
     const normal = latLonToVector(site.lat, site.lon);
     return {
-      position: normal.clone().multiplyScalar(1.0002),
+      position: normal.clone().multiplyScalar(radius + 0.0002),
       // Turn the marker so its "up" (Y) points straight out of the surface.
       quaternion: new Quaternion().setFromUnitVectors(new Vector3(0, 1, 0), normal),
     };
-  }, [site.lat, site.lon]);
+  }, [site.lat, site.lon, radius]);
 
   useFrame(({ camera, clock }) => {
     const g = group.current;

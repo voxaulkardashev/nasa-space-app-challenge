@@ -4,7 +4,7 @@ import { LayerFilter } from '../components/LayerFilter';
 import { PanelResizeHandle } from '../components/PanelResizeHandle';
 import { SiteSearch } from '../components/SiteSearch';
 import { UseCasesModal } from '../components/UseCasesModal';
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { SitePanel } from '../components/SitePanel';
 import { featuredSitesFor, getFeaturedSite } from '../data/featuredSites';
 import { getTileLayer } from '../data/tileLayers';
@@ -41,6 +41,9 @@ interface ExploreScreenProps {
   /** The pin on the other world (for the weather comparison). */
   otherSite: SelectedSite | null;
   onCompareWeather: () => void;
+  /** Globe / 2D / Topography switch. */
+  viewSwitch?: ReactNode;
+  flatMap?: boolean;
 }
 
 /** Credit line for the close-up imagery source currently on screen. */
@@ -78,6 +81,8 @@ export function ExploreScreen({
   onAnalyzeWeather,
   otherSite,
   onCompareWeather,
+  viewSwitch,
+  flatMap = false,
 }: ExploreScreenProps) {
   const currentSite = world && site?.worldId === world.id ? site : null;
   const allSites = world ? featuredSitesFor(world.id) : [];
@@ -103,6 +108,8 @@ export function ExploreScreen({
       </button>
 
       {world && <PanelResizeHandle />}
+
+      {world && viewSwitch}
 
       <LayerFilter active={activeLayers} onChange={onLayersChange} shownCount={shownSites.length} totalCount={allSites.length} />
 
@@ -180,7 +187,9 @@ export function ExploreScreen({
               : 'Side by side · Drag a globe to spin it · 📍 Drop pin, then click a globe'
             : pinMode
               ? 'Click the globe to drop your pin · Esc cancels'
-              : '📍 Drop pin, then click the globe · Drag to rotate · Scroll or pinch to zoom'}
+              : flatMap
+                ? '📍 Drop pin, then click the map · Drag to pan · Scroll or pinch to zoom'
+                : '📍 Drop pin, then click the globe · Drag to rotate · Scroll or pinch to zoom'}
         </p>
       </div>
     </section>

@@ -40,6 +40,8 @@ export function computeLayout(
   aspect: number,
   /** Explore "side by side" mode: show every world at once. */
   sideBySide = false,
+  /** 2D map view: the globes shrink away (the flat map is drawn outside the 3D scene). */
+  hidden = false,
 ): SceneLayout {
   const portrait = isPortrait(aspect);
   // Fewer worlds → bigger globes on the Select screen.
@@ -57,7 +59,9 @@ export function computeLayout(
     const offset = (index - (order.length - 1) / 2) * spacing;
     const selectPosition: [number, number, number] = portrait ? [0, stackCentreY - offset, 0] : [offset, stackCentreY, 0];
 
-    if (screen === 'explore' && sideBySide) {
+    if (hidden) {
+      bodies[id] = { position: [0, 0, 0], scale: 0 };
+    } else if (screen === 'explore' && sideBySide) {
       // Side by side: worlds in a row in the free space beside the sidebar.
       const sbsSpacing = portrait ? 1.95 : 3.6;
       const x = (index - (order.length - 1) / 2) * sbsSpacing;

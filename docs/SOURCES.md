@@ -41,7 +41,7 @@ All accessed **14 November 2026**.
 
 ### Elevation grids (`public/data/elevation/`)
 
-Made with `scripts/prepare_elevation.py`. Both are 1440×720 little-endian Int16 files in metres, at 4 cells per degree. Each cell is the mean of the source pixels inside it. The app shows the value of the cell containing the chosen point, without interpolation.
+Made with `scripts/prepare_elevation.py`. Each is 1440×720 little-endian Int16 files in metres, at 4 cells per degree. Each cell is the mean of the source pixels inside it. The app shows the value of the cell containing the chosen point, without interpolation.
 
 | File | Source | Original file | Notes |
 |---|---|---|---|
@@ -218,6 +218,28 @@ The assistant only repeats and summarises values downloaded from these NASA sour
 | Average surface air pressure | lower pressure ÷ higher pressure |
 
 The overall percentage is the plain average of the dimensions that have data. Every dimension's values and score are shown with it (CLAUDE.md rule 4), along with what is not compared (wind, humidity and precipitation, which have no Mars values) and what Earth cannot reproduce (gravity, thin atmosphere, radiation). The 40 °C and 10 °C ranges are the team's choice for a readable scale, not a scientific standard.
+
+## Map views and place labels (Overview and Explore, added 15 November 2026)
+
+### Place labels (`src/data/mapLabels.ts`)
+
+| World | Source | Notes | Label |
+|---|---|---|---|
+| Mars | [IAU/USGS Gazetteer of Planetary Nomenclature](https://planetarynames.wr.usgs.gov/), Mars feature centre points (`MARS_nomenclature_center_pts.zip`, metadata title "Planetary Nomenclature of Mars", downloaded 15 November 2026) | 27 features. Names and centre coordinates copied exactly; longitudes converted from 0–360° E to −180–180°. The Gazetteer is maintained by the USGS Astrogeology Science Center with NASA support for the IAU, and is the naming source used by NASA's planetary maps. The short "kind" (Volcano, Plain…) is our plain-language reading of the IAU feature type (Mons, Planitia…). | Map labels for orientation |
+| Earth | **Not a NASA dataset.** 29 very large cities, with approximate city-centre coordinates (rounded to 0.01°) entered by the team. | We did not find a NASA city-location dataset we could download here (NASA SEDAC's settlement points need an Earthdata login). Shown with an **Estimated** label saying the positions are approximate. **To do:** confirm, or replace with NASA SEDAC GRUMP settlement points. | Estimated |
+
+### 2D map
+
+The flat map uses the same NASA colour maps as the globes (`public/textures/`, see above), plus the **NASA-hosted** close-up tile sources from the Explore screen: Mars Trek Viking MDIM 2.1 (Mars, about 330 m per pixel at most) and GIBS Blue Marble and Landsat WELD (Earth, about 30 m per pixel at most). The Esri-served CTX layer is **not** used in 2D, because the team asked for NASA-only sources there, so the closest Mars zoom is less sharp in 2D than on the globe.
+
+### Topography view (raised relief)
+
+The surface is raised and lowered using these height grids (1440×720 cells, 4 per degree, made by `scripts/prepare_elevation.py`). Heights are multiplied by a vertical exaggeration (Mars ×20 and Earth ×50 to start; the slider goes ×1–×100), always shown on screen.
+
+| World | File | Source | Notes | Label |
+|---|---|---|---|---|
+| Mars | `public/data/elevation/mars_elevation_4ppd.bin` | Same MOLA grid as the Explore elevation values (see *Elevation grids* above). MOLA is an instrument on NASA's Mars Global Surveyor; the mosaic file is published by USGS Astrogeology. | Range −8,046 to +21,123 m. | Measured |
+| Earth | `public/data/elevation/earth_elevation_4ppd.bin` | [NASA Earth Observatory — Blue Marble: Next Generation, Topography and Bathymetry Maps](https://science.nasa.gov/earth/earth-observatory/blue-marble-next-generation/topography-bathymetry-maps/), file `gebco_08_rev_elev_21600x10800.tif` (8-bit greyscale; server "last modified" 19 December 2025; imagery by Jesse Allen, NASA Earth Observatory, using GEBCO data). | NASA's page says "Data in these images were scaled 0-6400 meters", so grey value *g* is converted to *g* ÷ 255 × 6400 m (assumed linear), then averaged to 0.25° cells. Range 0 to 6,163 m (each cell averages about 28 km, so peaks are lower; Everest's cell is 5,385 m). Oceans and land below sea level are flat at 0 m. Used only for the Topography view, not as Explore values. | Estimated |
 
 ## Space weather (World Overview, `src/data/donki.json`)
 

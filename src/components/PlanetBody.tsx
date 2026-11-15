@@ -11,6 +11,11 @@ import { HighlightGlow } from './HighlightGlow';
 import { MissingTextureSphere } from './MissingTextureSphere';
 import { PlanetSurface } from './PlanetSurface';
 import { SiteLabelsLayer } from './SiteLabelsLayer';
+import { MapLabelsLayer } from './MapLabelsLayer';
+import { TopoSurface } from './TopoSurface';
+import type { MapLabel } from '../data/mapLabels';
+import type { ElevationGrid } from '../lib/elevationGrid';
+import { raisedRadius } from '../lib/topography';
 import { SiteMarker } from './SiteMarker';
 import { TextureErrorBoundary } from './TextureErrorBoundary';
 
@@ -41,6 +46,10 @@ interface PlanetBodyProps {
   onChooseFeatured?: (site: FeaturedSite) => void;
   /** Told whether sharp close-up tiles are showing / loading (Explore screen only). */
   onDetailStatusChange?: (status: DetailStatus) => void;
+  /** Topography view: raise the surface with this height grid and exaggeration. */
+  topo?: { grid: ElevationGrid; exaggeration: number } | null;
+  /** Place names (cities, named features) to show on this world. */
+  placeLabels?: MapLabel[];
 }
 
 /** Slow decorative spin (radians per second). Positive = west-to-east, like the real bodies. */
@@ -68,6 +77,8 @@ export function PlanetBody({
   selectedSiteId,
   onChooseFeatured,
   sideBySide = false,
+  topo = null,
+  placeLabels,
 }: PlanetBodyProps) {
   const group = useRef<Group>(null);
   const tilt = useRef<Group>(null);
@@ -159,6 +170,8 @@ export function PlanetBody({
     }
   };
 
+  const radiusAt = topo ? (lat: number, lon: number) => raisedRadius(topo.grid, lat, lon, topo.exaggeration, world.meanRadiusKm) : undefined;
+
   // Rotate so the chosen longitude faces the camera (see docs/notes.md for the maths).
   const initialRotation = -Math.PI / 2 - MathUtils.degToRad(world.initialLongitudeDeg);
   const glowStrength = interactive ? (hovered ? 1 : 0) : selected && !pickable ? 0.25 : 0;
@@ -178,20 +191,22 @@ export function PlanetBody({
             fallback={<MissingTextureSphere worldName={world.name} path={`public/${world.textures.color}`} />}
           >
             <Suspense fallback={null}>
-              <PlanetSurface world={world} />
+              {topo ? <TopoSurface world={world} grid={topo.grid} exaggeration={topo.exaggeration} /> : <PlanetSurface world={world} />}
             </Suspense>
           </TextureErrorBoundary>
         </group>
-        {pickable && !sideBySide && TILE_LAYERS[world.id] && (
+        {pickable && !sideBySide && !topo && TILE_LAYERS[world.id] && (
           <DetailTiles layers={TILE_LAYERS[world.id]!} onStatusChange={onDetailStatusChange} />
         )}
-        {site && <SiteMarker site={site} />}
+        {site && <SiteMarker site={site} radius={radiusAt?.(site.lat, site.lon)} />}
+        {placeLabels && placeLabels.length > 0 && <MapLabelsLayer labels={placeLabels} radiusAt={radiusAt} />}
         {pickable && labelledSites && activeLayers && onChooseFeatured && (
           <SiteLabelsLayer
             sites={labelledSites}
             activeLayers={activeLayers}
             selectedSiteId={selectedSiteId}
             onChoose={onChooseFeatured}
+            radiusAt={radiusAt}
           />
         )}
       </group>

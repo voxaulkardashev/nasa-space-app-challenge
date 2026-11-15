@@ -11,6 +11,8 @@ interface SiteLabelsLayerProps {
   activeLayers: GeoLayerId[];
   selectedSiteId?: string;
   onChoose: (site: FeaturedSite) => void;
+  /** Scene radius of the surface at a point (raised in the Topography view). */
+  radiusAt?: (lat: number, lon: number) => number;
 }
 
 const worldPos = new Vector3();
@@ -21,7 +23,7 @@ const toCamera = new Vector3();
  * Labelled dots for the featured sites, glued to the rotating world (like
  * pins on a map). Labels on the far side of the globe are hidden.
  */
-export function SiteLabelsLayer({ sites, activeLayers, selectedSiteId, onChoose }: SiteLabelsLayerProps) {
+export function SiteLabelsLayer({ sites, activeLayers, selectedSiteId, onChoose, radiusAt }: SiteLabelsLayerProps) {
   return (
     <>
       {sites.map((site) => (
@@ -31,6 +33,7 @@ export function SiteLabelsLayer({ sites, activeLayers, selectedSiteId, onChoose 
           color={layerColor(site.layers.find((l) => activeLayers.includes(l)) ?? site.layers[0])}
           selected={site.id === selectedSiteId}
           onChoose={onChoose}
+          radius={(radiusAt?.(site.lat, site.lon) ?? 1) + 0.0003}
         />
       ))}
     </>
@@ -42,12 +45,13 @@ interface SiteLabelProps {
   color: string;
   selected: boolean;
   onChoose: (site: FeaturedSite) => void;
+  radius: number;
 }
 
-function SiteLabel({ site, color, selected, onChoose }: SiteLabelProps) {
+function SiteLabel({ site, color, selected, onChoose, radius }: SiteLabelProps) {
   const group = useRef<Group>(null);
   const labelRef = useRef<HTMLButtonElement>(null);
-  const position = useMemo(() => latLonToVector(site.lat, site.lon, 1.0003), [site.lat, site.lon]);
+  const position = useMemo(() => latLonToVector(site.lat, site.lon, radius), [site.lat, site.lon, radius]);
 
   useFrame(({ camera }) => {
     const g = group.current;

@@ -55,6 +55,10 @@ The terminal shows a local address, usually **http://localhost:5173/**. Open it 
    - **Key NASA datasets:** with **Debated** tags where scientists disagree.
 
    On the landing page, **About the project** (bottom centre) explains the project.
+   - **Globe | 2D | Topography** (top left, also on Explore) changes the view:
+     - **2D:** a flat map you drag and zoom.
+     - **Topography:** the surface raised by real NASA height data. The slider sets how much heights are stretched.
+     - **Labels:** turns place names on or off (Earth cities; Mars volcanoes, basins and plains).
 4. **Explore** (the big glowing button under the globe) opens the Explore screen:
    - The **Mars | Earth** switch at the top right flips between worlds; each remembers its selected site.
    - Featured sites appear as labelled pins on the globe. **Geological layers** (top left) filters them by impact structures, aeolian processes, sediments & mineralogy, or terrain/glaciers/rivers.

@@ -31,6 +31,8 @@ export interface TileLayerDef {
   transparent?: boolean;
   /** Pure-black pixels mean "no data" (e.g. oceans in a land-only layer) and are made see-through. */
   blackIsNoData?: boolean;
+  /** False when the tiles are served from outside NASA (the 2D map uses NASA-hosted sources only). */
+  nasaHosted?: boolean;
 }
 
 const ACCESSED = '14 November 2026';
@@ -73,6 +75,7 @@ const CTX: TileLayerDef = {
   },
   caveat: 'Greyscale; a beta, “uncontrolled” mosaic, so features can be offset slightly from their true position.',
   transparent: true,
+  nasaHosted: false,
 };
 
 const BLUE_MARBLE: TileLayerDef = {

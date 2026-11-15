@@ -3,6 +3,12 @@ import { LoadingOverlay } from './components/LoadingOverlay';
 import { CompareModal } from './components/CompareModal';
 import { WeatherComparison } from './components/WeatherComparison';
 import { SpaceScene } from './components/SpaceScene';
+import { FlatMap } from './components/FlatMap';
+import { ViewModeSwitch } from './components/ViewModeSwitch';
+import { DEFAULT_EXAGGERATION } from './data/elevation';
+import { featuredSitesFor } from './data/featuredSites';
+import { MAP_LABELS } from './data/mapLabels';
+import type { ViewMode } from './lib/topography';
 import { pairsForSite } from './data/analogues';
 import { getFeaturedSite } from './data/featuredSites';
 import { ALL_LAYER_IDS } from './data/geoLayers';
@@ -38,9 +44,28 @@ export default function App() {
   const [pinMode, setPinMode] = useState(false);
   const [weatherCompareOpen, setWeatherCompareOpen] = useState(false);
   const weather = useWeather();
+  // Globe / flat 2D map / raised topography (Overview and Explore), place labels, height exaggeration.
+  const [viewMode, setViewMode] = useState<ViewMode>('globe');
+  const [showLabels, setShowLabels] = useState(true);
+  const [exaggeration, setExaggeration] = useState<Record<WorldId, number>>(DEFAULT_EXAGGERATION);
 
   const selectedWorld = selectedId ? getWorld(selectedId) : null;
   const site = selectedId ? (sites[selectedId] ?? null) : null;
+  const exploring = screen === 'explore';
+  const shownFeatured = exploring && selectedId ? featuredSitesFor(selectedId).filter((f) => f.layers.some((l) => activeLayers.includes(l))) : [];
+  const viewSwitch = selectedId ? (
+    <ViewModeSwitch
+      className={exploring ? 'view-switch--explore' : 'view-switch--overview'}
+      worldId={selectedId}
+      mode={sideBySide && exploring ? 'globe' : viewMode}
+      onChange={setViewMode}
+      showLabels={showLabels}
+      onToggleLabels={() => setShowLabels((v) => !v)}
+      exaggeration={exaggeration[selectedId]}
+      onExaggeration={(value) => setExaggeration((e) => ({ ...e, [selectedId]: value }))}
+      globeOnly={exploring && sideBySide}
+    />
+  ) : null;
 
   const selectWorld = (id: WorldId) => {
     setSelectedId(id);
@@ -124,7 +149,32 @@ export default function App() {
         activeLayers={activeLayers}
         onChooseFeatured={chooseFeatured}
         panelWidth={panelWidth}
+        viewMode={exploring && sideBySide ? 'globe' : viewMode}
+        showLabels={showLabels}
+        exaggeration={exaggeration}
       />
+
+      {viewMode === 'map2d' && !(exploring && sideBySide) && screen !== 'select' && selectedWorld && (
+        <FlatMap
+          key={selectedWorld.id}
+          world={selectedWorld}
+          site={exploring ? site : null}
+          labels={
+            showLabels
+              ? MAP_LABELS[selectedWorld.id].filter((l) => !(l.featuredId && shownFeatured.some((f) => f.id === l.featuredId)))
+              : []
+          }
+          featured={shownFeatured}
+          activeLayers={activeLayers}
+          selectedFeaturedId={site?.featuredId}
+          picking={exploring && pinMode}
+          onPick={pickSite}
+          onChooseFeatured={chooseFeatured}
+          flyRequest={exploring ? flyRequest : 0}
+          panelWidth={panelWidth}
+          onDetailStatusChange={exploring ? setDetailStatus : undefined}
+        />
+      )}
 
       <SelectWorldScreen active={screen === 'select'} />
       <WorldOverviewScreen
@@ -136,6 +186,8 @@ export default function App() {
           chooseFeatured(featured);
           setScreen('explore');
         }}
+        viewSwitch={screen === 'overview' ? viewSwitch : null}
+        flatMap={viewMode === 'map2d'}
       />
       <ExploreScreen
         world={selectedWorld}
@@ -159,6 +211,8 @@ export default function App() {
         onAnalyzeWeather={weather.analyze}
         otherSite={selectedId ? (sites[selectedId === 'mars' ? 'earth' : 'mars'] ?? null) : null}
         onCompareWeather={() => setWeatherCompareOpen(true)}
+        viewSwitch={exploring ? viewSwitch : null}
+        flatMap={viewMode === 'map2d' && !sideBySide}
       />
 
       {compareOpen && screen === 'explore' && site && <CompareModal site={site} onClose={() => setCompareOpen(false)} />}
