@@ -34,7 +34,7 @@ export function SiteMarker({ site }: SiteMarkerProps) {
     const parentScale = g.parent.getWorldScale(new Vector3()).x || 1;
     const distance = camera.position.distanceTo(worldPos);
     // Constant size on screen, whatever the zoom.
-    g.scale.setScalar(MathUtils.clamp(distance * 0.018, 0.002, 0.2) / parentScale);
+    g.scale.setScalar(MathUtils.clamp(distance * 0.014, 0.002, 0.16) / parentScale);
     if (ring.current) {
       const pulse = 1 + 0.25 * Math.sin(clock.elapsedTime * 3);
       ring.current.scale.set(pulse, 1, pulse);

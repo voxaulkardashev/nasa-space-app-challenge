@@ -1,5 +1,5 @@
 import { useFrame, type ThreeEvent } from '@react-three/fiber';
-import { Suspense, useRef } from 'react';
+import { Suspense, useEffect, useRef } from 'react';
 import { MathUtils, type Group } from 'three';
 import { TILE_LAYERS } from '../data/tileLayers';
 import type { FeaturedSite, GeoLayerId, World, WorldId } from '../data/types';
@@ -31,7 +31,9 @@ interface PlanetBodyProps {
   onSpinnerReady?: (id: WorldId, group: Group | null) => void;
   onHoverChange: (id: WorldId | null) => void;
   onSelect: (id: WorldId) => void;
-  onPick: (site: LatLon) => void;
+  onPick: (worldId: WorldId, site: LatLon) => void;
+  /** Explore side-by-side mode: drag to spin this globe, and turn it to face its site. */
+  sideBySide?: boolean;
   /** Featured sites to label on this world (already filtered by layer). */
   labelledSites?: FeaturedSite[];
   activeLayers?: GeoLayerId[];
@@ -65,9 +67,26 @@ export function PlanetBody({
   activeLayers,
   selectedSiteId,
   onChooseFeatured,
+  sideBySide = false,
 }: PlanetBodyProps) {
   const group = useRef<Group>(null);
+  const tilt = useRef<Group>(null);
   const spinner = useRef<Group>(null);
+  /** Side-by-side: rotation the globe is turning towards so its site faces the viewer. */
+  const faceTarget = useRef<{ y: number; x: number } | null>(null);
+
+  // In side-by-side mode, turn the globe so the selected site faces the camera.
+  useEffect(() => {
+    if (!sideBySide || !site || !spinner.current) {
+      faceTarget.current = null;
+      return;
+    }
+    const wanted = -Math.PI / 2 - MathUtils.degToRad(site.lon);
+    const current = spinner.current.rotation.y;
+    // Pick the equivalent angle closest to the current one, so it turns the short way.
+    const y = wanted + Math.PI * 2 * Math.round((current - wanted) / (Math.PI * 2));
+    faceTarget.current = { y, x: MathUtils.degToRad(site.lat) };
+  }, [sideBySide, site?.lat, site?.lon, site]);
 
   useFrame((_, delta) => {
     const g = group.current;
@@ -84,7 +103,39 @@ export function PlanetBody({
     g.scale.setScalar(s);
     g.visible = s > 0.01;
     if (spinner.current && spinning) spinner.current.rotation.y += SPIN_SPEED * delta;
+
+    const t = tilt.current;
+    const target = faceTarget.current;
+    if (t && spinner.current && target) {
+      spinner.current.rotation.y = MathUtils.damp(spinner.current.rotation.y, target.y, 3, delta);
+      t.rotation.x = MathUtils.damp(t.rotation.x, target.x, 3, delta);
+    } else if (t && !sideBySide) {
+      t.rotation.x = MathUtils.damp(t.rotation.x, 0, 3, delta);
+    }
   });
+
+  /** Side-by-side: drag the globe itself to spin (left/right) and tilt (up/down) it. */
+  const handlePointerDown = (e: ThreeEvent<PointerEvent>) => {
+    if (!sideBySide || !pickable) return;
+    e.stopPropagation();
+    let lastX = e.clientX;
+    let lastY = e.clientY;
+    const move = (ev: PointerEvent) => {
+      const dx = ev.clientX - lastX;
+      const dy = ev.clientY - lastY;
+      lastX = ev.clientX;
+      lastY = ev.clientY;
+      if (Math.abs(dx) + Math.abs(dy) > 0) faceTarget.current = null; // the user takes over
+      if (spinner.current) spinner.current.rotation.y += dx * 0.008;
+      if (tilt.current) tilt.current.rotation.x = MathUtils.clamp(tilt.current.rotation.x + dy * 0.008, -1.3, 1.3);
+    };
+    const up = () => {
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
 
   const handleOver = (e: ThreeEvent<PointerEvent>) => {
     if (!interactive) return;
@@ -104,7 +155,7 @@ export function PlanetBody({
       e.stopPropagation();
       // Convert the hit point into the sphere's own coordinates, then to lat/lon.
       const local = e.object.worldToLocal(e.point.clone());
-      onPick(vectorToLatLon(local));
+      onPick(world.id, vectorToLatLon(local));
     }
   };
 
@@ -114,6 +165,7 @@ export function PlanetBody({
 
   return (
     <group ref={group} scale={0}>
+      <group ref={tilt}>
       <group
         ref={(g) => {
           spinner.current = g;
@@ -121,7 +173,7 @@ export function PlanetBody({
         }}
         rotation={[0, initialRotation, 0]}
       >
-        <group onPointerOver={handleOver} onPointerOut={handleOut} onClick={handleClick}>
+        <group onPointerOver={handleOver} onPointerOut={handleOut} onClick={handleClick} onPointerDown={handlePointerDown}>
           <TextureErrorBoundary
             fallback={<MissingTextureSphere worldName={world.name} path={`public/${world.textures.color}`} />}
           >
@@ -130,7 +182,7 @@ export function PlanetBody({
             </Suspense>
           </TextureErrorBoundary>
         </group>
-        {pickable && TILE_LAYERS[world.id] && (
+        {pickable && !sideBySide && TILE_LAYERS[world.id] && (
           <DetailTiles layer={TILE_LAYERS[world.id]!} onStatusChange={onDetailStatusChange} />
         )}
         {site && <SiteMarker site={site} />}
@@ -142,6 +194,7 @@ export function PlanetBody({
             onChoose={onChooseFeatured}
           />
         )}
+      </group>
       </group>
       <HighlightGlow color={world.highlightColor} strength={glowStrength} />
     </group>

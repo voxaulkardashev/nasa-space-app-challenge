@@ -2,6 +2,8 @@ import { useEffect, useState, type CSSProperties } from 'react';
 import { LoadingOverlay } from './components/LoadingOverlay';
 import { CompareModal } from './components/CompareModal';
 import { SpaceScene } from './components/SpaceScene';
+import { pairsForSite } from './data/analogues';
+import { getFeaturedSite } from './data/featuredSites';
 import { ALL_LAYER_IDS } from './data/geoLayers';
 import type { FeaturedSite, GeoLayerId, WorldId } from './data/types';
 import { getWorld } from './data/worlds';
@@ -27,6 +29,7 @@ export default function App() {
   const [flyRequest, setFlyRequest] = useState(0);
   const [activeLayers, setActiveLayers] = useState<GeoLayerId[]>(ALL_LAYER_IDS);
   const [compareOpen, setCompareOpen] = useState(false);
+  const [sideBySide, setSideBySide] = useState(false);
   const [panelWidth, setPanelWidth] = useState(initialPanelWidth);
   const [detailStatus, setDetailStatus] = useState<DetailStatus>({ active: false, loading: false });
 
@@ -40,17 +43,26 @@ export default function App() {
   };
   const returnToWorlds = () => setScreen('select');
 
-  const pickSite = (point: LatLon) => {
-    if (!selectedId) return;
-    setSites((prev) => ({ ...prev, [selectedId]: { worldId: selectedId, lat: point.lat, lon: point.lon, picked: 'click' } }));
+  const pickSite = (worldId: WorldId, point: LatLon) => {
+    setSelectedId(worldId); // in side-by-side mode the sidebar follows the globe you clicked
+    setSites((prev) => ({ ...prev, [worldId]: { worldId, lat: point.lat, lon: point.lon, picked: 'click' } }));
   };
 
   const chooseFeatured = (featured: FeaturedSite) => {
     setSelectedId(featured.worldId);
-    setSites((prev) => ({
-      ...prev,
-      [featured.worldId]: { worldId: featured.worldId, lat: featured.lat, lon: featured.lon, picked: 'featured', featuredId: featured.id },
-    }));
+    const asSite = (f: FeaturedSite): SelectedSite => ({ worldId: f.worldId, lat: f.lat, lon: f.lon, picked: 'featured', featuredId: f.id });
+    setSites((prev) => {
+      const next = { ...prev, [featured.worldId]: asSite(featured) };
+      // Side by side: also turn the other globe to the first NASA-documented analogue.
+      if (sideBySide) {
+        const counterpart = pairsForSite(featured.id)
+          .map((p) => (featured.worldId === 'mars' ? p.earthSiteId : p.marsSiteId))
+          .map((id) => (id ? getFeaturedSite(id) : undefined))
+          .find((f): f is FeaturedSite => Boolean(f));
+        if (counterpart) next[counterpart.worldId] = asSite(counterpart);
+      }
+      return next;
+    });
     setFlyRequest((n) => n + 1);
   };
 
@@ -90,7 +102,8 @@ export default function App() {
         screen={screen}
         selectedId={selectedId}
         hoveredId={hoveredId}
-        site={site}
+        sites={sites}
+        sideBySide={sideBySide}
         flyRequest={flyRequest}
         onHoverChange={setHoveredId}
         onSelect={selectWorld}
@@ -118,6 +131,8 @@ export default function App() {
         activeLayers={activeLayers}
         onLayersChange={setActiveLayers}
         onCompare={() => setCompareOpen(true)}
+        sideBySide={sideBySide}
+        onToggleSideBySide={() => setSideBySide((v) => !v)}
         onBack={() => setScreen('overview')}
       />
 

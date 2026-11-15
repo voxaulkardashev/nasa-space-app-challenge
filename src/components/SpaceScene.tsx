@@ -18,12 +18,15 @@ interface SpaceSceneProps {
   screen: Screen;
   selectedId: WorldId | null;
   hoveredId: WorldId | null;
-  site: SelectedSite | null;
+  /** Each world's selected site (Explore). */
+  sites: Partial<Record<WorldId, SelectedSite>>;
+  /** Explore side-by-side mode. */
+  sideBySide: boolean;
   /** Increases each time the camera should fly to the current site. */
   flyRequest: number;
   onHoverChange: (id: WorldId | null) => void;
   onSelect: (id: WorldId) => void;
-  onPick: (site: LatLon) => void;
+  onPick: (worldId: WorldId, site: LatLon) => void;
   onDetailStatusChange: (status: DetailStatus) => void;
   activeLayers: GeoLayerId[];
   onChooseFeatured: (site: FeaturedSite) => void;
@@ -62,7 +65,8 @@ function SceneContents({
   screen,
   selectedId,
   hoveredId,
-  site,
+  sites,
+  sideBySide,
   flyRequest,
   onHoverChange,
   onSelect,
@@ -81,10 +85,12 @@ function SceneContents({
     screen,
     selectedId,
     aspect,
+    sideBySide,
   );
   const onSelectScreen = screen === 'select';
   const exploring = screen === 'explore';
-  const userControlled = screen === 'overview' || exploring;
+  const userControlled = screen === 'overview' || (exploring && !sideBySide);
+  const site = selectedId ? (sites[selectedId] ?? null) : null;
   const focusedScale = selectedId ? layout.bodies[selectedId].scale : 1;
 
   return (
@@ -106,9 +112,10 @@ function SceneContents({
               hovered={hoveredId === world.id}
               selected={isFocused}
               interactive={onSelectScreen}
-              pickable={exploring && isFocused}
+              pickable={exploring && (isFocused || sideBySide)}
+              sideBySide={exploring && sideBySide}
               spinning={!exploring}
-              site={exploring && site?.worldId === world.id ? site : null}
+              site={exploring ? (sites[world.id] ?? null) : null}
               onSpinnerReady={(id, g) => {
                 if (g) spinners.current[id] = g;
                 else delete spinners.current[id];
@@ -119,7 +126,7 @@ function SceneContents({
               onDetailStatusChange={onDetailStatusChange}
               labelledSites={featuredSitesFor(world.id).filter((f) => f.layers.some((l) => activeLayers.includes(l)))}
               activeLayers={activeLayers}
-              selectedSiteId={site?.worldId === world.id ? site.featuredId : undefined}
+              selectedSiteId={sites[world.id]?.featuredId}
               onChooseFeatured={onChooseFeatured}
             />
             <PlanetLabel
@@ -141,7 +148,7 @@ function SceneContents({
         surfaceRadius={focusedScale}
         controlsRef={controlsRef}
         flyRequest={flyRequest}
-        flyTarget={exploring && site ? site : null}
+        flyTarget={exploring && !sideBySide && site ? site : null}
         spinnersRef={spinners}
         panelWidth={panelWidth}
         selectedId={selectedId}

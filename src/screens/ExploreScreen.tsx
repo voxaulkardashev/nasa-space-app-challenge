@@ -26,6 +26,8 @@ interface ExploreScreenProps {
   onLayersChange: (layers: GeoLayerId[]) => void;
   /** Opens the Compare view (when available). */
   onCompare?: () => void;
+  sideBySide: boolean;
+  onToggleSideBySide: () => void;
 }
 
 /** Screen 3: pick a site on the globe and see data about that spot. */
@@ -40,6 +42,8 @@ export function ExploreScreen({
   activeLayers,
   onLayersChange,
   onCompare,
+  sideBySide,
+  onToggleSideBySide,
 }: ExploreScreenProps) {
   const currentSite = world && site?.worldId === world.id ? site : null;
   const allSites = world ? featuredSitesFor(world.id) : [];
@@ -53,8 +57,14 @@ export function ExploreScreen({
       inert={!active}
       aria-label={world ? `Explore ${world.name}` : 'Explore'}
     >
-      <button type="button" className="btn btn--ghost return-button" onClick={onBack}>
-        <span aria-hidden="true">←</span> {world ? `${world.name} overview` : 'Overview'}
+      <button
+        type="button"
+        className="btn btn--ghost return-button"
+        onClick={onBack}
+        aria-label={world ? `Back to ${world.name} overview` : 'Back to overview'}
+      >
+        <span aria-hidden="true">←</span>
+        <span className="return-button__label">{world ? `${world.name} overview` : 'Overview'}</span>
       </button>
 
       {world && <PanelResizeHandle />}
@@ -62,6 +72,15 @@ export function ExploreScreen({
       <LayerFilter active={activeLayers} onChange={onLayersChange} shownCount={shownSites.length} totalCount={allSites.length} />
 
       {featured && <CounterpartPopup site={featured} onGo={onChooseFeatured} onCompare={onCompare} />}
+
+      <button
+        type="button"
+        className={`btn side-by-side-toggle${sideBySide ? ' is-on' : ''}`}
+        aria-pressed={sideBySide}
+        onClick={onToggleSideBySide}
+      >
+        <span aria-hidden="true">◐◑</span> {sideBySide ? 'Single view' : 'Side by side'}
+      </button>
 
       {world && (
         <div className="world-switch-wrap">
@@ -100,7 +119,11 @@ export function ExploreScreen({
             {TILE_LAYERS[world.id]!.caveat && <> · {TILE_LAYERS[world.id]!.caveat}</>}
           </p>
         )}
-        <p>Click to pick a site · Drag to rotate · Scroll or pinch to zoom</p>
+        <p>
+          {sideBySide
+            ? 'Side by side · Drag a globe to spin it · Click either globe to pick a site'
+            : 'Click to pick a site · Drag to rotate · Scroll or pinch to zoom'}
+        </p>
       </div>
     </section>
   );

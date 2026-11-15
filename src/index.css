@@ -1443,3 +1443,61 @@ body.is-resizing * {
     display: none;
   }
 }
+
+/* ---------- Explore: side-by-side toggle --------------------------------- */
+
+.side-by-side-toggle {
+  position: absolute;
+  top: 1.25rem;
+  right: calc(var(--panel-width) + 2.5rem);
+  padding: 0.75rem 1.2rem;
+  border: 1px solid var(--panel-border);
+  background: var(--panel-bg);
+  color: var(--text);
+  backdrop-filter: blur(14px);
+  font-size: 0.95rem;
+}
+
+.side-by-side-toggle.is-on {
+  background: linear-gradient(135deg, rgba(91, 140, 255, 0.9), rgba(61, 107, 224, 0.9));
+  border-color: rgba(160, 200, 255, 0.5);
+}
+
+@media (max-width: 760px) {
+  .side-by-side-toggle {
+    top: 4rem;
+    right: 0.75rem;
+    padding: 0.5rem 0.8rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* ---------- Phone tweaks for the Explore screen --------------------------- */
+
+@media (max-width: 760px) {
+  .screen--explore .return-button__label {
+    display: none;
+  }
+
+  .counterpart__cards {
+    display: flex;
+    gap: 0.4rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+
+  .counterpart__card {
+    flex: 0 0 auto;
+    max-width: 75%;
+    scroll-snap-align: start;
+  }
+
+  .counterpart__header {
+    margin-bottom: 0.4rem;
+  }
+
+  .counterpart__eyebrow {
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+  }
+}

@@ -38,6 +38,8 @@ export function computeLayout(
   screen: Screen,
   selectedId: WorldId | null,
   aspect: number,
+  /** Explore "side by side" mode: show every world at once. */
+  sideBySide = false,
 ): SceneLayout {
   const portrait = isPortrait(aspect);
   // Fewer worlds → bigger globes on the Select screen.
@@ -55,7 +57,12 @@ export function computeLayout(
     const offset = (index - (order.length - 1) / 2) * spacing;
     const selectPosition: [number, number, number] = portrait ? [0, stackCentreY - offset, 0] : [offset, stackCentreY, 0];
 
-    if (screen === 'select' || selectedId === null) {
+    if (screen === 'explore' && sideBySide) {
+      // Side by side: worlds in a row in the free space beside the sidebar.
+      const sbsSpacing = portrait ? 1.95 : 3.6;
+      const x = (index - (order.length - 1) / 2) * sbsSpacing;
+      bodies[id] = { position: [x, portrait ? 0.35 : 0, 0], scale: portrait ? 0.8 : 1.45 };
+    } else if (screen === 'select' || selectedId === null) {
       bodies[id] = { position: selectPosition, scale: selectScale };
     } else if (id === selectedId) {
       bodies[id] = { position: [0, 0, 0], scale: overviewScale };
