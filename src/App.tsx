@@ -5,6 +5,8 @@ import { WeatherComparison } from './components/WeatherComparison';
 import { SpaceScene } from './components/SpaceScene';
 import { FlatMap } from './components/FlatMap';
 import { ViewModeSwitch } from './components/ViewModeSwitch';
+import { TutorialOverlay } from './components/TutorialOverlay';
+import { TUTORIAL_STEPS, TUTORIAL_SEEN_KEY, type TutorialStage } from './data/tutorial';
 import { DEFAULT_EXAGGERATION } from './data/elevation';
 import { featuredSitesFor } from './data/featuredSites';
 import { MAP_LABELS } from './data/mapLabels';
@@ -53,6 +55,8 @@ export default function App() {
   // "Right now on Mars": NASA's current model for the whole planet (downloaded when exploring Mars) and the globe colour layer.
   const [marsOverlay, setMarsOverlay] = useState<MarsNowParam | null>(null);
   const marsNow = useMarsNow(screen === 'explore' && selectedId === 'mars');
+  // Guided tour: index of the current step, or null when it isn't running.
+  const [tourStep, setTourStep] = useState<number | null>(null);
 
   const selectedWorld = selectedId ? getWorld(selectedId) : null;
   const site = selectedId ? (sites[selectedId] ?? null) : null;
@@ -103,6 +107,41 @@ export default function App() {
       return next;
     });
     setFlyRequest((n) => n + 1);
+  };
+
+  /** Moves the app to the screen a tour step needs (Mars, and Jezero for the site steps). */
+  const applyTourStage = (stage: TutorialStage) => {
+    if (stage === 'select') {
+      setScreen('select');
+      return;
+    }
+    setSelectedId('mars');
+    setHoveredId(null);
+    setScreen(stage === 'overview' ? 'overview' : 'explore');
+    if (stage === 'explore-site' && sites.mars?.featuredId !== 'jezero') {
+      const jezero = getFeaturedSite('jezero');
+      if (jezero) chooseFeatured(jezero);
+    }
+  };
+  const goToTourStep = (i: number) => {
+    const step = TUTORIAL_STEPS[i];
+    if (!step) return;
+    applyTourStage(step.stage);
+    setTourStep(i);
+  };
+  const startTour = () => {
+    // A clean starting point: no pop-ups, single globe view.
+    setCompareOpen(false);
+    setWeatherCompareOpen(false);
+    setPinMode(false);
+    setSideBySide(false);
+    setViewMode('globe');
+    try {
+      localStorage.setItem(TUTORIAL_SEEN_KEY, '1');
+    } catch {
+      // Private browsing etc.: the offer may simply show again next time.
+    }
+    goToTourStep(0);
   };
 
   /** Explore screen: jump to the other world, keeping each world's last site. */
@@ -184,7 +223,7 @@ export default function App() {
         />
       )}
 
-      <SelectWorldScreen active={screen === 'select'} />
+      <SelectWorldScreen active={screen === 'select'} onStartTour={startTour} tourRunning={tourStep !== null} />
       <WorldOverviewScreen
         world={selectedWorld}
         active={screen === 'overview'}
@@ -196,6 +235,7 @@ export default function App() {
         }}
         viewSwitch={screen === 'overview' ? viewSwitch : null}
         flatMap={viewMode === 'map2d'}
+        onStartTour={startTour}
       />
       <ExploreScreen
         world={selectedWorld}
@@ -220,6 +260,7 @@ export default function App() {
         otherSite={selectedId ? (sites[selectedId === 'mars' ? 'earth' : 'mars'] ?? null) : null}
         onCompareWeather={() => setWeatherCompareOpen(true)}
         viewSwitch={exploring ? viewSwitch : null}
+        onStartTour={startTour}
         marsNow={{ state: marsNow.state, onRefresh: marsNow.refresh, overlay: marsOverlay, onOverlayChange: setMarsOverlay }}
         flatMap={viewMode === 'map2d' && !sideBySide}
       />
@@ -234,6 +275,17 @@ export default function App() {
           marsState={weather.forSite(sites.mars)}
           onAnalyze={weather.analyze}
           onClose={() => setWeatherCompareOpen(false)}
+        />
+      )}
+
+      {tourStep !== null && (
+        <TutorialOverlay
+          step={TUTORIAL_STEPS[tourStep]}
+          index={tourStep}
+          total={TUTORIAL_STEPS.length}
+          onNext={() => (tourStep + 1 < TUTORIAL_STEPS.length ? goToTourStep(tourStep + 1) : setTourStep(null))}
+          onBack={() => goToTourStep(Math.max(0, tourStep - 1))}
+          onClose={() => setTourStep(null)}
         />
       )}
 

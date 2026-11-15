@@ -54,7 +54,7 @@ The terminal shows a local address, usually **http://localhost:5173/**. Open it 
    - **Analog sites:** the NASA-documented pairs in the app. Click one to open it in Explore.
    - **Key NASA datasets:** with **Debated** tags where scientists disagree.
 
-   On the landing page, **About the project** (bottom centre) explains the project.
+   On the landing page, **About the project** (bottom centre) explains the project, and **Take the tour** starts a guided tour of the app. First-time visitors are offered the tour once; it is also under **? Tour** on Explore and **Take the tour** on each overview.
    - **Globe | 2D | Topography** (top left, also on Explore) changes the view:
      - **2D:** a flat map you drag and zoom.
      - **Topography:** the surface raised by real NASA height data. The slider sets how much heights are stretched.

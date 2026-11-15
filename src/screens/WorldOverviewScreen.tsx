@@ -14,10 +14,12 @@ interface WorldOverviewScreenProps {
   viewSwitch?: ReactNode;
   /** The flat 2D map is showing (drag pans instead of rotating). */
   flatMap?: boolean;
+  /** Starts the guided tour. */
+  onStartTour?: () => void;
 }
 
 /** Screen 2: the selected world large in 3D (rotate/zoom) plus its info panel. */
-export function WorldOverviewScreen({ world, active, onExplore, onReturn, onOpenSite, viewSwitch, flatMap = false }: WorldOverviewScreenProps) {
+export function WorldOverviewScreen({ world, active, onExplore, onReturn, onOpenSite, viewSwitch, flatMap = false, onStartTour }: WorldOverviewScreenProps) {
   return (
     <section
       className={`screen screen--overview${active ? ' is-active' : ''}`}
@@ -40,7 +42,16 @@ export function WorldOverviewScreen({ world, active, onExplore, onReturn, onOpen
             </span>
             <span className="explore-cta__sub">Pick sites · see the data · compare Mars and Earth</span>
           </button>
-          <p className="controls-hint controls-hint--inline">{flatMap ? 'Drag to pan' : 'Drag to rotate'} · Scroll or pinch to zoom</p>
+          <p className="controls-hint controls-hint--inline">{flatMap ? 'Drag to pan' : 'Drag to rotate'} · Scroll or pinch to zoom
+            {onStartTour && (
+              <>
+                {' · '}
+                <button type="button" className="link-button" onClick={onStartTour}>
+                  Take the tour
+                </button>
+              </>
+            )}
+          </p>
         </div>
       )}
     </section>

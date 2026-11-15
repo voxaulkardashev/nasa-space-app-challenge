@@ -44,6 +44,12 @@ Short explanations of the less obvious parts of the code.
   - **2D** (`FlatMap.tsx`, maths in `src/lib/flatMap.ts`): a web-page layer above the 3D canvas (the globes shrink away). It draws the colour map, then NASA-hosted tiles positioned by their lat/lon boxes, then labels, pins and the marker. Drag pans, wheel/pinch zooms around the pointer, and a click drops a pin in pin mode.
   - **Topography** (`TopoSurface.tsx`, `src/lib/topography.ts`): a 1024×512-segment sphere whose vertices are pushed out by the height grid (8 cells per degree, gzip-compressed and unpacked in the browser by `elevationGrid.ts`) × exaggeration. Close-up tiles are draped over the terrain too (`TileMesh` raises a 32×32 grid of points per tile), as are labels and the marker. On Explore, `CameraRig` keeps the camera just above the ground below it.
 - **Place labels** (`MapLabelsLayer.tsx`, data in `src/data/mapLabels.ts`): small HTML tags glued to the globe, hidden on the far side. On Explore, a place that is also a featured site shows only the featured pin.
+- **Guided tour** (`TutorialOverlay.tsx`, steps in `src/data/tutorial.ts`):
+  - Each step names a screen (`stage`) and a CSS selector to highlight. `App.tsx` moves the app there first: Mars, and Jezero for the site steps.
+  - The overlay re-measures the target every frame, so the highlight follows camera flights and panels. The highlight is a transparent box whose huge shadow dims the rest of the page.
+  - Arrow keys and Esc work (Esc closes only the tour).
+  - First-visit offer: remembered in `localStorage` (`pae-tour-seen`).
+  - To change the tour, edit `src/data/tutorial.ts`. A step whose target isn't on screen shows its card in the middle.
 - **Camera settings** in `SpaceScene.tsx` are a constant on purpose. Passing a new object on every render could make React Three Fiber reset the camera and undo the user's zoom.
 
 ## NASA APIs used

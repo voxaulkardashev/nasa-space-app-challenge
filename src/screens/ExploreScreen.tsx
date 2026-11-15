@@ -43,6 +43,8 @@ interface ExploreScreenProps {
   onCompareWeather: () => void;
   /** Globe / 2D / Topography switch. */
   viewSwitch?: ReactNode;
+  /** Starts the guided tour. */
+  onStartTour?: () => void;
   /** Mars: current NASA model conditions and the globe colour layer. */
   marsNow?: ComponentProps<typeof WeatherAssistant>['marsNow'];
   flatMap?: boolean;
@@ -86,6 +88,7 @@ export function ExploreScreen({
   viewSwitch,
   flatMap = false,
   marsNow,
+  onStartTour,
 }: ExploreScreenProps) {
   const currentSite = world && site?.worldId === world.id ? site : null;
   const allSites = world ? featuredSitesFor(world.id) : [];
@@ -127,6 +130,11 @@ export function ExploreScreen({
         >
           <span aria-hidden="true">📍</span> {pinMode ? 'Click the globe… (Esc cancels)' : 'Drop pin'}
         </button>
+        {onStartTour && (
+          <button type="button" className="btn explore-topbar__btn" onClick={onStartTour} aria-label="Take the tour">
+            <span aria-hidden="true">?</span> Tour
+          </button>
+        )}
         <button type="button" className="btn explore-topbar__btn" onClick={() => setUseCasesOpen(true)}>
           <span aria-hidden="true">★</span> Use cases
         </button>
