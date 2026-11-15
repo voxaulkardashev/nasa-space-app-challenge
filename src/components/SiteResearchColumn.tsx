@@ -102,6 +102,24 @@ export function SiteResearchColumn({ research }: SiteResearchColumnProps) {
           ))}
         </ol>
       </section>
+
+      {research.otherCredits && research.otherCredits.length > 0 && (
+        <section className="research__section" aria-labelledby="research-credits">
+          <h4 id="research-credits" className="research__title">
+            Other credits
+          </h4>
+          <ul className="research__sources research__credits">
+            {research.otherCredits.map((c) => (
+              <li key={c.url}>
+                <a href={c.url} target="_blank" rel="noreferrer">
+                  {c.title}
+                </a>
+                <span className="research__url">{c.url}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
     </div>
   );
 }

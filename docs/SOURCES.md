@@ -274,6 +274,49 @@ In the Compare view, Gale's column (left) shows the team's research in six secti
 
 The team's mineral-image link was a Google redirect (`google.com/url?q=…`). The app links directly to its destination, the NASA page in source 1.
 
+## Compare view: Jezero crater research (`src/data/jezeroResearch.ts`, added 15 November 2026)
+
+In the Compare view, Jezero's column (left) shows the team's research in six sections in place of the standard photo and facts. It uses the same component as Gale (`SiteResearchColumn`). Every claim was checked against its source on 15 November 2026. Papers whose publisher pages refused automated access were checked through their official abstracts on Crossref (`api.crossref.org`).
+
+| # | Source | Used for |
+|---|---|---|
+| 1 | Bykov et al. (2026), "In Situ Detection of Opal-A in Jezero Crater, Mars", JGR Planets, [10.1029/2025JE009375](https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2025JE009375) | Opal-A detected by SHERLOC and PIXL in the "Bills Bay" patch |
+| 2 | McNeil et al. (2025), "Hydrated Silica in Oxia Planum, Mars", JGR Planets, [10.1029/2025JE008989](https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2025JE008989) | Opal's formula SiO₂·nH₂O and why opal matters for habitability. **This paper is about Oxia Planum, not Jezero**, so it is cited only for these general facts. |
+| 3 | [NASA JPL, "NASA's Perseverance Rover Deciphers Ancient History of Martian Lake"](https://www.jpl.nasa.gov/news/nasas-perseverance-rover-deciphers-ancient-history-of-martian-lake/) (12 Dec 2023) | The lake (35 km wide, 30 m deep at most); stages of water; silica preserving organics; organics forming geologically or biologically; no fossil-like structures or microbial chemical changes seen yet |
+| 4 | [NASA JPL, "NASA's Perseverance Makes New Discoveries in Mars' Jezero Crater"](https://www.jpl.nasa.gov/news/nasas-perseverance-makes-new-discoveries-in-mars-jezero-crater/) (25 Aug 2022) | Crater floor made of two types of igneous rock; olivine grains 1–3 mm from slowly cooling magma |
+| 5 | Farley et al. (2022), Science, [10.1126/science.abo2196](https://doi.org/10.1126/science.abo2196) | "The lowest exposed unit … Séítah … olivine-rich … accumulated at the base of a magma body" |
+| 6 | Liu et al. (2022), Science, [10.1126/science.abo2756](https://doi.org/10.1126/science.abo2756) | Coarse-grained olivine "similar to some martian meteorites"; olivine cumulate |
+| 7 | [NASA Photojournal, "Perseverance Views 'Pico Turquino Hills'" (PIA26473)](https://science.nasa.gov/photojournal/perseverance-views-pico-turquino-hills/) | Rim rocks mostly olivine, plagioclase and pyroxene |
+| 8 | [Goudge et al. (2017), LPSC XLVIII abstract 1195](https://www.hou.usra.edu/meetings/lpsc2017/pdf/1195.pdf) | Open-basin lake; delta deposit at the western inlet valley |
+| 9 | [IAU/USGS Gazetteer, Jezero (feature 14300)](https://planetarynames.wr.usgs.gov/Feature/14300) | Crater diameter 47.52 km |
+| 10 | [NASA, "Perseverance's First 2 Regolith Samples" (PIA25589)](https://science.nasa.gov/resource/perseverances-first-2-regolith-samples/) | Regolith samples from a mega-ripple (2 and 6 Dec 2022); why regolith is studied |
+| 11 | Bell et al. (2022), Science Advances, [10.1126/sciadv.abo4856](https://doi.org/10.1126/sciadv.abo4856) | Pyroxene dominates fine regolith; olivine dominates coarse regolith |
+| 12 | Murphy et al. (2026), Science Advances, [10.1126/sciadv.adx0047](https://www.science.org/doi/10.1126/sciadv.adx0047?referrer=https%3A%2F%2Fwww.google.com%2F) | Complex organic carbon in mudstones in an ancient river valley in Jezero; Raman cannot tell whether it comes from abiotic or biotic sources |
+| 13 | [NASA Goddard PSG Mars Explorer](https://psg.gsfc.nasa.gov/apps/mars/) | Temperature/Weather. Same method as Gale: PSG's reading for 18.41° N, 77.69° E at the current time, loaded live. Labelled as **a prediction based on past data** (EMARS, most similar Mars year = MY32), not live measurements, with the same disclaimers. **Estimated.** |
+| 14 | [NASA Photojournal, "Jezero Crater Elevation Graph" (PIA26476)](https://science.nasa.gov/photojournal/jezero-crater-elevation-graph/) | The graph and its caption. Jezero is about 2,600 m below datum (Measured). Region elevations and the ~590 m climb were read off the graph by eye (Estimated). |
+
+**Other credits** (listed at the bottom of the column, exactly as the team gave them): the two JGR Planets papers, the Science Advances paper (with its original `?referrer=` link) and the JPL lake article.
+
+**Images** (`public/images/jezero/`), from the NASA Image and Video Library (`images-assets.nasa.gov`), downloaded 15 November 2026 and resized (no other changes):
+- `bills-bay-pixl-pia26205.jpg`: PIA26205, credit NASA/JPL-Caltech/MSSS
+- `jezero-delta-themis-pia26252.jpg`: PIA26252, credit NASA/JPL-Caltech/ASU
+- `regolith-samples-pia25589.jpg`: PIA25589, credit NASA/JPL-Caltech
+- `jezero-elevation-graph-pia26476.jpg`: PIA26476, credit NASA/JPL-Caltech/LANL/CNES/IRAP/DLR, the same file as on the Photojournal page
+
+**Changes to the team's text, and why:**
+- **"Jezero Crater was 22 miles (35 km) in diameter … 98 feet (30 m) deep":** these figures describe the **lake**, not the crater. JPL: "the lake eventually grew as wide as 22 miles (35 kilometers) in diameter and as deep as 100 feet (30 meters)". The crater is 47.52 km across (Gazetteer). The text now says this. The cited LPSC abstract (source 1) does not contain these figures; they come from source 3.
+- **"Filled with water at least twice separately":** no source found. The LPSC abstract reports "a lack of major lake level drops during filling of the basin". Replaced with JPL's sourced sequence of water stages.
+- **"Jezero Crater was an ancient river valley":** Jezero is an impact crater that held a lake; the organics were found in "an ancient river valley in Jezero crater" (source 12). Reworded.
+- **"Could potentially [support life] again":** removed; no source supports it.
+- **"The usual rocks are basaltic":** written as "igneous (volcanic) rock", which the sources state. The word "basaltic" was not confirmed in the sources read.
+- **Soil Properties** (not in the original research): written from sources 10 and 11 only.
+
+**Not verified (team to add sources):**
+- "Feldspar, the most common mineral group in Earth's crust": a USGS page could not be opened from this environment.
+- "Organic molecules make up proteins, carbohydrates, lipids and nucleic acids": general biology, kept from the team's text.
+
+Both are left without a citation rather than given one that wasn't read.
+
 ## Space weather (World Overview, `src/data/donki.json`)
 
 - **Data:** NASA **DONKI** (Space Weather Database Of Notifications, Knowledge, Information), run by NASA's Community Coordinated Modeling Center.

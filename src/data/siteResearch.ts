@@ -1,3 +1,4 @@
+import { JEZERO_RESEARCH } from './jezeroResearch';
 import type { DataValue } from './types';
 
 /**
@@ -45,6 +46,8 @@ export interface SiteResearch {
   siteId: string;
   sections: ResearchSection[];
   citations: ResearchCitation[];
+  /** Extra credits listed at the bottom of the column, exactly as the team gave them. */
+  otherCredits?: { title: string; url: string }[];
 }
 
 const ACCESSED = '15 November 2026';
@@ -178,4 +181,4 @@ const GALE: SiteResearch = {
 };
 
 /** Research shown in place of the standard site column, by featured-site id. */
-export const SITE_RESEARCH: Record<string, SiteResearch> = { gale: GALE };
+export const SITE_RESEARCH: Record<string, SiteResearch> = { gale: GALE, jezero: JEZERO_RESEARCH };

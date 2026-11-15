@@ -2672,3 +2672,22 @@ body.is-resizing * {
     width: auto;
   }
 }
+
+.research__credits {
+  list-style: disc;
+}
+
+.research__url {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--text-faint);
+  word-break: break-all;
+}
+
+/* Tall (portrait) research images: cap the height and keep proportions, centred. */
+.research__figure img {
+  width: auto;
+  max-width: 100%;
+  max-height: 620px;
+  margin: 0 auto;
+}
