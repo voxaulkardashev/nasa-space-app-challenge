@@ -2493,3 +2493,16 @@ body.is-resizing * {
 .flat-map__overlay {
   opacity: 0.55;
 }
+
+.research__group {
+  margin-top: 0.7rem;
+}
+
+.research__group-title {
+  margin: 0 0 0.1rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 8px;
+  background: rgba(127, 178, 255, 0.08);
+  font-size: 0.78rem;
+  color: var(--text);
+}

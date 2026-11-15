@@ -35,6 +35,8 @@ export interface ResearchSection {
   figure?: ResearchFigure;
   /** Labelled values (Measured / Estimated) shown under the text. */
   facts?: DataValue[];
+  /** Labelled values in groups, each under its own small heading (e.g. one group per date). */
+  factGroups?: { title: string; facts: DataValue[] }[];
   /** Small print under the section (caveats). */
   notes?: string[];
 }
@@ -155,15 +157,25 @@ const GALE: SiteResearch = {
         'These are values for Gale Crater on two dates in 2026 (up to today), not a live feed. They come from NASA Goddard’s Planetary Spectrum Generator Mars Explorer at 5.37° S, 137.81° E. PSG has no measured 2026 weather: for 2026 dates it uses EMARS model data from the most similar past Mars year (it reports “EMARS MY32 Moderate dust”, i.e. Mars Year 32, 2013–2015) at each date’s season and time of day. [[7]]',
         'On 15 March 2026 (dust-storm season, near perihelion when Mars is closest to the Sun, Ls 244), the air at Gale ranged from −68 °C to −16 °C, with very dusty skies and winds up to 91 km/h. On 15 November 2026 (northern spring, heading towards aphelion, Ls 22), it was colder, from −82 °C to −33 °C, with clearer skies. Surface pressure stayed below 7 mbar, under 1% of Earth’s (1,014 mbar on NASA’s Earth fact sheet). [[7]]',
       ],
-      facts: [
-        psg('wx-dust-temp', 'Air temperature, dust-storm season', '−68 °C to −16 °C', '15 Mar 2026 · Mars Year 38, sol 475, Ls 244 (near perihelion)'),
-        psg('wx-dust-pres', 'Surface pressure (daily maximum)', '6.92 mbar', '15 Mar 2026'),
-        psg('wx-dust-wind', 'Wind speed (daily maximum)', '91 km/h', '15 Mar 2026'),
-        psg('wx-dust-dust', 'Dust opacity τ (daily maximum)', '1.182', '15 Mar 2026 · higher = dustier sky'),
-        psg('wx-now-temp', 'Air temperature, northern spring', '−82 °C to −33 °C', '15 Nov 2026 · Mars Year 39, sol 45, Ls 22'),
-        psg('wx-now-pres', 'Surface pressure (daily maximum)', '6.64 mbar', '15 Nov 2026'),
-        psg('wx-now-wind', 'Wind speed (daily maximum)', '57 km/h', '15 Nov 2026'),
-        psg('wx-now-dust', 'Dust opacity τ (daily maximum)', '0.488', '15 Nov 2026 · higher = dustier sky'),
+      factGroups: [
+        {
+          title: '15 March 2026 · dust-storm season (Mars Year 38, sol 475, Ls 244, near perihelion)',
+          facts: [
+            psg('wx-dust-temp', 'Air temperature (daily range)', '−68 °C to −16 °C', '15 Mar 2026'),
+            psg('wx-dust-pres', 'Surface pressure (daily maximum)', '6.92 mbar', '15 Mar 2026'),
+            psg('wx-dust-wind', 'Wind speed (daily maximum)', '91 km/h', '15 Mar 2026'),
+            psg('wx-dust-dust', 'Dust opacity (daily maximum)', 'τ 1.182', '15 Mar 2026 · higher = dustier sky'),
+          ],
+        },
+        {
+          title: '15 November 2026 · northern spring (Mars Year 39, sol 45, Ls 22)',
+          facts: [
+            psg('wx-now-temp', 'Air temperature (daily range)', '−82 °C to −33 °C', '15 Nov 2026'),
+            psg('wx-now-pres', 'Surface pressure (daily maximum)', '6.64 mbar', '15 Nov 2026'),
+            psg('wx-now-wind', 'Wind speed (daily maximum)', '57 km/h', '15 Nov 2026'),
+            psg('wx-now-dust', 'Dust opacity (daily maximum)', 'τ 0.488', '15 Nov 2026 · higher = dustier sky'),
+          ],
+        },
       ],
       notes: [
         'Limitations: these are model values (built from Mars Year 32), not measurements from Curiosity or any other spacecraft in 2026. They describe a large area around Gale (the model gives this point an altitude of 182 m), so they smooth out the deep crater and Mount Sharp. The app itself says it is “undergoing active development” and “should be only used for testing purposes”.',

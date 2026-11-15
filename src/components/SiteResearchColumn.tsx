@@ -77,6 +77,16 @@ export function SiteResearchColumn({ research }: SiteResearchColumnProps) {
               ))}
             </ul>
           )}
+          {section.factGroups?.map((group) => (
+            <div key={group.title} className="research__group">
+              <p className="research__group-title">{group.title}</p>
+              <ul className="info-panel__facts research__facts">
+                {group.facts.map((f) => (
+                  <FactRow key={f.id} data={f} />
+                ))}
+              </ul>
+            </div>
+          ))}
           {section.figure && <ResearchImage figure={section.figure} />}
           {section.notes?.map((note, i) => (
             <p key={i} className="research__note">

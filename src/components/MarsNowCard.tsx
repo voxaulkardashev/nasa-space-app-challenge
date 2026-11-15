@@ -49,8 +49,8 @@ export function MarsNowCard({ site, state, onRefresh, overlay, onOverlayChange, 
           ['now-ground', 'Ground temperature now', fmt(exact.groundNowC, '°C')],
           ['now-pres', 'Surface pressure', fmt(exact.pressureMbar, 'mbar', 3)],
           ['now-wind', 'Wind speed', fmt(exact.windKmh, 'km/h')],
-          ['now-dust', 'Dust opacity (τ)', fmt(exact.dustTau, '', 3)],
-          ['now-ice', 'Ice-cloud opacity (τ)', fmt(exact.iceTau, '', 3)],
+          ['now-dust', 'Dust opacity', exact.dustTau === null ? null : `τ ${exact.dustTau.toFixed(3)}`],
+          ['now-ice', 'Ice-cloud opacity', exact.iceTau === null ? null : `τ ${exact.iceTau.toFixed(3)}`],
           ['now-vapor', 'Water vapour', fmt(exact.vaporPrUm, 'pr-µm', 1)],
         ] as const
       ).flatMap(([id, label, value]) => (value ? [{ id, label, value, status: 'estimated' as const, method: exactMethod, source: exactSource }] : []))
@@ -61,7 +61,9 @@ export function MarsNowCard({ site, state, onRefresh, overlay, onOverlayChange, 
           const grid = data.grids[p.id];
           if (!grid) return [];
           const v = sampleMarsGrid(grid, site.lat, site.lon);
-          return [{ id: `now-${p.id}`, label: p.label, value: `${v.toFixed(p.digits)}${p.unit ? ` ${p.unit}` : ''}`, status: 'estimated', method: PSG_NOW_METHOD, source }];
+          // (τ goes in the value: the uppercase label style would turn it into a T-like Τ.)
+          const isTau = p.id === 'Dust';
+          return [{ id: `now-${p.id}`, label: isTau ? 'Dust opacity' : p.label, value: isTau ? `τ ${v.toFixed(p.digits)}` : `${v.toFixed(p.digits)}${p.unit ? ` ${p.unit}` : ''}`, status: 'estimated', method: PSG_NOW_METHOD, source }];
         })
       : [];
   const overlayGrid = data && overlay ? data.grids[overlay] : undefined;
