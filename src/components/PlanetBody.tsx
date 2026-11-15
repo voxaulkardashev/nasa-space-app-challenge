@@ -2,7 +2,7 @@ import { useFrame, type ThreeEvent } from '@react-three/fiber';
 import { Suspense, useRef } from 'react';
 import { MathUtils, type Group } from 'three';
 import { TILE_LAYERS } from '../data/tileLayers';
-import type { World, WorldId } from '../data/types';
+import type { FeaturedSite, GeoLayerId, World, WorldId } from '../data/types';
 import { vectorToLatLon, type LatLon } from '../lib/geo';
 import type { BodyPose } from '../lib/layout';
 import type { DetailStatus } from '../lib/tiles';
@@ -10,6 +10,7 @@ import { DetailTiles } from './DetailTiles';
 import { HighlightGlow } from './HighlightGlow';
 import { MissingTextureSphere } from './MissingTextureSphere';
 import { PlanetSurface } from './PlanetSurface';
+import { SiteLabelsLayer } from './SiteLabelsLayer';
 import { SiteMarker } from './SiteMarker';
 import { TextureErrorBoundary } from './TextureErrorBoundary';
 
@@ -31,6 +32,11 @@ interface PlanetBodyProps {
   onHoverChange: (id: WorldId | null) => void;
   onSelect: (id: WorldId) => void;
   onPick: (site: LatLon) => void;
+  /** Featured sites to label on this world (already filtered by layer). */
+  labelledSites?: FeaturedSite[];
+  activeLayers?: GeoLayerId[];
+  selectedSiteId?: string;
+  onChooseFeatured?: (site: FeaturedSite) => void;
   /** Told whether sharp close-up tiles are showing / loading (Explore screen only). */
   onDetailStatusChange?: (status: DetailStatus) => void;
 }
@@ -55,6 +61,10 @@ export function PlanetBody({
   onSelect,
   onPick,
   onDetailStatusChange,
+  labelledSites,
+  activeLayers,
+  selectedSiteId,
+  onChooseFeatured,
 }: PlanetBodyProps) {
   const group = useRef<Group>(null);
   const spinner = useRef<Group>(null);
@@ -124,6 +134,14 @@ export function PlanetBody({
           <DetailTiles layer={TILE_LAYERS[world.id]!} onStatusChange={onDetailStatusChange} />
         )}
         {site && <SiteMarker site={site} />}
+        {pickable && labelledSites && activeLayers && onChooseFeatured && (
+          <SiteLabelsLayer
+            sites={labelledSites}
+            activeLayers={activeLayers}
+            selectedSiteId={selectedSiteId}
+            onChoose={onChooseFeatured}
+          />
+        )}
       </group>
       <HighlightGlow color={world.highlightColor} strength={glowStrength} />
     </group>

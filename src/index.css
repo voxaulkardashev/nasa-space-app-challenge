@@ -886,3 +886,247 @@ a {
     top: auto;
   }
 }
+
+/* ---------- Explore: site pins on the globe ------------------------------- */
+
+.site-pin {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.18rem 0.55rem 0.18rem 0.3rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(6, 12, 28, 0.72);
+  color: var(--text);
+  font-size: 0.72rem;
+  white-space: nowrap;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition:
+    opacity 0.25s var(--ease),
+    background 0.2s var(--ease),
+    transform 0.2s var(--ease);
+  transform: translateY(-14px);
+}
+
+.site-pin:hover {
+  background: rgba(30, 50, 100, 0.9);
+}
+
+.site-pin__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--pin);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--pin) 35%, transparent);
+}
+
+.site-pin.is-selected {
+  border-color: #ffd166;
+  background: rgba(60, 45, 10, 0.85);
+}
+
+/* ---------- Explore: geological layer filter ------------------------------ */
+
+.layer-filter {
+  position: absolute;
+  top: 4.4rem;
+  left: 1.25rem;
+  z-index: 2;
+  width: min(330px, calc(100vw - 2.5rem));
+}
+
+.layer-filter__toggle {
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.layer-filter__count {
+  margin-left: auto;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.layer-filter__menu {
+  margin-top: 0.4rem;
+  padding: 0.7rem;
+  border-radius: var(--radius);
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+}
+
+.layer-filter__item {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.45rem 0.35rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.layer-filter__item:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.layer-filter__swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.layer-filter__label {
+  display: block;
+  font-size: 0.85rem;
+}
+
+.layer-filter__desc {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--text-faint);
+}
+
+.layer-filter__actions {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.4rem 0.35rem 0;
+}
+
+.layer-filter__actions button {
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid var(--panel-border);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  cursor: pointer;
+}
+
+.layer-filter__note {
+  margin: 0.5rem 0.35rem 0;
+  font-size: 0.68rem;
+  line-height: 1.4;
+  color: var(--text-faint);
+}
+
+.screen.is-active .layer-filter__menu,
+.screen.is-active .layer-filter__item,
+.screen.is-active .counterpart {
+  pointer-events: auto;
+}
+
+/* ---------- Explore: corresponding site pop-up ---------------------------- */
+
+.counterpart {
+  position: absolute;
+  bottom: 1.25rem;
+  right: calc(var(--panel-width) + 2.5rem);
+  width: min(420px, calc(100vw - var(--panel-width) - 4rem));
+  padding: 0.8rem 0.9rem;
+  border-radius: var(--radius);
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+  animation: rise-in 0.4s var(--ease);
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+.counterpart__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin-bottom: 0.55rem;
+}
+
+.counterpart__eyebrow {
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.counterpart__compare {
+  padding: 0.45rem 1.1rem;
+  font-size: 0.85rem;
+}
+
+.counterpart__cards {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.counterpart__card {
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 10px;
+  border: 1px solid rgba(160, 190, 255, 0.18);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+}
+
+.counterpart__card:hover {
+  background: rgba(91, 140, 255, 0.18);
+  border-color: rgba(160, 190, 255, 0.4);
+}
+
+.counterpart__card.is-static {
+  cursor: default;
+}
+
+.counterpart__name {
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+
+.counterpart__why,
+.counterpart__none {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* On wide screens the hint sits above the pop-up; hide it when the pop-up shows. */
+.screen--explore:has(.counterpart) .controls-hint {
+  bottom: auto;
+  top: auto;
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .layer-filter {
+    top: 4rem;
+    left: 0.75rem;
+    width: auto;
+    max-width: calc(100vw - 1.5rem);
+  }
+
+  .layer-filter__count {
+    display: none;
+  }
+
+  .counterpart {
+    left: 0.75rem;
+    right: 0.75rem;
+    width: auto;
+    bottom: calc(48vh + 1.25rem);
+    padding: 0.6rem 0.7rem;
+  }
+
+  .counterpart__why {
+    display: none;
+  }
+}

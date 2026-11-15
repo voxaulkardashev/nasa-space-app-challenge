@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { LoadingOverlay } from './components/LoadingOverlay';
 import { SpaceScene } from './components/SpaceScene';
-import type { FeaturedSite, WorldId } from './data/types';
+import { ALL_LAYER_IDS } from './data/geoLayers';
+import type { FeaturedSite, GeoLayerId, WorldId } from './data/types';
 import { getWorld } from './data/worlds';
 import type { LatLon } from './lib/geo';
 import type { Screen, SelectedSite } from './lib/navigation';
@@ -22,6 +23,7 @@ export default function App() {
   // Each world remembers its own selected site, so switching Mars ⇄ Earth keeps both.
   const [sites, setSites] = useState<Partial<Record<WorldId, SelectedSite>>>({});
   const [flyRequest, setFlyRequest] = useState(0);
+  const [activeLayers, setActiveLayers] = useState<GeoLayerId[]>(ALL_LAYER_IDS);
   const [detailStatus, setDetailStatus] = useState<DetailStatus>({ active: false, loading: false });
 
   const selectedWorld = selectedId ? getWorld(selectedId) : null;
@@ -82,6 +84,8 @@ export default function App() {
         onSelect={selectWorld}
         onPick={pickSite}
         onDetailStatusChange={setDetailStatus}
+        activeLayers={activeLayers}
+        onChooseFeatured={chooseFeatured}
       />
 
       <SelectWorldScreen active={screen === 'select'} />
@@ -98,6 +102,8 @@ export default function App() {
         active={screen === 'explore'}
         onChooseFeatured={chooseFeatured}
         onSwitchWorld={switchWorld}
+        activeLayers={activeLayers}
+        onLayersChange={setActiveLayers}
         onBack={() => setScreen('overview')}
       />
 

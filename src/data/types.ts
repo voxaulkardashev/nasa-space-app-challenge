@@ -111,6 +111,29 @@ export interface FeaturedSite {
   coordinateMethod?: string;
   /** Extra labelled values, e.g. the official diameter. */
   facts: DataValue[];
+  /** Geological layers this site belongs to (our grouping, based on the cited descriptions). */
+  layers: GeoLayerId[];
+}
+
+/** The geological filter layers on the Explore screen. */
+export type GeoLayerId = 'impact' | 'aeolian' | 'sediments' | 'terrain';
+
+/**
+ * An Earth site that NASA describes as an analogue for a Mars site (or for
+ * Mars in general). Similarities and differences are taken from the cited
+ * NASA text; nothing here claims the two places are equivalent.
+ */
+export interface AnaloguePair {
+  id: string;
+  earthSiteId: string;
+  /** The Mars featured site, or null when NASA compares the Earth site with Mars in general. */
+  marsSiteId: string | null;
+  /** NASA's own title for the pair, if any. */
+  title: string;
+  similarities: string[];
+  /** Site-specific differences stated in the source (world-level differences are always shown separately). */
+  differences: string[];
+  source: SourceRef;
 }
 
 /** A photo from the NASA Image and Video Library (images.nasa.gov). */

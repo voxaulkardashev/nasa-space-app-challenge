@@ -3,7 +3,8 @@ import { Canvas, useThree } from '@react-three/fiber';
 import { useRef, type ComponentRef } from 'react';
 import type { Group } from 'three';
 import { WORLDS } from '../data/worlds';
-import type { WorldId } from '../data/types';
+import { featuredSitesFor } from '../data/featuredSites';
+import type { FeaturedSite, GeoLayerId, WorldId } from '../data/types';
 import type { LatLon } from '../lib/geo';
 import { computeLayout } from '../lib/layout';
 import type { Screen, SelectedSite } from '../lib/navigation';
@@ -24,6 +25,8 @@ interface SpaceSceneProps {
   onSelect: (id: WorldId) => void;
   onPick: (site: LatLon) => void;
   onDetailStatusChange: (status: DetailStatus) => void;
+  activeLayers: GeoLayerId[];
+  onChooseFeatured: (site: FeaturedSite) => void;
 }
 
 export type OrbitControlsRef = ComponentRef<typeof OrbitControls>;
@@ -63,6 +66,8 @@ function SceneContents({
   onSelect,
   onPick,
   onDetailStatusChange,
+  activeLayers,
+  onChooseFeatured,
 }: SpaceSceneProps) {
   const aspect = useThree((s) => s.size.width / s.size.height);
   const controlsRef = useRef<OrbitControlsRef>(null);
@@ -109,6 +114,10 @@ function SceneContents({
               onSelect={onSelect}
               onPick={onPick}
               onDetailStatusChange={onDetailStatusChange}
+              labelledSites={featuredSitesFor(world.id).filter((f) => f.layers.some((l) => activeLayers.includes(l)))}
+              activeLayers={activeLayers}
+              selectedSiteId={site?.worldId === world.id ? site.featuredId : undefined}
+              onChooseFeatured={onChooseFeatured}
             />
             <PlanetLabel
               world={world}

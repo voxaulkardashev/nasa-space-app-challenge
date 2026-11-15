@@ -85,6 +85,40 @@ One photo per featured site, chosen by hand from the [NASA Image and Video Libra
 - NASA's own descriptions are **not** shown in the app, because some quote figures that differ slightly from our cited values.
 - The Jezero image uses false colour from orbital mineral data, as explained on its NASA page.
 
+### Analogue pairs, new sites and geological layers (added 15 November 2026)
+
+**Earth ⇄ Mars pairs** (`src/data/analogues.ts`). Every similarity and difference is quoted or closely paraphrased from NASA:
+
+| Earth site | Mars site | NASA source |
+|---|---|---|
+| Lake Salda, Turkey | Jezero | [Planetary Analog Explorer: "Looking for Life: Turkey and Mars"](https://science.nasa.gov/solar-system/analog-explorer/) |
+| Atacama Desert, Chile | Jezero (Perseverance) | Analog Explorer: "Looking for Life: the Atacama Desert and Mars" |
+| Verde Valley, Arizona | Gale (Curiosity at Mount Sharp) | Analog Explorer: "Looking for Life: Arizona and Mars" |
+| Death Valley, California | Utopia Planitia (Viking 2) | Analog Explorer: "Rocky Reconnaissance: California and Mars" |
+| Pilot Valley, Utah | Phoenix landing site (northern plains) | Analog Explorer: "Looking for Life: Utah and Mars" |
+| Haughton crater, Canada | Mars in general | [10 Things to Know About Planetary Analogs](https://science.nasa.gov/solar-system/planetary-analogs/10-things-to-know-about-planetary-analogs/) |
+| Holuhraun, Iceland | Mars in general ("geologic cousins") | Analog Explorer: "Flood Basalts on Mars & in Iceland" |
+
+NASA calls these *analogs*: places with things in common, not equivalents. The app never shows a similarity percentage, because we have no measured per-dimension Earth data to calculate one (CLAUDE.md rule 4).
+
+**New Mars sites:**
+
+- **Utopia Planitia:** IAU/USGS Gazetteer feature 6260 (46.74° N, 117.52° E, diameter 3,560.45 km, record updated 21 June 2012).
+- **Phoenix landing site:** nominal 68.15° N, 125.9° W, from the [NASA NSSDCA Phoenix record](https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2007-034A), which also says the site is "about 3.5 km below the planetary reference". Our MOLA grid cell there reads −4,141 m. The 640 m gap may come from the 15 km cell average and/or different reference surfaces. **To do:** the team should look into this.
+
+**New Earth sites** (coordinates **Estimated**, compiled from public reference pages, team to confirm):
+
+| Site | Coordinates |
+|---|---|
+| Lake Salda | 37.55, 29.68 (BirdLife / Key Biodiversity Areas factsheet) |
+| Verde Valley | 34.75, −112.02 (Wikipedia) |
+| Death Valley | 36.24, −116.83 (Wikipedia, national park point) |
+| Atacama (Yungay) | −24.08, −69.99 (McKay et al. 2003, *Astrobiology*, as read via search; digits partly garbled, so approximate) |
+| Pilot Valley | 41.0, −113.9 (Wikipedia) |
+| Holuhraun | 64.85, −16.83 (Wikipedia) |
+
+**Geological layers** (`src/data/geoLayers.ts`): impact structures, aeolian processes, sediments & mineralogy, and terrain/glaciers/rivers. Each site is assigned by the team from its cited descriptions. For example, Hellas is in "aeolian" because NASA Image Library titles include "Hellas Dunes" and "Dunes in Hellas". The filter shows or hides sites; it is **not** a geological map overlay.
+
 ## Space weather (World Overview, `src/data/donki.json`)
 
 - **Data:** NASA **DONKI** (Space Weather Database Of Notifications, Knowledge, Information), run by NASA's Community Coordinated Modeling Center.
