@@ -74,6 +74,7 @@ Dark navy to black background with subtle stars; realistic textures and lighting
     - Topography raises the surface with MOLA (Mars) and NASA Blue Marble topography (Earth, 0–6400 m), with the exaggeration shown.
   - **Place labels:** Mars features from the IAU/USGS Gazetteer; Earth cities approximate, labelled Estimated, to be confirmed.
 - **15 November 2026 (Gale research):** in the Compare view, Gale's column shows the team's six research sections (`src/data/siteResearch.ts`, `SiteResearchColumn`) with four NASA images, clickable citations [1]–[7] and PSG Mars Explorer weather (EMARS MY32, Estimated). Citation [5] (ADS) is still to be confirmed.
+- **15 November 2026 (Mars right now):** the weather assistant shows NASA Goddard PSG Mars Explorer's current model values at any Mars pin, plus an optional colour layer on the globe and 2D map. Labelled Estimated, never presented as measured live weather.
 - **Not built:** a computed analogue engine (scores from measured per-dimension Earth data) and the Python back end. Do not build them until asked.
 - Deadline: Sunday 15 November 2026, 11:59 PM Pacific.
 

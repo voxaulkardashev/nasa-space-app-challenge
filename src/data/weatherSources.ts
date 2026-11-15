@@ -42,3 +42,10 @@ export const POWER_FIRST_DATE = '1981-01-01';
 export const POWER_LAG_DAYS = 3;
 /** Days either side of the chosen date used for averages and "patterns". */
 export const WINDOW_HALF_DAYS = 3;
+
+/** NASA Goddard Planetary Spectrum Generator (PSG) — Mars Explorer app (model data for any place and time). */
+export const PSG_MARS_URL = 'https://psg.gsfc.nasa.gov/apps/mars/';
+
+/** How the "right now" Mars values are produced (shown with every one of them). */
+export const PSG_NOW_METHOD =
+  'NASA Goddard PSG Mars Explorer model for the current time: EMARS data from the past Mars year most similar to now, at today’s season and time of day, on a grid of 6° of longitude × about 5° of latitude, interpolated to your pin. These are model estimates, not measurements, and the app says it “should be only used for testing purposes”.';

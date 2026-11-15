@@ -13,6 +13,8 @@ import { PlanetSurface } from './PlanetSurface';
 import { SiteLabelsLayer } from './SiteLabelsLayer';
 import { MapLabelsLayer } from './MapLabelsLayer';
 import { TopoSurface } from './TopoSurface';
+import { MarsWeatherOverlay } from './MarsWeatherOverlay';
+import type { MarsGrid } from '../lib/weather/marsNow';
 import type { MapLabel } from '../data/mapLabels';
 import type { ElevationGrid } from '../lib/elevationGrid';
 import { raisedRadius } from '../lib/topography';
@@ -50,6 +52,8 @@ interface PlanetBodyProps {
   topo?: { grid: ElevationGrid; exaggeration: number } | null;
   /** Place names (cities, named features) to show on this world. */
   placeLabels?: MapLabel[];
+  /** Mars: current NASA model grid shown as a colour layer (not in the Topography view). */
+  weatherOverlay?: MarsGrid | null;
 }
 
 /** Slow decorative spin (radians per second). Positive = west-to-east, like the real bodies. */
@@ -79,6 +83,7 @@ export function PlanetBody({
   sideBySide = false,
   topo = null,
   placeLabels,
+  weatherOverlay = null,
 }: PlanetBodyProps) {
   const group = useRef<Group>(null);
   const tilt = useRef<Group>(null);
@@ -204,6 +209,7 @@ export function PlanetBody({
         {pickable && !sideBySide && TILE_LAYERS[world.id] && (
           <DetailTiles layers={TILE_LAYERS[world.id]!} onStatusChange={onDetailStatusChange} radiusAt={radiusAt} />
         )}
+        {weatherOverlay && !topo && <MarsWeatherOverlay grid={weatherOverlay} />}
         {site && <SiteMarker site={site} radius={radiusAt?.(site.lat, site.lon)} />}
         {placeLabels && placeLabels.length > 0 && <MapLabelsLayer labels={placeLabels} radiusAt={radiusAt} />}
         {pickable && labelledSites && activeLayers && onChooseFeatured && (

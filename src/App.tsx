@@ -19,6 +19,8 @@ import type { Screen, SelectedSite } from './lib/navigation';
 import { PanelWidthContext, clampPanelWidth, initialPanelWidth } from './lib/panelWidth';
 import type { DetailStatus } from './lib/tiles';
 import { useWeather } from './lib/weather/useWeather';
+import { useMarsNow } from './lib/weather/useMarsNow';
+import type { MarsNowParam } from './lib/weather/marsNow';
 import { ExploreScreen } from './screens/ExploreScreen';
 import { SelectWorldScreen } from './screens/SelectWorldScreen';
 import { WorldOverviewScreen } from './screens/WorldOverviewScreen';
@@ -48,10 +50,14 @@ export default function App() {
   const [viewMode, setViewMode] = useState<ViewMode>('globe');
   const [showLabels, setShowLabels] = useState(true);
   const [exaggeration, setExaggeration] = useState<Record<WorldId, number>>(DEFAULT_EXAGGERATION);
+  // "Right now on Mars": NASA's current model for the whole planet (downloaded when exploring Mars) and the globe colour layer.
+  const [marsOverlay, setMarsOverlay] = useState<MarsNowParam | null>(null);
+  const marsNow = useMarsNow(screen === 'explore' && selectedId === 'mars');
 
   const selectedWorld = selectedId ? getWorld(selectedId) : null;
   const site = selectedId ? (sites[selectedId] ?? null) : null;
   const exploring = screen === 'explore';
+  const marsOverlayGrid = exploring && marsOverlay && marsNow.state.status === 'ready' ? (marsNow.state.data.grids[marsOverlay] ?? null) : null;
   const shownFeatured = exploring && selectedId ? featuredSitesFor(selectedId).filter((f) => f.layers.some((l) => activeLayers.includes(l))) : [];
   const viewSwitch = selectedId ? (
     <ViewModeSwitch
@@ -152,6 +158,7 @@ export default function App() {
         viewMode={exploring && sideBySide ? 'globe' : viewMode}
         showLabels={showLabels}
         exaggeration={exaggeration}
+        marsOverlay={marsOverlayGrid}
       />
 
       {viewMode === 'map2d' && !(exploring && sideBySide) && screen !== 'select' && selectedWorld && (
@@ -173,6 +180,7 @@ export default function App() {
           flyRequest={exploring ? flyRequest : 0}
           panelWidth={panelWidth}
           onDetailStatusChange={exploring ? setDetailStatus : undefined}
+          overlayGrid={selectedWorld.id === 'mars' ? marsOverlayGrid : null}
         />
       )}
 
@@ -212,6 +220,7 @@ export default function App() {
         otherSite={selectedId ? (sites[selectedId === 'mars' ? 'earth' : 'mars'] ?? null) : null}
         onCompareWeather={() => setWeatherCompareOpen(true)}
         viewSwitch={exploring ? viewSwitch : null}
+        marsNow={{ state: marsNow.state, onRefresh: marsNow.refresh, overlay: marsOverlay, onOverlayChange: setMarsOverlay }}
         flatMap={viewMode === 'map2d' && !sideBySide}
       />
 

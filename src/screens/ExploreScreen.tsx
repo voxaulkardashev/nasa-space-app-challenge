@@ -4,7 +4,7 @@ import { LayerFilter } from '../components/LayerFilter';
 import { PanelResizeHandle } from '../components/PanelResizeHandle';
 import { SiteSearch } from '../components/SiteSearch';
 import { UseCasesModal } from '../components/UseCasesModal';
-import { useState, type ReactNode } from 'react';
+import { useState, type ComponentProps, type ReactNode } from 'react';
 import { SitePanel } from '../components/SitePanel';
 import { featuredSitesFor, getFeaturedSite } from '../data/featuredSites';
 import { getTileLayer } from '../data/tileLayers';
@@ -43,6 +43,8 @@ interface ExploreScreenProps {
   onCompareWeather: () => void;
   /** Globe / 2D / Topography switch. */
   viewSwitch?: ReactNode;
+  /** Mars: current NASA model conditions and the globe colour layer. */
+  marsNow?: ComponentProps<typeof WeatherAssistant>['marsNow'];
   flatMap?: boolean;
 }
 
@@ -83,6 +85,7 @@ export function ExploreScreen({
   onCompareWeather,
   viewSwitch,
   flatMap = false,
+  marsNow,
 }: ExploreScreenProps) {
   const currentSite = world && site?.worldId === world.id ? site : null;
   const allSites = world ? featuredSitesFor(world.id) : [];
@@ -160,6 +163,7 @@ export function ExploreScreen({
               onAnalyze={onAnalyzeWeather}
               otherSite={otherSite}
               onCompareWeather={onCompareWeather}
+              marsNow={marsNow}
             />
           }
           extraFacts={currentSite ? elevationFacts(world, currentSite, elevation) : []}

@@ -207,6 +207,14 @@ The assistant only repeats and summarises values downloaded from these NASA sour
 
 **Mars pins away from Gale crater.** Curiosity is the only Mars station with a daily NASA feed used here, so any Mars pin gets Gale crater's weather. The app always says this, with the distance from the pin to Gale crater's centre (−5.37°, 137.81° E, IAU/USGS Gazetteer of Planetary Nomenclature). The distance is labelled **Estimated**: great-circle distance on a sphere of Mars's mean radius, 3,389.5 km (NASA NSSDCA Mars fact sheet).
 
+**Right now on Mars (added 15 November 2026).**
+- **Source:** [NASA Goddard PSG Mars Explorer](https://psg.gsfc.nasa.gov/apps/mars/). Visitors' browsers call it when they open Explore on Mars (the site allows this: `Access-Control-Allow-Origin: *`).
+- **What it fetches:** global grids from `index.php?param=Tair|Tsurf|Psurf|Wind|Dust|Vapor` for the current time, at 60 × 36 points (6° of longitude × about 5° of latitude). The app's page supplies the model name (for example "EMARS MY32 Moderate dust", the past Mars year most similar to now) and the Mars date.
+- **Wind:** sent as east–west (`data`) and north–south (`vector`) parts. The speed is √(east² + north²), as in the app's own script.
+- **At a pin:** values are interpolated between the four nearest grid points.
+- **Label:** **Estimated**. These are model values, not measurements. No live, measured weather exists for all of Mars: InSight's api.nasa.gov feed ends in October 2020, Curiosity's newest sol is 25 August 2026, and the MEDA feed is blank.
+- **Caveat:** the app says it "should be only used for testing purposes", and the site says so.
+
 **Not used:** the Perseverance MEDA feed on mars.nasa.gov (almost empty when checked on 15 November 2026) and api.nasa.gov InSight weather (only seven sols from October 2020).
 
 **Weather similarity percentage** (`src/lib/weather/compare.ts`). Labelled **Estimated**; calculated by this app, not a NASA product. It uses the days with data within ±3 days of each chosen date:

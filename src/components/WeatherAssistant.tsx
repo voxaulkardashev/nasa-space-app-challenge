@@ -10,6 +10,10 @@ import { weatherValue } from '../lib/weather/provenance';
 import type { WeatherState } from '../lib/weather/useWeather';
 import { DataLabel } from './DataLabel';
 import { WeatherFacts } from './WeatherFacts';
+import { MarsNowCard } from './MarsNowCard';
+import type { MarsNowState } from '../lib/weather/useMarsNow';
+import { sampleMarsGrid, MARS_NOW_PARAMS, type MarsNowParam } from '../lib/weather/marsNow';
+import { marsNowReply, NOW_QUESTION } from '../lib/weather/assistant';
 
 interface WeatherAssistantProps {
   world: World;
@@ -19,6 +23,8 @@ interface WeatherAssistantProps {
   /** The pin on the other world, if there is one (for the comparison). */
   otherSite: SelectedSite | null;
   onCompareWeather: () => void;
+  /** Mars only: current NASA model conditions (all of Mars) and the globe colour layer. */
+  marsNow?: { state: MarsNowState; onRefresh: () => void; overlay: MarsNowParam | null; onOverlayChange: (p: MarsNowParam | null) => void };
 }
 
 interface QA {
@@ -34,7 +40,7 @@ interface QA {
  * Weather assistant at the top of the Explore sidebar. Rule-based: it only
  * repeats and summarises values downloaded from NASA, so it cannot invent weather.
  */
-export function WeatherAssistant({ world, site, state, onAnalyze, otherSite, onCompareWeather }: WeatherAssistantProps) {
+export function WeatherAssistant({ world, site, state, onAnalyze, otherSite, onCompareWeather, marsNow }: WeatherAssistantProps) {
   const range = dateRange(world.id);
   const [date, setDate] = useState(state?.date ?? defaultDate(world.id));
   const [input, setInput] = useState('');
@@ -52,6 +58,7 @@ export function WeatherAssistant({ world, site, state, onAnalyze, otherSite, onC
       <section className="weather info-box" aria-label="Weather assistant">
         <h3 className="info-box__title">Weather assistant</h3>
         <p className="weather__muted">Press <strong>📍 Drop pin</strong> and click the globe, or choose a site, then pick a date to see its weather from NASA data.</p>
+        {world.id === 'mars' && marsNow && <MarsNowCard site={null} {...marsNow} />}
       </section>
     );
   }
@@ -59,7 +66,22 @@ export function WeatherAssistant({ world, site, state, onAnalyze, otherSite, onC
   const ask = (question: string) => {
     const q = question.trim();
     if (!q) return;
-    const reply = answer(q, report ?? null);
+    // "What's it like right now?" on Mars: answer from NASA's current model, if it has loaded.
+    const now = world.id === 'mars' && marsNow?.state.status === 'ready' ? marsNow.state.data : null;
+    const reply =
+      now && NOW_QUESTION.test(q.toLowerCase())
+        ? {
+            text: marsNowReply(
+              MARS_NOW_PARAMS.flatMap((p) => {
+                const g = now.grids[p.id];
+                return g ? [{ label: p.label, value: sampleMarsGrid(g, site.lat, site.lon), unit: p.unit, digits: p.digits }] : [];
+              }),
+              now.model,
+              now.marsTime,
+            ),
+            quotesData: false,
+          }
+        : answer(q, report ?? null);
     setQa((list) => [...list, { id: list.length, question: q, reply: reply.text, quotesData: reply.quotesData, reportAt: report?.fetchedAt ?? '' }]);
     setInput('');
   };
@@ -93,6 +115,8 @@ export function WeatherAssistant({ world, site, state, onAnalyze, otherSite, onC
           ? `NASA POWER: daily values from ${formatDate(range.min)} to about 3 days ago.`
           : 'Mars: Curiosity’s daily weather reports from Gale crater (the only Mars station with a daily NASA feed here).'}
       </p>
+
+      {world.id === 'mars' && marsNow && <MarsNowCard site={site} {...marsNow} />}
 
       {state?.status === 'error' && <p className="weather__error" role="alert">{state.error}</p>}
 

@@ -9,6 +9,8 @@ import { normalizeLon, type LatLon } from '../lib/geo';
 import { usesBottomPanel } from '../lib/layout';
 import type { DetailStatus } from '../lib/tiles';
 import { FlatMapTile } from './FlatMapTile';
+import type { MarsGrid } from '../lib/weather/marsNow';
+import { paintMarsGrid } from '../lib/weather/marsOverlayCanvas';
 
 interface FlatMapProps {
   world: World;
@@ -26,6 +28,8 @@ interface FlatMapProps {
   flyRequest: number;
   panelWidth: number;
   onDetailStatusChange?: (status: DetailStatus) => void;
+  /** Mars: current NASA model grid shown as a colour layer (or null). */
+  overlayGrid?: MarsGrid | null;
 }
 
 /** A press that moves more than this many pixels is a drag (pan), not a click. */
@@ -62,7 +66,9 @@ export function FlatMap({
   flyRequest,
   panelWidth,
   onDetailStatusChange,
+  overlayGrid = null,
 }: FlatMapProps) {
+  const overlaySrc = useMemo(() => (overlayGrid ? paintMarsGrid(overlayGrid).toDataURL() : null), [overlayGrid]);
   const ref = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState({ w: window.innerWidth, h: window.innerHeight });
   const { cx, cy, freeW } = freeCentre(size.w, size.h, panelWidth);
@@ -213,6 +219,7 @@ export function FlatMap({
         {tiles.map((t) => (
           <FlatMapTile key={t.id} tile={t} ppd={v.ppd} />
         ))}
+        {overlaySrc && <img className="flat-map__base flat-map__overlay" src={overlaySrc} alt="" draggable={false} />}
       </div>
 
       {labels.filter(onScreen).map((l) => (

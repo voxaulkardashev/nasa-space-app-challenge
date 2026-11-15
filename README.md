@@ -70,6 +70,7 @@ The terminal shows a local address, usually **http://localhost:5173/**. Open it 
    - Press **📍 Drop pin** (top bar), then click the globe to drop a pin. The panel shows the coordinates, elevation and regional slope at that spot (Mars), each labelled. Esc cancels.
    - The **Weather assistant** at the top of the sidebar: pick a date and press **Analyze**. It describes the weather from real NASA data only (Earth: NASA POWER at your pin; Mars: Curiosity's measurements in Gale crater, with the distance from your pin). Ask it questions or tap a suggestion.
    - With a pin (or site) on both worlds, **Compare weather** gives a similarity percentage with every value and score behind it.
+   - On Mars, **Right now on Mars** shows NASA's current model estimate at your pin (temperature, pressure, wind, dust, water vapour). **Colour the whole globe by** turns it into a weather map of the whole planet. These are model values, labelled Estimated: no spacecraft measures live weather everywhere on Mars.
    - Choose a **featured site** (for example Jezero or Gale) and the camera flies there.
    - Zoom in close and sharper NASA imagery loads in. A credit line appears at the bottom left.
    - Featured sites show an official **NASA photo** with its caption and credit.

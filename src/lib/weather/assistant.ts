@@ -19,6 +19,15 @@ export interface ChatMessage {
 
 export const SUGGESTED_QUESTIONS = ['Temperature?', 'Air pressure?', 'Wind?', 'Weekly pattern?', 'Sky & sunlight?', 'How was this measured?'];
 
+/** Questions about the present moment ("right now", "live", "today"). */
+export const NOW_QUESTION = /\b(now|right now|current|currently|live|today|at the moment)\b/;
+
+/** Reply for Mars "right now" questions, built only from NASA's current model values at the pin. */
+export function marsNowReply(values: { label: string; value: number; unit: string; digits: number }[], model: string | null, marsTime: string | null): string {
+  const list = values.map((v) => `${v.label.toLowerCase()} ${v.value.toFixed(v.digits)}${v.unit ? ` ${v.unit}` : ''}`).join(', ');
+  return `No spacecraft measures the weather at your pin, so here is NASA Goddard’s PSG Mars model for right now${marsTime ? ` (${marsTime})` : ''}: ${list}. These are model estimates${model ? ` based on ${model}` : ''}, not measurements, and NASA says the app is for testing purposes. For real measurements, ask about the date you analysed (Curiosity’s data from Gale crater).`;
+}
+
 const NO_FEED_DATA = 'no data in this NASA feed';
 
 function n(v: number | null | undefined, digits: number, unit: string) {

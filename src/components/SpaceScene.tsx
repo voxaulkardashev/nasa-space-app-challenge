@@ -13,6 +13,7 @@ import { DEFAULT_EXAGGERATION, TOPOGRAPHY } from '../data/elevation';
 import { MAP_LABELS } from '../data/mapLabels';
 import { maxRaise, raisedRadius, type ViewMode } from '../lib/topography';
 import { useElevationGrid } from '../lib/useElevationGrid';
+import type { MarsGrid } from '../lib/weather/marsNow';
 import { CameraRig } from './CameraRig';
 import { PlanetBody } from './PlanetBody';
 import { PlanetLabel } from './PlanetLabel';
@@ -42,6 +43,8 @@ interface SpaceSceneProps {
   showLabels: boolean;
   /** Topography view: vertical exaggeration per world. */
   exaggeration: Record<WorldId, number>;
+  /** Mars: current NASA model grid to show as a colour layer (or null). */
+  marsOverlay?: MarsGrid | null;
 }
 
 export type OrbitControlsRef = ComponentRef<typeof OrbitControls>;
@@ -88,6 +91,7 @@ function SceneContents({
   viewMode,
   showLabels,
   exaggeration,
+  marsOverlay = null,
 }: SpaceSceneProps) {
   const aspect = useThree((s) => s.size.width / s.size.height);
   const controlsRef = useRef<OrbitControlsRef>(null);
@@ -160,6 +164,7 @@ function SceneContents({
               labelledSites={labelled}
               placeLabels={placeLabels}
               topo={isFocused && topoGrid ? { grid: topoGrid, exaggeration: exag } : null}
+              weatherOverlay={world.id === 'mars' && exploring ? marsOverlay : null}
               activeLayers={activeLayers}
               selectedSiteId={sites[world.id]?.featuredId}
               onChooseFeatured={onChooseFeatured}
