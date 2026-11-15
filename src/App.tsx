@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type CSSProperties } from 'react';
 import { LoadingOverlay } from './components/LoadingOverlay';
 import { CompareModal } from './components/CompareModal';
 import { SpaceScene } from './components/SpaceScene';
@@ -7,6 +7,7 @@ import type { FeaturedSite, GeoLayerId, WorldId } from './data/types';
 import { getWorld } from './data/worlds';
 import type { LatLon } from './lib/geo';
 import type { Screen, SelectedSite } from './lib/navigation';
+import { PanelWidthContext, clampPanelWidth, initialPanelWidth } from './lib/panelWidth';
 import type { DetailStatus } from './lib/tiles';
 import { ExploreScreen } from './screens/ExploreScreen';
 import { SelectWorldScreen } from './screens/SelectWorldScreen';
@@ -26,6 +27,7 @@ export default function App() {
   const [flyRequest, setFlyRequest] = useState(0);
   const [activeLayers, setActiveLayers] = useState<GeoLayerId[]>(ALL_LAYER_IDS);
   const [compareOpen, setCompareOpen] = useState(false);
+  const [panelWidth, setPanelWidth] = useState(initialPanelWidth);
   const [detailStatus, setDetailStatus] = useState<DetailStatus>({ active: false, loading: false });
 
   const selectedWorld = selectedId ? getWorld(selectedId) : null;
@@ -64,6 +66,13 @@ export default function App() {
     document.body.style.cursor = screen === 'select' && hoveredId ? 'pointer' : screen === 'explore' ? 'crosshair' : '';
   }, [screen, hoveredId]);
 
+  // Keep the sidebar within limits when the window is resized.
+  useEffect(() => {
+    const onResize = () => setPanelWidth((w) => clampPanelWidth(w));
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+
   // Escape key goes back one step.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -75,7 +84,8 @@ export default function App() {
   }, []);
 
   return (
-    <main className={`app app--${screen}`}>
+    <PanelWidthContext.Provider value={{ width: panelWidth, setWidth: setPanelWidth }}>
+    <main className={`app app--${screen}`} style={{ '--panel-width': `${panelWidth}px` } as CSSProperties}>
       <SpaceScene
         screen={screen}
         selectedId={selectedId}
@@ -88,6 +98,7 @@ export default function App() {
         onDetailStatusChange={setDetailStatus}
         activeLayers={activeLayers}
         onChooseFeatured={chooseFeatured}
+        panelWidth={panelWidth}
       />
 
       <SelectWorldScreen active={screen === 'select'} />
@@ -114,5 +125,6 @@ export default function App() {
 
       <LoadingOverlay />
     </main>
+    </PanelWidthContext.Provider>
   );
 }

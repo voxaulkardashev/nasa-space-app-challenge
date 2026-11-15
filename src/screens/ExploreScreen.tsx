@@ -1,6 +1,7 @@
 import { CounterpartPopup } from '../components/CounterpartPopup';
 import { FeaturedSiteList } from '../components/FeaturedSiteList';
 import { LayerFilter } from '../components/LayerFilter';
+import { PanelResizeHandle } from '../components/PanelResizeHandle';
 import { SitePanel } from '../components/SitePanel';
 import { featuredSitesFor, getFeaturedSite } from '../data/featuredSites';
 import { TILE_LAYERS } from '../data/tileLayers';
@@ -55,6 +56,8 @@ export function ExploreScreen({
       <button type="button" className="btn btn--ghost return-button" onClick={onBack}>
         <span aria-hidden="true">←</span> {world ? `${world.name} overview` : 'Overview'}
       </button>
+
+      {world && <PanelResizeHandle />}
 
       <LayerFilter active={activeLayers} onChange={onLayersChange} shownCount={shownSites.length} totalCount={allSites.length} />
 

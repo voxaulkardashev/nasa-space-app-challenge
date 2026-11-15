@@ -1,4 +1,5 @@
 import { InfoPanel } from '../components/InfoPanel';
+import { PanelResizeHandle } from '../components/PanelResizeHandle';
 import type { World } from '../data/types';
 
 interface WorldOverviewScreenProps {
@@ -21,6 +22,7 @@ export function WorldOverviewScreen({ world, active, onExplore, onReturn }: Worl
       </button>
 
       {world && <InfoPanel world={world} />}
+      {world && <PanelResizeHandle />}
 
       {world && (
         <div className="explore-cta-wrap">

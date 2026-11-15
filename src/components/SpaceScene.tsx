@@ -27,6 +27,8 @@ interface SpaceSceneProps {
   onDetailStatusChange: (status: DetailStatus) => void;
   activeLayers: GeoLayerId[];
   onChooseFeatured: (site: FeaturedSite) => void;
+  /** Sidebar width in px, so the globe is centred in the space beside it. */
+  panelWidth: number;
 }
 
 export type OrbitControlsRef = ComponentRef<typeof OrbitControls>;
@@ -68,6 +70,7 @@ function SceneContents({
   onDetailStatusChange,
   activeLayers,
   onChooseFeatured,
+  panelWidth,
 }: SpaceSceneProps) {
   const aspect = useThree((s) => s.size.width / s.size.height);
   const controlsRef = useRef<OrbitControlsRef>(null);
@@ -140,6 +143,7 @@ function SceneContents({
         flyRequest={flyRequest}
         flyTarget={exploring && site ? site : null}
         spinnersRef={spinners}
+        panelWidth={panelWidth}
         selectedId={selectedId}
       />
       <OrbitControls

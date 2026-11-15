@@ -1389,3 +1389,57 @@ a {
     grid-template-columns: 1fr;
   }
 }
+
+/* ---------- Sidebar resize handle ----------------------------------------- */
+
+/* Sits just outside the sidebar's left edge, positioned from the same width variable. */
+.panel-resize {
+  position: absolute;
+  top: 1.25rem;
+  bottom: 1.25rem;
+  right: calc(var(--panel-width) + 1.25rem - 8px);
+  width: 16px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: ew-resize;
+  touch-action: none;
+}
+
+.screen--explore .panel-resize {
+  top: 5.4rem;
+}
+
+.screen.is-active .panel-resize {
+  pointer-events: auto;
+}
+
+.panel-resize__grip {
+  width: 4px;
+  height: 44px;
+  border-radius: 999px;
+  background: rgba(160, 190, 255, 0.3);
+  transition:
+    background 0.2s var(--ease),
+    height 0.2s var(--ease);
+}
+
+.panel-resize:hover .panel-resize__grip,
+.panel-resize:focus-visible .panel-resize__grip,
+body.is-resizing .panel-resize__grip {
+  background: var(--accent);
+  height: 72px;
+}
+
+body.is-resizing,
+body.is-resizing * {
+  cursor: ew-resize !important;
+  user-select: none;
+}
+
+@media (max-width: 760px) {
+  .panel-resize {
+    display: none;
+  }
+}

@@ -21,6 +21,8 @@ interface CameraRigProps {
   /** The rotating groups of each world (to find where the site is right now). */
   spinnersRef: RefObject<Partial<Record<WorldId, Group>>>;
   selectedId: WorldId | null;
+  /** Sidebar width in px (desktop). */
+  panelWidth: number;
 }
 
 const target = new Vector3();
@@ -47,6 +49,7 @@ export function CameraRig({
   flyTarget,
   spinnersRef,
   selectedId,
+  panelWidth,
 }: CameraRigProps) {
   const camera = useThree((s) => s.camera);
   const size = useThree((s) => s.size);
@@ -107,7 +110,8 @@ export function CameraRig({
     if (camera instanceof PerspectiveCamera) {
       const { width, height } = size;
       const bottomPanel = usesBottomPanel(width);
-      const shiftX = bottomPanel ? 0 : Math.min(230, width * 0.17) * progress.current;
+      // Centre the world in the space left of the sidebar (sidebar + its 20 px margin, halved).
+      const shiftX = bottomPanel ? 0 : Math.min((panelWidth + 20) / 2, width * 0.3) * progress.current;
       const shiftY = bottomPanel ? height * 0.2 * progress.current : 0;
       camera.setViewOffset(width, height, shiftX, shiftY, width, height);
     }
