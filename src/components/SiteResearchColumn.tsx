@@ -4,6 +4,7 @@ import { assetUrl } from '../data/worlds';
 import { FactRow } from './FactRow';
 import { RslMap } from './RslMap';
 import { SiteEarthWeather } from './SiteEarthWeather';
+import { InsightHistory } from './InsightHistory';
 import { SiteLiveWeather } from './SiteLiveWeather';
 
 interface SiteResearchColumnProps {
@@ -95,6 +96,7 @@ export function SiteResearchColumn({ research }: SiteResearchColumnProps) {
           ))}
           {section.live && <SiteLiveWeather lat={section.live.lat} lon={section.live.lon} place={section.live.place} />}
           {section.liveEarth && <SiteEarthWeather {...section.liveEarth} />}
+          {section.historicalWeather === 'insight' && <InsightHistory />}
           {section.figure && <ResearchImage figure={section.figure} />}
           {section.map === 'rsl-sites' && <RslMap siteId={research.siteId} />}
           {section.notes?.map((note, i) => (
@@ -105,6 +107,7 @@ export function SiteResearchColumn({ research }: SiteResearchColumnProps) {
         </section>
       ))}
 
+      {research.citations.length > 0 && (
       <section className="research__section" aria-labelledby="research-sources">
         <h4 id="research-sources" className="research__title">
           Sources
@@ -119,6 +122,7 @@ export function SiteResearchColumn({ research }: SiteResearchColumnProps) {
           ))}
         </ol>
       </section>
+      )}
 
       {research.otherCredits && research.otherCredits.length > 0 && (
         <section className="research__section" aria-labelledby="research-credits">

@@ -68,7 +68,7 @@ export default function App() {
   const marsOverlayGrid = exploring && marsOverlay && marsNow.state.status === 'ready' ? (marsNow.state.data.grids[marsOverlay] ?? null) : null;
   const rslShown = exploring && showRsl ? RSL_SITES : [];
   const openRsl = exploring && showRsl && selectedId === 'mars' ? (RSL_SITES.find((s) => s.id === openRslId) ?? null) : null;
-  const shownFeatured = exploring && selectedId ? featuredSitesFor(selectedId).filter((f) => f.layers.some((l) => activeLayers.includes(l))) : [];
+  const shownFeatured = exploring && selectedId ? featuredSitesFor(selectedId).filter((f) => (f.layers.length === 0 || f.layers.some((l) => activeLayers.includes(l)))) : [];
   const viewSwitch = selectedId ? (
     <ViewModeSwitch
       className={exploring ? 'view-switch--explore' : 'view-switch--overview'}

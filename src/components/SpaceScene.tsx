@@ -143,7 +143,7 @@ function SceneContents({
         const pose = layout.bodies[world.id];
         const [x, y, z] = pose.position;
         const isFocused = selectedId === world.id;
-        const labelled = featuredSitesFor(world.id).filter((f) => f.layers.some((l) => activeLayers.includes(l)));
+        const labelled = featuredSitesFor(world.id).filter((f) => (f.layers.length === 0 || f.layers.some((l) => activeLayers.includes(l))));
         const featuredShown = exploring && (isFocused || sideBySide);
         const placeLabels =
           showLabels && !onSelectScreen && (isFocused || (exploring && sideBySide))

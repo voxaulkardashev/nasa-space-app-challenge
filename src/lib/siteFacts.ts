@@ -25,6 +25,15 @@ export function siteFacts(world: World, site: SelectedSite, extra: DataValue[] =
       status: 'measured',
       source: featured.coordinateSource,
     };
+  } else if (featured && featured.coordinateStatus === 'placeholder') {
+    coordinates = {
+      id: 'coordinates',
+      label: 'Coordinates',
+      value: formatLatLon(site),
+      note: 'Temporary marker',
+      status: 'placeholder',
+      reason: featured.coordinateMethod ?? 'Temporary location.',
+    };
   } else if (featured) {
     coordinates = {
       id: 'coordinates',

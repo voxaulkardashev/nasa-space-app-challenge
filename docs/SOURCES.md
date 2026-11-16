@@ -323,6 +323,53 @@ Both are left without a citation rather than given one that wasn't read.
 
 > **Also removed 15 November 2026 (team request):** the World Overview's "Key NASA datasets for analog & astrobiology work" box and its data, and, in the Compare view, the Similarities/Differences lists and the "Radiation shielding" box. "What Earth cannot reproduce" stays, including a one-line radiation note required by CLAUDE.md rule 5.
 
+## Compare view: Elysium Planitia and the Earth placeholder (`src/data/elysiumResearch.ts`, `src/data/placeholderResearch.ts`, added 16 November 2026)
+
+**Elysium Planitia** is a new Mars site. Its pin is at the **InSight landing site, 4.502° N, 135.623° E** (the team's value, labelled Estimated). It is consistent with NSSDCA ("landed in the western Elysium Planitia region") and with the landing-ellipse centre of 4.4° N, 135.8° E (Golombek et al. 2016). The plain's own Gazetteer centre (2.98° N, 154.74° E, about 3,000 km across, feature 1784) is shown separately. The column has six sections with citations [1]–[14]. Sources were checked on 16 November 2026, using Crossref abstracts where publisher pages block bots.
+
+**What supports what:**
+- **Voigt et al. 2023 JGR** (abstract):
+  - about 40 effusive episodes, basaltic lava
+  - Athabasca, Marte and Rahway Valles carved by water, then filled by lava
+  - youngest volcanic terrain on Mars
+  - lava–water interactions; ground ice limited to local patches
+  - Marte Vallis sourced from Cerberus Fossae
+- **Hobiger et al. 2021 Nature Communications** (abstract) and **Universe Today** (30 Nov 2021): 3 m regolith over about 15 m of ejecta; a sedimentary layer at 30–75 m between basalt flows.
+- **Golombek et al. 2020 Nature Communications:** near-surface profile of dust, loose sand, duricrust, then sand with rocks. Checked through search summaries of the paper.
+- **Golombek et al. 2016 LPSC:** regolith 3–6 m thick; platy lava flows.
+- **Horvath et al. 2021 Icarus:** recent explosive volcanism near Cerberus Fossae (title only). The "high-calcium pyroxene" detail is the team's and wasn't checked in the paper.
+- **Gazetteer:** crater and volcano names; Tombaugh, Eddie and Lockyer lie inside the MC-15 map area.
+- **PIA18831:** landforms image and caption.
+- **NASA Mars Facts:** heat escapes easily through the thin atmosphere.
+- **NSSDCA:** mission ended December 2022.
+
+**Images:**
+- `eastern-elysium-landforms-pia18831.jpg`: PIA18831, NASA/JPL-Caltech/Univ. of Arizona, resized.
+- `elysium-mc15-mola-usgs.jpg`: cropped from the MC-15 MOLA map PDF (rendered at 120 dpi), with the colour scale kept.
+- The **LPI Hecates Tholus image could not be downloaded** (the page is behind a bot check). The section links to it instead.
+
+**Weather (InSight):**
+- **Is the API still usable?** On 16 Nov 2026, `https://api.nasa.gov/insight_weather/?api_key=DEMO_KEY&feedtype=json&ver=1.0` still returned data, but only **sols 675–681 (19–26 October 2020)**.
+- **How it's shown:** the reply's temperature, wind, pressure and wind-direction fields were saved to `src/data/insightWeatherSnapshot.json` and are shown in a table (`InsightHistory`) labelled Measured (historical). The page states that these are not current weather and that the mission ended in December 2022. No other weather API is used for this section.
+- **The team's figures match this data, with two corrections:**
+  - highs: −16.9 °C (not −15.9 °C) to −4.4 °C; the −4.4 °C comes from sol 681, which is incomplete
+  - daily averages: −61.8 to −63.1 °C (not "−60 to −80")
+- **Earth comparison:** Earth's surface pressure (1014 mb) is from the NSSDCA Earth fact sheet.
+- **The Explore sidebar is unchanged:** it still shows PSG model values ("now") for any Mars pin, labelled Estimated. That is the app's existing PSG feature, not InSight.
+
+**Not individually cited** (kept from the team's text):
+- significant seismic activity
+- "few large craters"
+- steam explosions and hydrothermal environments; deep-sea vents and microbial life
+- perchlorates as a possible regolith hazard (InSight did not measure them; the text says so)
+- elevation range of 2,500–2,650 m below datum (the Explore panel shows the MOLA value at the pin)
+
+**Earth Location Placeholder (temporary):**
+- Site `earth-placeholder` at **46.00° N, 2.00° E**, an arbitrary point on land.
+- `coordinateStatus: 'placeholder'`, no geological layers, so it always shows.
+- Paired with Elysium as `elysium-placeholder` (`documentedBy: 'placeholder'`). Labelled Placeholder everywhere, with no similarities claimed.
+- **To replace it,** edit those two entries and `src/data/placeholderResearch.ts`.
+
 ## Compare view: McMurdo Dry Valleys (`src/data/mcmurdoResearch.ts`, added 16 November 2026)
 
 New Earth site **McMurdo Dry Valleys**, with the pin at Don Juan Pond in the South Fork of Wright Valley. It is paired with **Hale** as a team-chosen analogue (`mcmurdo-hale`, `documentedBy: 'team'`). The Compare view shows Hale/RSL on the left (unchanged) and the team's sections on the right: Background A, B and C; Earth Analog Site; Similarities. Read on 16 November 2026.

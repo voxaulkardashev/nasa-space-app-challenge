@@ -48,7 +48,13 @@ export function CounterpartPopup({ site, onGo, onCompare }: CounterpartPopupProp
                 {other.name} <span aria-hidden="true">→</span>
               </span>
               <span className="counterpart__why">
-                {pair.title} ({pair.documentedBy === 'team' ? 'chosen by our team, not a NASA-documented pair' : 'NASA Analog Explorer'})
+                {pair.title} (
+                {pair.documentedBy === 'placeholder'
+                  ? 'temporary marker, not an analog'
+                  : pair.documentedBy === 'team'
+                    ? 'chosen by our team, not a NASA-documented pair'
+                    : 'NASA Analog Explorer'}
+                )
               </span>
             </button>
           );

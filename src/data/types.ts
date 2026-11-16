@@ -111,7 +111,7 @@ export interface FeaturedSite {
   /** One or two plain sentences of context. */
   description: string;
   /** How trustworthy the coordinates are: from an official record, or compiled/approximate. */
-  coordinateStatus: 'measured' | 'estimated';
+  coordinateStatus: 'measured' | 'estimated' | 'placeholder';
   coordinateSource: SourceRef;
   /** Explanation shown for estimated coordinates. */
   coordinateMethod?: string;
@@ -141,7 +141,7 @@ export interface AnaloguePair {
   differences: string[];
   source: SourceRef;
   /** Who proposed the pair: NASA (default) or our team (then it is never described as NASA-documented). */
-  documentedBy?: 'nasa' | 'team';
+  documentedBy?: 'nasa' | 'team' | 'placeholder';
 }
 
 /** A photo from the NASA Image and Video Library (images.nasa.gov). */

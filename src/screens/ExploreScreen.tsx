@@ -96,7 +96,7 @@ export function ExploreScreen({
 }: ExploreScreenProps) {
   const currentSite = world && site?.worldId === world.id ? site : null;
   const allSites = world ? featuredSitesFor(world.id) : [];
-  const shownSites = allSites.filter((f) => f.layers.some((l) => activeLayers.includes(l)));
+  const shownSites = allSites.filter((f) => (f.layers.length === 0 || f.layers.some((l) => activeLayers.includes(l))));
   const featured = currentSite?.featuredId ? getFeaturedSite(currentSite.featuredId) : undefined;
   // Elevation data downloads only once the Explore screen is opened.
   const elevation = useElevationGrid(world?.id ?? null, active);

@@ -3123,3 +3123,35 @@ body.is-resizing * {
   font-size: 0.8rem;
   color: var(--text);
 }
+
+/* Historical InSight weather table (Elysium Planitia). */
+.insight-history__scroll {
+  overflow-x: auto;
+  margin: 0.4rem 0;
+}
+
+.insight-history__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.76rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.insight-history__table th,
+.insight-history__table td {
+  padding: 0.35rem 0.4rem;
+  border-bottom: 1px solid rgba(160, 190, 255, 0.12);
+  text-align: left;
+  vertical-align: top;
+}
+
+.insight-history__table th {
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.insight-history__date {
+  display: block;
+  color: var(--text-faint);
+  font-size: 0.7rem;
+}

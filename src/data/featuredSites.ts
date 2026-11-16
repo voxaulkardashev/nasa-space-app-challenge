@@ -123,7 +123,36 @@ export const FEATURED_SITES: FeaturedSite[] = [
     layers: ['impact', 'terrain'],
   },
 
+  {
+    id: 'elysium-planitia', worldId: 'mars', name: 'Elysium Planitia', kind: 'Volcanic plain (InSight landing site)',
+    lat: 4.502, lon: 135.623,
+    description:
+      'A broad, young volcanic plain near the equator. The pin marks where NASA’s InSight lander touched down (26 November 2018), not the centre of the whole plain.',
+    coordinateStatus: 'estimated',
+    coordinateSource: {
+      name: 'NASA NSSDCA — InSight Mars Lander (landed in western Elysium Planitia); landing ellipse centre 4.4° N, 135.8° E (Golombek et al. 2016)',
+      url: 'https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2018-042A',
+      sourceDate: 'Page date not stated',
+      accessed: '16 November 2026',
+    },
+    coordinateMethod: 'InSight lander position (4.502° N, 135.623° E) supplied by the team; consistent with NASA’s record and the landing-ellipse centre. Marks the landing site, not the centre of Elysium Planitia.',
+    facts: [],
+    layers: ['terrain'],
+  },
+
   // ---------------- Earth ----------------
+  // TEMPORARY placeholder (no analog chosen yet for Elysium Planitia). Replace this entry, the
+  // 'elysium-placeholder' pair in analogues.ts and src/data/placeholderResearch.ts together.
+  {
+    id: 'earth-placeholder', worldId: 'earth', name: 'Earth Location Placeholder', kind: 'Temporary marker — not an analog',
+    lat: 46.0, lon: 2.0,
+    description: 'An Earth analog for Elysium Planitia has not been selected yet. This location and map marker are temporary and will be replaced.',
+    coordinateStatus: 'placeholder',
+    coordinateSource: { name: 'None (placeholder)', url: 'https://planetarynames.wr.usgs.gov/Feature/1784', sourceDate: 'Not applicable', accessed: 'Not applicable' },
+    coordinateMethod: 'Arbitrary point on land used only to test the map and comparison layout.',
+    facts: [],
+    layers: [],
+  },
   earth({
     id: 'lake-salda', name: 'Lake Salda, Turkey', kind: 'Lake',
     lat: 37.55, lon: 29.68,

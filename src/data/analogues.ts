@@ -94,6 +94,17 @@ export const ANALOGUE_PAIRS: AnaloguePair[] = [
     documentedBy: 'team',
   },
   {
+    // TEMPORARY: no Earth analog chosen yet. Replace together with 'earth-placeholder' (featuredSites.ts).
+    id: 'elysium-placeholder',
+    earthSiteId: 'earth-placeholder',
+    marsSiteId: 'elysium-planitia',
+    title: 'Earth analog not selected yet (placeholder)',
+    similarities: [],
+    differences: [],
+    source: { name: 'None (placeholder)', url: 'https://planetarynames.wr.usgs.gov/Feature/1784', sourceDate: 'Not applicable', accessed: 'Not applicable' },
+    documentedBy: 'placeholder',
+  },
+  {
     id: 'deathvalley-utopia',
     earthSiteId: 'death-valley',
     marsSiteId: 'utopia',

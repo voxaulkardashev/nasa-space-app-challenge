@@ -89,7 +89,12 @@ export function CompareModal({ site, onClose }: CompareModalProps) {
           />
         </section>
 
-        {pair?.documentedBy === 'team' ? (
+        {pair?.documentedBy === 'placeholder' ? (
+          <p className="compare__source compare__pair-source">
+            <strong>Placeholder:</strong> an Earth analog for this site has not been selected yet. The Earth location and its map marker are temporary and
+            are not a scientific comparison.
+          </p>
+        ) : pair?.documentedBy === 'team' ? (
           <p className="compare__source compare__pair-source">
             Analogue pair chosen by our team, <strong>not a NASA-documented pair</strong>. Each reason is cited in the columns above (main source:{' '}
             <a href={pair.source.url} target="_blank" rel="noreferrer">
