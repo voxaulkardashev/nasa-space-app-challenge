@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { MAP_LABELS } from '../data/mapLabels';
+import { MAP_LABELS, MARS_CONTEXT_LABELS } from '../data/mapLabels';
 import { RSL_CONTEXT_LINKS, RSL_PRECISION_NOTE, RSL_SITES, rslLon } from '../data/rslSites';
 import { assetUrl, getWorld } from '../data/worlds';
 import { RslSiteDetails } from './RslSiteDetails';
@@ -31,7 +31,7 @@ export function RslMap({ siteId }: RslMapProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const selected = RSL_SITES.find((s) => s.id === selectedId) ?? RSL_SITES[0];
   const mars = getWorld('mars');
-  const context = MAP_LABELS.mars.filter((l) => CONTEXT_IDS.includes(l.id));
+  const context = [...MAP_LABELS.mars, ...MARS_CONTEXT_LABELS].filter((l) => CONTEXT_IDS.includes(l.id));
 
   // Keep the selected marker in view when zoomed in.
   useEffect(() => {

@@ -27,14 +27,6 @@ export const SITE_PHOTOS: Record<string, SitePhoto> = {
     credit: 'NASA/GSFC/METI/ERSDAC/JAROS, and U.S./Japan ASTER Science Team',
     imageUrl: asset('PIA12461', 'medium'),
   },
-  holuhraun: {
-    nasaId: 'jsc2024e055198',
-    caption: 'Artemis II Crew geology training in Iceland - jsc2024e055198',
-    date: '2024-08-01',
-    center: 'JSC',
-    credit: 'Robert Markowitz, NASA-JSC',
-    imageUrl: asset('jsc2024e055198', 'medium'),
-  },
   jezero: {
     nasaId: 'PIA23239',
     caption: "Jezero Crater, Mars 2020's Landing Site",

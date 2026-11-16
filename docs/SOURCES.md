@@ -329,7 +329,7 @@ The following featured sites, their NASA analogue pairs and their NASA photos we
 - **Earth:** Atacama Desert (Yungay), Death Valley (Badwater Basin stays), Pilot Valley, Haughton crater and Meteor Crater.
 - **Mars:** Utopia Planitia, Phoenix landing site, Olympus Mons, Valles Marineris and Hellas Planitia.
 
-Olympus Mons, Valles Marineris, Hellas Planitia and Utopia Planitia still appear as plain Gazetteer **place labels** on the Mars map (a separate feature), but they are no longer selectable sites.
+**Also removed (same day):** Holuhraun, Iceland and its "Mars in general" NASA pair. No NASA-documented pairs remain; all four pairs are team analogues or the placeholder. The Gazetteer place labels for Olympus Mons, Valles Marineris, Hellas Planitia and Utopia Planitia are hidden from the Mars map (`MARS_CONTEXT_LABELS` in `src/data/mapLabels.ts`). Hale's RSL map still uses three of them as orientation names.
 
 ## Compare view: Lake Lappajärvi, Finland (`src/data/lappajarviResearch.ts`, added 16 November 2026)
 

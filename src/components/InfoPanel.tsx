@@ -48,7 +48,7 @@ export function InfoPanel({ world, actions, onOpenSite }: InfoPanelProps) {
           Analog sites in this app
         </h3>
         <AnalogSitesList worldId={world.id} onOpenSite={onOpenSite} />
-        <p className="info-panel__hint">From NASA’s Planetary Analog Explorer. Analogs share features; they are not the same.</p>
+        <p className="info-panel__hint">Chosen by our team (not NASA-documented pairs); one is still a placeholder. Analogs share features; they are not the same.</p>
       </section>
 
       <SpaceWeatherSection worldId={world.id} />

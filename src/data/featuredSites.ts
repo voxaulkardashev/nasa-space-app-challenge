@@ -23,12 +23,6 @@ function gazetteer(featureId: number, name: string, lastUpdated: string): Source
 }
 
 
-const EARTH_COMPILED: SourceRef = {
-  name: 'Compiled from public reference pages (Wikipedia, BirdLife, ESA); not an official gazetteer',
-  url: 'https://en.wikipedia.org/',
-  sourceDate: 'Not applicable',
-  accessed: '15 November 2026',
-};
 
 function diameter(km: string, source: SourceRef): MeasuredValue {
   return { id: 'diameter', label: 'Diameter', value: `${km} km`, note: 'Official feature diameter', status: 'measured', source };
@@ -38,17 +32,7 @@ const JEZERO = gazetteer(14300, 'Jezero', 'Nov 17, 2010');
 const GALE = gazetteer(2071, 'Gale', 'Nov 17, 2010');
 const HALE: SourceRef = { ...gazetteer(2322, 'Hale', ''), sourceDate: 'Name adopted by the IAU in 1973; record date not stated', accessed: '16 November 2026' };
 
-const EARTH_METHOD =
-  'Approximate centre of the named area, rounded to 0.01°, compiled from public reference pages. Not checked against an official gazetteer; the team should confirm it.';
 
-const earth = (fields: Omit<FeaturedSite, 'worldId' | 'coordinateStatus' | 'coordinateSource' | 'coordinateMethod' | 'facts'>): FeaturedSite => ({
-  ...fields,
-  worldId: 'earth',
-  coordinateStatus: 'estimated',
-  coordinateSource: EARTH_COMPILED,
-  coordinateMethod: EARTH_METHOD,
-  facts: [],
-});
 
 export const FEATURED_SITES: FeaturedSite[] = [
   // ---------------- Mars ----------------
@@ -150,12 +134,6 @@ export const FEATURED_SITES: FeaturedSite[] = [
     facts: [],
     layers: ['sediments', 'terrain'],
   },
-  earth({
-    id: 'holuhraun', name: 'Holuhraun, Iceland', kind: 'Lava field',
-    lat: 64.85, lon: -16.83,
-    description: 'A flood-basalt lava field. NASA scientists went there because “this volcano has geologic cousins on Mars.”',
-    layers: ['terrain'],
-  }),
 ];
 
 export function featuredSitesFor(worldId: WorldId): FeaturedSite[] {

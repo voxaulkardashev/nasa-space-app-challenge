@@ -45,7 +45,7 @@ export const TUTORIAL_STEPS: TutorialStep[] = [
     stage: 'overview',
     target: '.screen--overview .info-panel',
     title: 'What matters for analogue science',
-    body: 'The sidebar lists the conditions that make Mars different from Earth (atmosphere, temperature, ice and more), the analogue sites (NASA-documented, plus one pair chosen by our team and marked as such), and recent space weather. Drag its left edge to make it wider.',
+    body: 'The sidebar lists the conditions that make Mars different from Earth (atmosphere, temperature, ice and more), the Earth analogue sites chosen by our team, and recent space weather. Drag its left edge to make it wider.',
   },
   {
     id: 'labels',
@@ -102,7 +102,7 @@ export const TUTORIAL_STEPS: TutorialStep[] = [
     stage: 'explore-site',
     target: '.counterpart',
     title: 'Its analogue on the other world',
-    body: 'When a site has analogues (NASA-documented, or chosen by our team and marked as such), they appear here. Click one to jump to it.',
+    body: 'When a site has an Earth analogue chosen by our team, it appears here (one is still a placeholder). Click one to jump to it.',
   },
   {
     id: 'compare',

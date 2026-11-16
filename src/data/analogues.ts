@@ -1,4 +1,4 @@
-import type { AnaloguePair, SourceRef } from './types';
+import type { AnaloguePair } from './types';
 
 /**
  * Earth ⇄ Mars analogue pairs. Every similarity and difference below is taken
@@ -8,14 +8,7 @@ import type { AnaloguePair, SourceRef } from './types';
  * separately by the Compare view.
  */
 
-const ACCESSED = '15 November 2026';
 
-const ANALOG_EXPLORER: SourceRef = {
-  name: 'NASA Science — Planetary Analog Explorer',
-  url: 'https://science.nasa.gov/solar-system/analog-explorer/',
-  sourceDate: 'Page date not stated',
-  accessed: ACCESSED,
-};
 
 
 export const ANALOGUE_PAIRS: AnaloguePair[] = [
@@ -83,15 +76,6 @@ export const ANALOGUE_PAIRS: AnaloguePair[] = [
     differences: [],
     source: { name: 'None (placeholder)', url: 'https://planetarynames.wr.usgs.gov/Feature/1784', sourceDate: 'Not applicable', accessed: 'Not applicable' },
     documentedBy: 'placeholder',
-  },
-  {
-    id: 'holuhraun-mars',
-    earthSiteId: 'holuhraun',
-    marsSiteId: null,
-    title: 'Flood Basalts on Mars & in Iceland',
-    similarities: ['NASA: “This volcano has geologic cousins on Mars.”'],
-    differences: [],
-    source: ANALOG_EXPLORER,
   },
 ];
 
