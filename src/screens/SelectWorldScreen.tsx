@@ -40,7 +40,7 @@ export function SelectWorldScreen({ active, onStartTour, tourRunning }: SelectWo
   return (
     <section className={`screen screen--select${active ? ' is-active' : ''}`} inert={!active} aria-label="Select a world">
       <header className="select-header">
-        <p className="eyebrow">Planetary Analogue Explorer</p>
+        <p className="eyebrow">Terralink</p>
         <h1 className="select-title">Select a World</h1>
         <p className="select-subtitle">Choose a body to view it in 3D using NASA imagery.</p>
       </header>
@@ -75,7 +75,7 @@ export function SelectWorldScreen({ active, onStartTour, tourRunning }: SelectWo
       )}
       <img className="select-brand" src={assetUrl('brand/terralink-logo.svg')} alt="Terralink" width={2000} height={800} />
       <footer className="select-footer">
-        Sizes are not to scale · Starfield is decorative · Imagery: NASA (see “About this imagery” on each world)
+        Imagery: NASA (see “About this imagery” on each world)
         <span className="select-footer__disclaimer">{PROJECT_DISCLAIMER_SHORT}</span>
       </footer>
       {aboutOpen && active && <AboutModal onClose={() => setAboutOpen(false)} />}

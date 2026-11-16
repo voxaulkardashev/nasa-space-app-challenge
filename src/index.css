@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Planetary Analogue Explorer: global styles
+   Terralink: global styles
    Dark navy-to-black space, translucent panels, clean type.
    ========================================================================== */
 
@@ -3168,7 +3168,7 @@ body.is-resizing * {
 }
 
 @media (max-width: 760px) {
-  /* Phones: the logo sits at the top, in place of the small "Planetary Analogue Explorer" line. */
+  /* Phones: the logo sits at the top, in place of the small "Terralink" line. */
   .select-brand {
     left: 50%;
     bottom: auto;

@@ -1,6 +1,6 @@
 # Sources
 
-> **Disclaimer (shown in the app):** Planetary Analogue Explorer is a student project for the NASA Space Apps Challenge and is not affiliated with, sponsored by or endorsed by NASA, JPL or Caltech. NASA and JPL images are used with their credit lines under the [JPL Image Use Policy](https://www.jpl.nasa.gov/jpl-image-use-policy/) ("may be used for any purpose without prior permission"; a credit line is required; endorsement must not be implied; no NASA logos). Partner-owned images (credits naming ASU, MSSS, ESA/DLR, FU Berlin, LANL/CNES/IRAP and others) are for educational, non-commercial use.
+> **Disclaimer (shown in the app):** Terralink is a student project for the NASA Space Apps Challenge and is not affiliated with, sponsored by or endorsed by NASA, JPL or Caltech. NASA and JPL images are used with their credit lines under the [JPL Image Use Policy](https://www.jpl.nasa.gov/jpl-image-use-policy/) ("may be used for any purpose without prior permission"; a credit line is required; endorsement must not be implied; no NASA logos). Partner-owned images (credits naming ASU, MSSS, ESA/DLR, FU Berlin, LANL/CNES/IRAP and others) are for educational, non-commercial use.
 
 Every dataset, texture and value used in the app, with where it came from and when.
 Required by rule 8 in `CLAUDE.md`. **Update this file whenever you add or change data.**

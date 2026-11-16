@@ -1,5 +1,5 @@
 /**
- * Shared data types for the Planetary Analogue Explorer.
+ * Shared data types for Terralink.
  *
  * Scientific integrity rule: every value shown in the interface must be
  * Measured, Estimated or Placeholder. The DataValue type below makes that

@@ -1,4 +1,4 @@
-# Planetary Analogue Explorer
+# Terralink
 
 A web app built by a team of six high school students for the NASA Space Apps Challenge. Users pick a world (Mars or Earth; the Moon was removed on 15 November 2026), explore it on a 3D globe, select a site, and see which Earth locations resemble it and why, using measured NASA data.
 
@@ -94,6 +94,7 @@ Dark navy to black background with subtle stars; realistic textures and lighting
 - **16 November 2026 (Lake Lappajärvi):** Lake Lappajärvi, Finland (63.20° N, 23.70° E, Estimated) replaced Lake Salda as Jezero's first Earth comparison (team analogue; Atacama tab unchanged). Right column: `src/data/lappajarviResearch.ts` (seven sections, Wikimedia public-domain satellite image, NASA POWER weather card).
 - **16 November 2026 (site clean-up, team request):** removed Earth sites Atacama, Death Valley, Pilot Valley, Haughton, Meteor Crater and Mars sites Utopia Planitia, Phoenix, Olympus Mons, Valles Marineris, Hellas (with their pairs and photos). Featured sites now: Mars — Jezero, Gale, Hale, Elysium Planitia; Earth — Lake Lappajärvi, Badwater Basin, McMurdo Dry Valleys, Earth Location Placeholder. Holuhraun was also removed; there are no NASA-documented pairs now. Map labels for Olympus Mons, Valles Marineris, Hellas and Utopia are hidden (kept only for the RSL map).
 - **16 November 2026 (branding):** the app is named **Terralink**. Traced SVG logos in `public/brand/`; the "tl" favicon (`public/favicon.svg`) adapts to light and dark tabs; the wordmark is bottom-left on the landing page. The tab title, About box, tour welcome and disclaimer say Terralink.
+- **16 November 2026 (name):** "Planetary Analogue Explorer" replaced by **Terralink** everywhere (UI, README, docs, package name). Landing footer trimmed to the NASA imagery credit and the disclaimer.
 - **Not built:** a computed analogue engine (scores from measured per-dimension Earth data) and the Python back end. Do not build them until asked.
 - Deadline: Sunday 15 November 2026, 11:59 PM Pacific.
 
