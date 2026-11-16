@@ -47,6 +47,7 @@ const OLYMPUS = gazetteer(4453, 'Olympus Mons', 'Oct 01, 2006');
 const VALLES = gazetteer(6288, 'Valles Marineris', 'Oct 01, 2006');
 const HELLAS = gazetteer(2432, 'Hellas Planitia', 'Oct 01, 2006');
 const UTOPIA = gazetteer(6260, 'Utopia Planitia', 'Jun 21, 2012');
+const HALE: SourceRef = { ...gazetteer(2322, 'Hale', ''), sourceDate: 'Name adopted by the IAU in 1973; record date not stated', accessed: '16 November 2026' };
 
 const EARTH_METHOD =
   'Approximate centre of the named area, rounded to 0.01°, compiled from public reference pages. Not checked against an official gazetteer; the team should confirm it.';
@@ -111,6 +112,15 @@ export const FEATURED_SITES: FeaturedSite[] = [
     description: 'A vast, deep impact basin in the southern hemisphere. NASA images also record dune fields inside it.',
     coordinateStatus: 'measured', coordinateSource: HELLAS, facts: [diameter('2,299.16', HELLAS)],
     layers: ['impact', 'aeolian'],
+  },
+
+  {
+    id: 'hale', worldId: 'mars', name: 'Hale', kind: 'Crater',
+    lat: -35.78, lon: -36.5,
+    description:
+      'A large oval impact crater near the northern edge of the Argyre basin. Its central peaks are one of the most active sites of recurring slope lineae (RSL), dark seasonal streaks on steep slopes (NASA).',
+    coordinateStatus: 'measured', coordinateSource: HALE, facts: [diameter('149.00', HALE)],
+    layers: ['impact', 'terrain'],
   },
 
   // ---------------- Earth ----------------

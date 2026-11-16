@@ -63,7 +63,7 @@ The terminal shows a local address, usually **http://localhost:5173/**. Open it 
    - Featured sites appear as labelled pins on the globe. **Geological layers** (top left) filters them by impact structures, aeolian processes, sediments & mineralogy, or terrain/glaciers/rivers.
    - **Search** (top of the sidebar) finds sites on both worlds.
    - Choosing a site shows its **corresponding site on the other world** (NASA-documented analogues) in a pop-up; click it to jump there.
-   - **Compare** opens Mars and Earth side by side: each site's details (team research for Gale and Jezero), the NASA source of the pair, and what Earth cannot reproduce (gravity, thin air, radiation).
+   - **Compare** opens Mars and Earth side by side: each site's details (team research for Gale, Jezero and Hale; Hale includes a map of observed recurring slope lineae), the NASA source of the pair, and what Earth cannot reproduce (gravity, thin air, radiation).
    - **Side by side** shows both globes at once.
    - Drag the sidebar's left edge to make it wider.
    - Press **📍 Drop pin** (top bar), then click the globe to drop a pin. The panel shows the coordinates, elevation and regional slope at that spot (Mars), each labelled. Esc cancels.
@@ -71,6 +71,7 @@ The terminal shows a local address, usually **http://localhost:5173/**. Open it 
    - With a pin (or site) on both worlds, **Compare weather** gives a similarity percentage with every value and score behind it.
    - On Mars, **Right now on Mars** shows NASA's current model estimate at your pin (temperature, pressure, wind, dust, water vapour). **Colour the whole globe by** turns it into a weather map of the whole planet. These are model values, labelled Estimated: no spacecraft measures live weather everywhere on Mars.
    - Choose a **featured site** (for example Jezero or Gale) and the camera flies there.
+   - On Mars, cyan diamonds mark places where NASA reports **recurring slope lineae (RSL)** in HiRISE images. Click one for its coordinates and sources; turn them off under **Geological layers → Observations**.
    - Zoom in close and sharper NASA imagery loads in. A credit line appears at the bottom left.
    - Featured sites show an official **NASA photo** with its caption and credit.
 5. **← (world name)**, **Back to overview**, **All worlds** or the Esc key go back.

@@ -8,13 +8,15 @@ interface LayerFilterProps {
   /** How many featured sites on this world are currently shown. */
   shownCount: number;
   totalCount: number;
+  /** Mars: the separate "RSL observed" marker layer (observation sites, not featured sites). */
+  rsl?: { on: boolean; count: number; onToggle: () => void };
 }
 
 /**
  * Drop-down of geological filter layers. Several can be on at once; the globe
  * and the featured-site list then show only sites in those layers.
  */
-export function LayerFilter({ active, onChange, shownCount, totalCount }: LayerFilterProps) {
+export function LayerFilter({ active, onChange, shownCount, totalCount, rsl }: LayerFilterProps) {
   const [open, setOpen] = useState(false);
   const toggle = (id: GeoLayerId) =>
     onChange(active.includes(id) ? active.filter((l) => l !== id) : [...active, id]);
@@ -48,6 +50,21 @@ export function LayerFilter({ active, onChange, shownCount, totalCount }: LayerF
               None
             </button>
           </div>
+          {rsl && (
+            <>
+              <p className="layer-filter__heading">Observations</p>
+              <label className="layer-filter__item">
+                <input type="checkbox" checked={rsl.on} onChange={rsl.onToggle} />
+                <span className="rsl-legend rsl-legend--site layer-filter__rsl" aria-hidden="true" />
+                <span>
+                  <span className="layer-filter__label">RSL observed ({rsl.count} sites)</span>
+                  <span className="layer-filter__desc">
+                    Recurring slope lineae seen in HiRISE images, each with a NASA source. Click a marker for details.
+                  </span>
+                </span>
+              </label>
+            </>
+          )}
           <p className="layer-filter__note">
             Sites are grouped by the team from the NASA and IAU descriptions cited for each site. This filters sites; it
             is not a geological map.

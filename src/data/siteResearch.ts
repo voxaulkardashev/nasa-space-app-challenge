@@ -1,8 +1,9 @@
+import { HALE_RESEARCH } from './haleResearch';
 import { JEZERO_RESEARCH } from './jezeroResearch';
 import type { DataValue } from './types';
 
 /**
- * Team research shown in the Compare view's site column (currently Gale only).
+ * Team research shown in the Compare view's site column (Gale, Jezero and Hale).
  * Text is the team's research, lightly edited for clarity and checked against
  * each cited page (see docs/SOURCES.md). In paragraphs, "[[n]]" marks citation n.
  */
@@ -40,6 +41,10 @@ export interface ResearchSection {
   live?: { lat: number; lon: number; place: string };
   /** Small print under the section (caveats). */
   notes?: string[];
+  /** Titled parts of the section, e.g. competing hypotheses (`tag` shows a badge such as "Debated"). */
+  subsections?: { title: string; tag?: string; paragraphs: string[] }[];
+  /** An interactive map shown in this section ('rsl-sites': where RSL have been observed on Mars). */
+  map?: 'rsl-sites';
 }
 
 export interface SiteResearch {
@@ -181,4 +186,4 @@ const GALE: SiteResearch = {
 };
 
 /** Research shown in place of the standard site column, by featured-site id. */
-export const SITE_RESEARCH: Record<string, SiteResearch> = { gale: GALE, jezero: JEZERO_RESEARCH };
+export const SITE_RESEARCH: Record<string, SiteResearch> = { gale: GALE, jezero: JEZERO_RESEARCH, hale: HALE_RESEARCH };

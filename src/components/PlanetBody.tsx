@@ -12,6 +12,8 @@ import { MissingTextureSphere } from './MissingTextureSphere';
 import { PlanetSurface } from './PlanetSurface';
 import { SiteLabelsLayer } from './SiteLabelsLayer';
 import { MapLabelsLayer } from './MapLabelsLayer';
+import { RslMarkersLayer } from './RslMarkersLayer';
+import type { RslSite } from '../data/rslSites';
 import { TopoSurface } from './TopoSurface';
 import { MarsWeatherOverlay } from './MarsWeatherOverlay';
 import type { MarsGrid } from '../lib/weather/marsNow';
@@ -54,6 +56,10 @@ interface PlanetBodyProps {
   placeLabels?: MapLabel[];
   /** Mars: current NASA model grid shown as a colour layer (not in the Topography view). */
   weatherOverlay?: MarsGrid | null;
+  /** Mars, Explore: "RSL observed" markers (empty when the layer is off). */
+  rslSites?: RslSite[];
+  openRslId?: string | null;
+  onOpenRsl?: (id: string) => void;
 }
 
 /** Slow decorative spin (radians per second). Positive = west-to-east, like the real bodies. */
@@ -84,6 +90,9 @@ export function PlanetBody({
   topo = null,
   placeLabels,
   weatherOverlay = null,
+  rslSites,
+  openRslId,
+  onOpenRsl,
 }: PlanetBodyProps) {
   const group = useRef<Group>(null);
   const tilt = useRef<Group>(null);
@@ -212,6 +221,9 @@ export function PlanetBody({
         {weatherOverlay && !topo && <MarsWeatherOverlay grid={weatherOverlay} />}
         {site && <SiteMarker site={site} radius={radiusAt?.(site.lat, site.lon)} />}
         {placeLabels && placeLabels.length > 0 && <MapLabelsLayer labels={placeLabels} radiusAt={radiusAt} />}
+        {pickable && rslSites && rslSites.length > 0 && onOpenRsl && (
+          <RslMarkersLayer sites={rslSites} openId={openRslId} onOpen={onOpenRsl} radiusAt={radiusAt} />
+        )}
         {pickable && labelledSites && activeLayers && onChooseFeatured && (
           <SiteLabelsLayer
             sites={labelledSites}

@@ -11,6 +11,7 @@ import type { DetailStatus } from '../lib/tiles';
 import { FlatMapTile } from './FlatMapTile';
 import type { MarsGrid } from '../lib/weather/marsNow';
 import { paintMarsGrid } from '../lib/weather/marsOverlayCanvas';
+import { rslLon, type RslSite } from '../data/rslSites';
 
 interface FlatMapProps {
   world: World;
@@ -30,6 +31,10 @@ interface FlatMapProps {
   onDetailStatusChange?: (status: DetailStatus) => void;
   /** Mars: current NASA model grid shown as a colour layer (or null). */
   overlayGrid?: MarsGrid | null;
+  /** Mars, Explore: "RSL observed" markers (empty when the layer is off). */
+  rslSites?: RslSite[];
+  openRslId?: string | null;
+  onOpenRsl?: (id: string) => void;
 }
 
 /** A press that moves more than this many pixels is a drag (pan), not a click. */
@@ -67,6 +72,9 @@ export function FlatMap({
   panelWidth,
   onDetailStatusChange,
   overlayGrid = null,
+  rslSites = [],
+  openRslId = null,
+  onOpenRsl,
 }: FlatMapProps) {
   const overlaySrc = useMemo(() => (overlayGrid ? paintMarsGrid(overlayGrid).toDataURL() : null), [overlayGrid]);
   const ref = useRef<HTMLDivElement>(null);
@@ -228,6 +236,24 @@ export function FlatMap({
           {l.name}
         </span>
       ))}
+
+      {onOpenRsl &&
+        rslSites
+          .filter((s) => onScreen({ lat: s.lat, lon: rslLon(s) }))
+          .map((s) => (
+            <button
+              key={s.id}
+              type="button"
+              className={`rsl-pin flat-map__rsl${s.id === openRslId ? ' is-selected' : ''}`}
+              style={{ left: x(rslLon(s)), top: y(s.lat) }}
+              title={`RSL observed: ${s.name}`}
+              aria-label={`RSL observed: ${s.name}`}
+              onPointerDown={(e) => e.stopPropagation()}
+              onClick={() => onOpenRsl(s.id)}
+            >
+              <span className="rsl-pin__shape" aria-hidden="true" />
+            </button>
+          ))}
 
       {featured.filter(onScreen).map((f) => (
         <button

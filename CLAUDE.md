@@ -84,6 +84,10 @@ Dark navy to black background with subtle stars; realistic textures and lighting
   - A "not affiliated with or endorsed by NASA" disclaimer appears in the landing footer and in About (`src/data/about.ts`).
   - The CTX layer shows its owners' required credit ("NASA/JPL/MSSS/The Murray Lab"; free use granted). Esri's own hosting terms are not confirmed (see docs/SOURCES.md).
 - **15 November 2026 (guided tour):** 14-step tour (`src/data/tutorial.ts`, `TutorialOverlay`) from the landing page through Overview and Explore. Started from "Take the tour" (landing and overviews), "? Tour" (Explore) and a one-time first-visit offer.
+- **16 November 2026 (Hale Crater and RSL):**
+  - New Mars featured site Hale (Gazetteer coordinates). Its Compare column shows the team's five sections (`src/data/haleResearch.ts`, same component as Gale and Jezero), citations [1]–[15], both RSL mechanisms labelled Debated.
+  - RSL map in the Background section (`RslMap`) and cyan "RSL observed" markers on the Explore globe and 2D map (`src/data/rslSites.ts`, toggle under Geological layers → Observations). Only 10 NASA-documented HiRISE observations, each with its sources; markers are HiRISE image centres (accurate to a few km).
+  - Munaretto 2020's numbers were checked from its abstract only; see docs/SOURCES.md.
 - **Not built:** a computed analogue engine (scores from measured per-dimension Earth data) and the Python back end. Do not build them until asked.
 - Deadline: Sunday 15 November 2026, 11:59 PM Pacific.
 

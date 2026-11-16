@@ -10,6 +10,7 @@ import { TUTORIAL_STEPS, TUTORIAL_SEEN_KEY, type TutorialStage } from './data/tu
 import { DEFAULT_EXAGGERATION } from './data/elevation';
 import { featuredSitesFor } from './data/featuredSites';
 import { MAP_LABELS } from './data/mapLabels';
+import { RSL_SITES } from './data/rslSites';
 import type { ViewMode } from './lib/topography';
 import { pairsForSite } from './data/analogues';
 import { getFeaturedSite } from './data/featuredSites';
@@ -57,11 +58,16 @@ export default function App() {
   const marsNow = useMarsNow(screen === 'explore' && selectedId === 'mars');
   // Guided tour: index of the current step, or null when it isn't running.
   const [tourStep, setTourStep] = useState<number | null>(null);
+  // Mars: "RSL observed" markers (on by default) and the one whose details are open.
+  const [showRsl, setShowRsl] = useState(true);
+  const [openRslId, setOpenRslId] = useState<string | null>(null);
 
   const selectedWorld = selectedId ? getWorld(selectedId) : null;
   const site = selectedId ? (sites[selectedId] ?? null) : null;
   const exploring = screen === 'explore';
   const marsOverlayGrid = exploring && marsOverlay && marsNow.state.status === 'ready' ? (marsNow.state.data.grids[marsOverlay] ?? null) : null;
+  const rslShown = exploring && showRsl ? RSL_SITES : [];
+  const openRsl = exploring && showRsl && selectedId === 'mars' ? (RSL_SITES.find((s) => s.id === openRslId) ?? null) : null;
   const shownFeatured = exploring && selectedId ? featuredSitesFor(selectedId).filter((f) => f.layers.some((l) => activeLayers.includes(l))) : [];
   const viewSwitch = selectedId ? (
     <ViewModeSwitch
@@ -198,6 +204,9 @@ export default function App() {
         showLabels={showLabels}
         exaggeration={exaggeration}
         marsOverlay={marsOverlayGrid}
+        rslSites={rslShown}
+        openRslId={openRslId}
+        onOpenRsl={setOpenRslId}
       />
 
       {viewMode === 'map2d' && !(exploring && sideBySide) && screen !== 'select' && selectedWorld && (
@@ -220,6 +229,9 @@ export default function App() {
           panelWidth={panelWidth}
           onDetailStatusChange={exploring ? setDetailStatus : undefined}
           overlayGrid={selectedWorld.id === 'mars' ? marsOverlayGrid : null}
+          rslSites={selectedWorld.id === 'mars' ? rslShown : []}
+          openRslId={openRslId}
+          onOpenRsl={exploring ? setOpenRslId : undefined}
         />
       )}
 
@@ -263,6 +275,16 @@ export default function App() {
         onStartTour={startTour}
         marsNow={{ state: marsNow.state, onRefresh: marsNow.refresh, overlay: marsOverlay, onOverlayChange: setMarsOverlay }}
         flatMap={viewMode === 'map2d' && !sideBySide}
+        rsl={{
+          show: showRsl,
+          count: RSL_SITES.length,
+          onToggle: () => {
+            setShowRsl((v) => !v);
+            setOpenRslId(null);
+          },
+          open: openRsl,
+          onClose: () => setOpenRslId(null),
+        }}
       />
 
       {compareOpen && screen === 'explore' && site && <CompareModal site={site} onClose={() => setCompareOpen(false)} />}

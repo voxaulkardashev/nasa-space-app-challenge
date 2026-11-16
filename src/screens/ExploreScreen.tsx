@@ -1,6 +1,8 @@
 import { CounterpartPopup } from '../components/CounterpartPopup';
 import { FeaturedSiteList } from '../components/FeaturedSiteList';
 import { LayerFilter } from '../components/LayerFilter';
+import { RslSitePopup } from '../components/RslSitePopup';
+import type { RslSite } from '../data/rslSites';
 import { PanelResizeHandle } from '../components/PanelResizeHandle';
 import { SiteSearch } from '../components/SiteSearch';
 import type { ComponentProps, ReactNode } from 'react';
@@ -47,6 +49,8 @@ interface ExploreScreenProps {
   /** Mars: current NASA model conditions and the globe colour layer. */
   marsNow?: ComponentProps<typeof WeatherAssistant>['marsNow'];
   flatMap?: boolean;
+  /** Mars: the "RSL observed" marker layer and the marker whose details are open. */
+  rsl?: { show: boolean; count: number; onToggle: () => void; open: RslSite | null; onClose: () => void };
 }
 
 /** Credit line for the close-up imagery source currently on screen. */
@@ -88,6 +92,7 @@ export function ExploreScreen({
   flatMap = false,
   marsNow,
   onStartTour,
+  rsl,
 }: ExploreScreenProps) {
   const currentSite = world && site?.worldId === world.id ? site : null;
   const allSites = world ? featuredSitesFor(world.id) : [];
@@ -115,7 +120,14 @@ export function ExploreScreen({
 
       {world && viewSwitch}
 
-      <LayerFilter active={activeLayers} onChange={onLayersChange} shownCount={shownSites.length} totalCount={allSites.length} />
+      <LayerFilter
+        active={activeLayers}
+        onChange={onLayersChange}
+        shownCount={shownSites.length}
+        totalCount={allSites.length}
+        rsl={world?.id === 'mars' && rsl ? { on: rsl.show, count: rsl.count, onToggle: rsl.onToggle } : undefined}
+      />
+      {world?.id === 'mars' && rsl?.open && <RslSitePopup site={rsl.open} onClose={rsl.onClose} />}
 
       {featured && <CounterpartPopup site={featured} onGo={onChooseFeatured} onCompare={onCompare} />}
 

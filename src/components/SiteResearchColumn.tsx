@@ -2,6 +2,7 @@ import { Fragment, useState, type ReactNode } from 'react';
 import type { ResearchCitation, ResearchFigure, SiteResearch } from '../data/siteResearch';
 import { assetUrl } from '../data/worlds';
 import { FactRow } from './FactRow';
+import { RslMap } from './RslMap';
 import { SiteLiveWeather } from './SiteLiveWeather';
 
 interface SiteResearchColumnProps {
@@ -78,8 +79,22 @@ export function SiteResearchColumn({ research }: SiteResearchColumnProps) {
               ))}
             </ul>
           )}
+          {section.subsections?.map((sub) => (
+            <div key={sub.title} className="research__sub">
+              <h5 className="research__subtitle">
+                {sub.title}
+                {sub.tag && <span className="research__tag">{sub.tag}</span>}
+              </h5>
+              {sub.paragraphs.map((p, i) => (
+                <p key={i} className="research__text">
+                  {withCitations(p, research.citations)}
+                </p>
+              ))}
+            </div>
+          ))}
           {section.live && <SiteLiveWeather lat={section.live.lat} lon={section.live.lon} place={section.live.place} />}
           {section.figure && <ResearchImage figure={section.figure} />}
+          {section.map === 'rsl-sites' && <RslMap siteId={research.siteId} />}
           {section.notes?.map((note, i) => (
             <p key={i} className="research__note">
               {note}

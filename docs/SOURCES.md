@@ -323,6 +323,62 @@ Both are left without a citation rather than given one that wasn't read.
 
 > **Also removed 15 November 2026 (team request):** the World Overview's "Key NASA datasets for analog & astrobiology work" box and its data, and, in the Compare view, the Similarities/Differences lists and the "Radiation shielding" box. "What Earth cannot reproduce" stays, including a one-line radiation note required by CLAUDE.md rule 5.
 
+## Compare view: Hale Crater and recurring slope lineae (`src/data/haleResearch.ts`, `src/data/rslSites.ts`, added 16 November 2026)
+
+The app had no Hale or RSL entry before this, so Hale was **added as a new Mars featured site** (`src/data/featuredSites.ts`, layers: impact, terrain). Its coordinates and diameter come from the [IAU/USGS Gazetteer, Hale (feature 2322)](https://planetarynames.wr.usgs.gov/Feature/2322): centre 35.78° S, 323.50° E (−36.50° in the app's −180…180 convention), diameter 149.00 km, name adopted 1973. The Gazetteer's newer polygon outline gives 35.69° S, 323.64° E and 137.31 km; the app uses the record's main values. In the Compare view, Hale's left column shows the team's five sections (Background, Hale Crater, RSL Mineral Composition, Crater Terrain, RSL Mechanisms). The right side shows the app's standard message for a site with no NASA-documented Earth pair, plus "What Earth cannot reproduce". Sources were checked on 16 November 2026.
+
+| # | Source | Used for |
+|---|---|---|
+| 1 | Munaretto et al. (2020), Planetary and Space Science 187, 104947, [10.1016/j.pss.2020.104947](https://doi.org/10.1016/j.pss.2020.104947) (the team's original source) | 125 RSL (in some cases groups of RSL) visible in both CaSSIS and HiRISE images of Hale's central peak; most lengthening on slopes > 30–32°; RSL at Hale better explained as dry granular flows than seeping water. **How it was checked:** DOI, title, authors and volume confirmed on Crossref. The publisher page, ADS and the INAF open-access copy could not be read from this environment (bot check, and the repository was "under maintenance"), so the numbers were checked against the paper's abstract as quoted in web-search results from ScienceDirect, ADS and the INAF repository. The team may want to confirm the numbers in the full text. |
+| 2 | McEwen et al. (2011), Science 333, 740–743, [10.1126/science.1204816](https://doi.org/10.1126/science.1204816) | RSL first reported in 2011 from HiRISE; seasonal flows on warm slopes; "might be explained by transient flows of liquid salty water" (abstract, via Crossref) |
+| 3 | [NASA Photojournal PIA19916, "Recurring 'Lineae' on Slopes at Hale Crater, Mars"](https://science.nasa.gov/photojournal/recurring-lineae-on-slopes-at-hale-crater-mars/) (28 Sep 2015) | Background image; CRISM detected hydrated salts on Hale's RSL slopes; terrain model made from two HiRISE stereo images |
+| 4 | [NASA Photojournal PIA22070, "Seasonal Dark Streaks in Tivat Crater, Mars"](https://science.nasa.gov/photojournal/seasonal-dark-streaks-in-tivat-crater-mars/) (20 Nov 2017) | Discovery in 2011; HiRISE "has confirmed many thousands of them at more than 50 sites"; RSL appear in warm seasons, extend downslope, fade |
+| 5 | Dundas et al. (2017), Nature Geoscience 10, 903–907, [10.1038/s41561-017-0012-5](https://doi.org/10.1038/s41561-017-0012-5) | Granular flows; limited role for liquid water (title; findings summarised in source 13) |
+| 6 | [NASA Photojournal PIA19359, "Seasonal Flows in the Central Mountains of Hale Crater"](https://science.nasa.gov/photojournal/seasonal-flows-in-the-central-mountains-of-hale-crater/) (8 Apr 2015) | One of the most active RSL sites; unusually "reddish", "perhaps due to oxidized iron compounds, like rust"; activity began much earlier, well developed in early spring |
+| 7 | [NASA Photojournal PIA17734, "Active Slope Flows on the Central Hills of Hale Crater"](https://science.nasa.gov/photojournal/active-slope-flows-on-the-central-hills-of-hale-crater/) (29 May 2013) | Thousands of seasonal flows on steep slopes below bedrock outcrops |
+| 8 | [NASA Photojournal PIA22994, "Hale Crater"](https://science.nasa.gov/photojournal/hale-crater-3/) (THEMIS, 11 Jan 2019) | Oblique impact; oval crater; impact created the central mountain range; near the northern part of Argyre Planitia |
+| 9 | [IAU/USGS Gazetteer, Hale (feature 2322)](https://planetarynames.wr.usgs.gov/Feature/2322) | Centre coordinates and diameter (Measured) |
+| 10 | Ojha et al. (2015), Nature Geoscience 8, 829–832, [10.1038/ngeo2546](https://doi.org/10.1038/ngeo2546) | Reported spectral evidence for hydrated salts in RSL (title, via Crossref; the publisher page was not read) |
+| 11 | Leask et al. (2018), Geophysical Research Letters 45, [10.1029/2018GL080077](https://doi.org/10.1029/2018GL080077) | CRISM artefact that mimics mineral absorptions; "few to none of the perchlorate detections reported in published literature remain robust" (abstract, via Crossref) |
+| 12 | Gough et al. (2020), Geophysical Research Letters 47, e2020GL087618, [10.1029/2020GL087618](https://doi.org/10.1029/2020GL087618) | Dry-flow trigger tested for Hale: loss of water from soil salts in warm months lowers soil cohesion, slope failure exposes darker material (abstract, via Crossref) |
+| 13 | [NASA Photojournal PIA22114, "Transient Slope Lineae Formation in a Well-Preserved Crater"](https://science.nasa.gov/photojournal/transient-slope-lineae-formation-in-a-well-preserved-crater/) (20 Nov 2017) | Mechanisms image; flows end at about the angle of repose for sand; likely granular material |
+| 14 | [NASA Photojournal PIA21608, "Seasonal Flows in Valles Marineris"](https://science.nasa.gov/photojournal/seasonal-flows-in-valles-marineris/) (4 May 2017) | "The role of water in RSL activity is a matter of active debate" |
+| 15 | [NASA Photojournal PIA23101, "Bedrock in the Central Peaks of Hale Crater"](https://science.nasa.gov/photojournal/bedrock-in-the-central-peaks-of-hale-crater/) (18 Mar 2019) | Bedrock outcrops in the central peak complex |
+
+**Images** (`public/images/hale/`), downloaded 16 November 2026 and resized (no other changes):
+- `rsl-hale-pia19916.jpg`: PIA19916 from the NASA Image Library, credit NASA/JPL-Caltech/Univ. of Arizona
+- `tivat-rsl-pia22114.jpg`: PIA22114 from the NASA Image Library, credit NASA/JPL-Caltech/Univ. of Arizona
+- `hale-overview-viking-trek.jpg` and `hale-topography-mola-trek.jpg`: assembled by the team from NASA Mars Trek map tiles (zoom level 7, about 0.0055° per pixel), cropped to 33.0–38.4° S, 319.8–327.4° E. Layers `Mars_Viking_MDIM21_ClrMosaic_global_232m` (Viking colour mosaic, colours approximate) and `Mars_MGS_MOLA_ClrShade_merge_global_463m` (MOLA colour shaded relief; the tiles come with no numeric colour scale, so the caption says only "higher" and "lower"). Script: `trek_mosaic.py` in the session scratchpad (fetches tiles, pastes them, crops).
+- **Wikipedia image (team's Crater Terrain source):** Wikipedia could not be opened from this environment, so that image and its credit were not checked. NASA data (the MOLA relief above) was used instead, as the task preferred.
+
+**Changes to the team's text, and why:**
+- **"On the northern rim of the Argyre basin":** NASA says "near the northern part of Argyre Planitia" and "north of Argyre Planitia". Written as "near the northern edge".
+- **Coordinates:** the team's "35.7° S, 323.5° E" agrees with the Gazetteer; the column shows the Gazetteer's 35.78° S, 323.50° E.
+- **Mineral composition:** split into "detected in association with RSL" (CRISM hydrated salts, now debated) and "confirmed as part of the streaks themselves" (none in the sources checked). The reddish colour is presented as NASA's suggestion, not a detection. No mineral list was invented.
+- **Mechanisms:** both labelled **Debated**; liquid water on present-day Mars is not stated as fact. NASA's 2015 caption ("corroborating the hypothesis that the streaks are formed by briny liquid water") is quoted in context with the later doubts.
+- **Not individually cited:** "in large craters, such peaks are made of deeper rock lifted up as the crater forms" (general crater science, kept from the team's text) and the team's sentences on why RSL matter for exploration.
+
+### RSL observation map (`src/data/rslSites.ts`, `RslMap`, `RslMarkersLayer`)
+
+The map in Hale's Background section, and the cyan "RSL observed" diamonds on the Explore globe and 2D map (toggle: Geological layers → Observations), show **only places where a NASA image release says RSL are seen in that HiRISE image**. Each marker is the **centre of the cited HiRISE image**, read from its catalogue page on `www.uahirise.org` (16 November 2026). Images are about 5–6 km wide, so markers are accurate to a few kilometres.
+
+| Site | Marker (image centre) | HiRISE image | NASA source(s) |
+|---|---|---|---|
+| Hale Crater, central peaks | 35.677° S, 323.484° E | [ESP_038073_1440](https://www.uahirise.org/ESP_038073_1440) | PIA19359, PIA17734, PIA19916 |
+| Palikir Crater (in Newton) | 41.637° S, 202.295° E | [ESP_021555_1380](https://www.uahirise.org/ESP_021555_1380) | PIA14473 (Newton crater, 2011), PIA17933, PIA17727 |
+| Horowitz Crater | 32.042° S, 140.802° E | [PSP_005787_1475](https://www.uahirise.org/PSP_005787_1475) | PIA14475 |
+| Tivat Crater | 45.943° S, 9.534° E | [ESP_023184_1335](https://www.uahirise.org/ESP_023184_1335) | PIA22070, PIA22114 |
+| Asimov Crater, central pit | 46.840° S, 5.144° E | [ESP_040485_1330](https://www.uahirise.org/ESP_040485_1330) | PIA18561, PIA22898 |
+| Raga Crater | 48.113° S, 242.433° E | [ESP_040028_1315](https://www.uahirise.org/ESP_040028_1315) | PIA19309 |
+| Garni Crater (Valles Marineris) | 11.517° S, 290.317° E | [ESP_031059_1685](https://www.uahirise.org/ESP_031059_1685) | PIA19917 |
+| Coprates Chasma | 12.930° S, 295.417° E | [ESP_034830_1670](https://www.uahirise.org/ESP_034830_1670) | PIA18119 |
+| Juventae Chasma | 4.692° S, 298.578° E | [ESP_030373_1755](https://www.uahirise.org/ESP_030373_1755) | PIA19118 |
+| Krupac Crater | 7.792° S, 86.044° E | [ESP_049488_1720](https://www.uahirise.org/ESP_049488_1720) | PIA21605 |
+
+Each NASA page names the HiRISE image used. Crater names were cross-checked against the Gazetteer: every crater marker lies inside the named crater or on its wall (for example Palikir's marker is on the crater wall, matching the HiRISE title "Slope Features on Wall of Palikir Crater").
+
+**Not plotted:** places NASA describes only as candidate, possible or "resembling" RSL (for example images of Ius Chasma and Ganges Chasma), and Cerberus Fossae, where the status was unclear. The map says it is incomplete: NASA reports RSL at more than 50 sites (PIA22070). It links NASA's own Valles Marineris site map (PIA20756) as context. Grey italic names on the map (Olympus Mons, Valles Marineris, Argyre Planitia, Hellas Planitia) are for orientation only and come from the app's Gazetteer labels.
+
 ## Space weather (World Overview, `src/data/donki.json`)
 
 - **Data:** NASA **DONKI** (Space Weather Database Of Notifications, Knowledge, Information), run by NASA's Community Coordinated Modeling Center.

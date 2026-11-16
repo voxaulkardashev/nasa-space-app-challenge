@@ -18,6 +18,7 @@ import { CameraRig } from './CameraRig';
 import { PlanetBody } from './PlanetBody';
 import { PlanetLabel } from './PlanetLabel';
 import { SceneLighting } from './SceneLighting';
+import type { RslSite } from '../data/rslSites';
 
 interface SpaceSceneProps {
   screen: Screen;
@@ -45,6 +46,10 @@ interface SpaceSceneProps {
   exaggeration: Record<WorldId, number>;
   /** Mars: current NASA model grid to show as a colour layer (or null). */
   marsOverlay?: MarsGrid | null;
+  /** "RSL observed" markers on Mars (empty when the layer is off). */
+  rslSites?: RslSite[];
+  openRslId?: string | null;
+  onOpenRsl?: (id: string) => void;
 }
 
 export type OrbitControlsRef = ComponentRef<typeof OrbitControls>;
@@ -92,6 +97,9 @@ function SceneContents({
   showLabels,
   exaggeration,
   marsOverlay = null,
+  rslSites,
+  openRslId,
+  onOpenRsl,
 }: SpaceSceneProps) {
   const aspect = useThree((s) => s.size.width / s.size.height);
   const controlsRef = useRef<OrbitControlsRef>(null);
@@ -165,6 +173,9 @@ function SceneContents({
               placeLabels={placeLabels}
               topo={isFocused && topoGrid ? { grid: topoGrid, exaggeration: exag } : null}
               weatherOverlay={world.id === 'mars' && exploring ? marsOverlay : null}
+              rslSites={world.id === 'mars' && exploring ? rslSites : undefined}
+              openRslId={openRslId}
+              onOpenRsl={onOpenRsl}
               activeLayers={activeLayers}
               selectedSiteId={sites[world.id]?.featuredId}
               onChooseFeatured={onChooseFeatured}
