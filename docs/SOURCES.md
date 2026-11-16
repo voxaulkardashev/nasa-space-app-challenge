@@ -94,7 +94,7 @@ One photo per featured site, chosen by hand from the [NASA Image and Video Libra
 
 | Earth site | Mars site | NASA source |
 |---|---|---|
-| Lake Salda, Turkey | Jezero | [Planetary Analog Explorer: "Looking for Life: Turkey and Mars"](https://science.nasa.gov/solar-system/analog-explorer/) |
+| Lake Salda (removed 16 Nov 2026, replaced by Lake Lappajärvi), Turkey | Jezero | [Planetary Analog Explorer: "Looking for Life: Turkey and Mars"](https://science.nasa.gov/solar-system/analog-explorer/) |
 | Atacama Desert, Chile | Jezero (Perseverance) | Analog Explorer: "Looking for Life: the Atacama Desert and Mars" |
 | Badwater Basin, California | Gale | **Chosen by the team (16 Nov 2026), not a NASA-documented pair.** Replaced the earlier NASA pair for Gale at the team's request. See "Compare view: Badwater Basin" below. |
 | Death Valley, California | Utopia Planitia (Viking 2) | Analog Explorer: "Rocky Reconnaissance: California and Mars" |
@@ -322,6 +322,41 @@ In the Compare view, Jezero's column (left) shows the team's research in six sec
 Both are left without a citation rather than given one that wasn't read.
 
 > **Also removed 15 November 2026 (team request):** the World Overview's "Key NASA datasets for analog & astrobiology work" box and its data, and, in the Compare view, the Similarities/Differences lists and the "Radiation shielding" box. "What Earth cannot reproduce" stays, including a one-line radiation note required by CLAUDE.md rule 5.
+
+## Compare view: Lake Lappajärvi, Finland (`src/data/lappajarviResearch.ts`, added 16 November 2026)
+
+At the team's request, **Lake Lappajärvi replaced Lake Salda** as Jezero's first Earth comparison. The Lake Salda site, its NASA pair and its photo were removed from the app. The Atacama tab is unchanged. The new pair, `lappajarvi-jezero`, is the team's own (`documentedBy: 'team'`). The pin is at **63.20° N, 23.70° E** (the team's approximate lake centre, labelled Estimated). Read on 16 November 2026.
+
+**What supports what:**
+- **Geopark page:**
+  - Europe's largest crater lake; 78 million years old; crater about 22 km across (the team says 23)
+  - lake 17 × 35 km
+  - Kärnäsaari is the original uplift; kärnäite is a hard melt rock with fragments
+  - suevite only in drill cores and in gravel south and southeast of the lake; rare diamonds
+  - Lehtinen's 1976 dissertation proved the impact origin
+  - rim at Lakeaharju about 100 m above the lake; ice ages flattened the crater
+- **Lehtinen, Bulletin of the Geological Society of Finland 42:** coesite, maskelynite, diaplectic quartz and microcline glasses, planar features, kink bands; nickel 10–20 times higher; secondary calcite, chalcedony and zeolites (mostly heulandite).
+- **Gustafsson et al. 2025, Nature Communications** (abstract via Crossref; the PMC and nature.com pages were behind bot checks):
+  - impact 77.85 ± 0.78 million years ago
+  - first precipitation at habitable temperature (47.0 ± 7.1 °C) about 73.6 ± 2.2 million years ago, with ³⁴S-depleted pyrite consistent with microbial sulfate reduction
+  - calcite with methane signatures more than 10 million years later
+- **Lappajärvi municipality:** average water level 69.5 m, average depth 7.4 m, maximum depth 38 m (the team says 36, so the page shows "about 36–38 m").
+- **Lakelubbers:** fish species include perch and pike.
+- **Image:** Wikimedia Commons "Lappajärvi from satellite.png" (453 × 447 px original), author NASA, modified by MPorciusCato, public domain.
+
+**Not individually cited** (kept from the team's text):
+- the two north-northwest troughs
+- more than 200 m of melt and breccia found by drilling
+- kärnäite quarried as building stone
+
+**Removed:**
+- "stayed at 250 °C for 1–1.6 million years": not in any abstract we could read. Schmieder & Jourdan 2013 is about crater cooling, but its text was behind a bot check.
+- the exact number of fish species
+- "many rocks are igneous": reworded as impact melt rocks
+
+**Soil Properties:** only impact rocks and the 1998 lake-sediment cores are described. Surrounding soils are stated as not yet established.
+
+**Weather:** the existing NASA POWER newest-hour card. Its "mountains" caveat is now Badwater-only (the `gridNote` field).
 
 ## Compare view: Elysium Planitia and the Earth placeholder (`src/data/elysiumResearch.ts`, `src/data/placeholderResearch.ts`, added 16 November 2026)
 

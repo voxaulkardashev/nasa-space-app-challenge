@@ -26,20 +26,18 @@ const TEN_THINGS: SourceRef = {
 
 export const ANALOGUE_PAIRS: AnaloguePair[] = [
   {
-    id: 'salda-jezero',
-    earthSiteId: 'lake-salda',
+    // Chosen by our team (not a NASA-documented pair); reasons and sources in src/data/lappajarviResearch.ts.
+    id: 'lappajarvi-jezero',
+    earthSiteId: 'lake-lappajarvi',
     marsSiteId: 'jezero',
-    title: 'Looking for Life: Turkey and Mars',
+    title: 'Impact craters and hydrothermal history (team analogue)',
     similarities: [
-      'NASA: Jezero Crater “has geological and mineral characteristics in common with Lake Salda.”',
-      'Light-coloured sediments at Lake Salda’s edge may have formed with the help of tiny living things; Perseverance is searching Jezero for similar signs of ancient life.',
-      'NASA photo caption (PIA24375): the eastern shore of Lake Salda “is a good analog for what an ancient lake may have looked like at Jezero [Crater]”; its white sands and rocks are carbonate minerals that precipitated in the lake.',
+      'Both are meteorite impact craters with impact-formed rocks.',
+      'Lappajärvi preserves evidence that an impact-made hydrothermal system was later colonized by microbes; scientists ask whether Martian impact craters could have hosted similar systems.',
     ],
-    differences: [
-      'Lake Salda holds water today; Jezero is an ancient Martian lakebed (evidence of former river flow along its rim).',
-      'Scale: Lake Salda is similar in size to Perseverance’s landing ellipse (7.7 km × 6.6 km); Jezero crater is 47.52 km across (IAU).',
-    ],
-    source: ANALOG_EXPLORER,
+    differences: ['Lappajärvi holds a lake on Earth today; Jezero is an ancient Martian crater that once held a lake and a river delta.'],
+    source: { name: 'Crater Lake Lappajärvi Geopark — Birth of the crater lake', url: 'https://kraatterijarvigeopark.fi/birth-of-the-crater-lake', sourceDate: 'Page date not stated', accessed: '16 November 2026' },
+    documentedBy: 'team',
   },
   {
     id: 'atacama-jezero',

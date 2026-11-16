@@ -153,12 +153,16 @@ export const FEATURED_SITES: FeaturedSite[] = [
     facts: [],
     layers: [],
   },
-  earth({
-    id: 'lake-salda', name: 'Lake Salda, Turkey', kind: 'Lake',
-    lat: 37.55, lon: 29.68,
-    description: 'A lake whose light-coloured shoreline sediments NASA compares with Jezero crater on Mars.',
-    layers: ['sediments'],
-  }),
+  {
+    id: 'lake-lappajarvi', worldId: 'earth', name: 'Lake Lappajärvi, Finland', kind: 'Impact crater lake',
+    lat: 63.2, lon: 23.7,
+    description: 'Europe’s largest crater lake, filling a meteorite impact structure about 78 million years old in western Finland (Lappajärvi Geopark).',
+    coordinateStatus: 'estimated',
+    coordinateSource: { name: 'Crater Lake Lappajärvi Geopark — Birth of the crater lake', url: 'https://kraatterijarvigeopark.fi/birth-of-the-crater-lake', sourceDate: 'Page date not stated', accessed: '16 November 2026' },
+    coordinateMethod: 'Approximate centre of the lake (63.20° N, 23.70° E) supplied by the team, rounded to 0.01°; on the lake, not a nearby town. Team to confirm.',
+    facts: [],
+    layers: ['impact', 'sediments'],
+  },
   {
     id: 'badwater-basin', worldId: 'earth', name: 'Badwater Basin, California', kind: 'Salt flat basin',
     lat: 36.23, lon: -116.77,

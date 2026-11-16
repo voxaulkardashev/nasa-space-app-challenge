@@ -2,6 +2,7 @@ import { BADWATER_RESEARCH } from './badwaterResearch';
 import { HALE_RESEARCH } from './haleResearch';
 import { MCMURDO_RESEARCH } from './mcmurdoResearch';
 import { ELYSIUM_RESEARCH } from './elysiumResearch';
+import { LAPPAJARVI_RESEARCH } from './lappajarviResearch';
 import { EARTH_PLACEHOLDER_RESEARCH } from './placeholderResearch';
 import { JEZERO_RESEARCH } from './jezeroResearch';
 import type { DataValue } from './types';
@@ -48,7 +49,7 @@ export interface ResearchSection {
   /** Titled parts of the section, e.g. competing hypotheses (`tag` shows a badge such as "Debated"). */
   subsections?: { title: string; tag?: string; paragraphs: string[] }[];
   /** Earth sites: the newest NASA POWER weather at this spot (the weather assistant's Earth service), loaded when shown. */
-  liveEarth?: { lat: number; lon: number; place: string; timeZone: string; liveLink?: { label: string; url: string } };
+  liveEarth?: { lat: number; lon: number; place: string; timeZone: string; liveLink?: { label: string; url: string }; gridNote?: string };
   /** Historical (not current) weather from a past mission: 'insight' = InSight Weather API, sols 675–681. */
   historicalWeather?: 'insight';
   /** An interactive map shown in this section ('rsl-sites': where RSL have been observed on Mars). */
@@ -197,4 +198,5 @@ const GALE: SiteResearch = {
 export const SITE_RESEARCH: Record<string, SiteResearch> = { gale: GALE, jezero: JEZERO_RESEARCH, hale: HALE_RESEARCH, 'badwater-basin': BADWATER_RESEARCH, 'mcmurdo-dry-valleys': MCMURDO_RESEARCH,
   'elysium-planitia': ELYSIUM_RESEARCH,
   'earth-placeholder': EARTH_PLACEHOLDER_RESEARCH,
+  'lake-lappajarvi': LAPPAJARVI_RESEARCH,
 };

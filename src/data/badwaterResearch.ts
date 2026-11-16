@@ -149,6 +149,7 @@ export const BADWATER_RESEARCH: SiteResearch = {
         lon: -116.77,
         place: 'Badwater Basin, California',
         timeZone: 'America/Los_Angeles',
+        gridNote: 'That area includes the mountains. Temperatures drop 3 to 5 °F for every 1,000 ft of height (NPS), so the basin floor is usually hotter than these values.',
         liveLink: { label: 'NOAA’s Death Valley Weather & Climate page (linked by the NPS)', url: 'https://www.weather.gov/vef/RecDV' },
       },
     },

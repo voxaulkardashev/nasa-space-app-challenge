@@ -27,14 +27,6 @@ export const SITE_PHOTOS: Record<string, SitePhoto> = {
     credit: 'NASA/JPL-Caltech/University of Arizona',
     imageUrl: asset('PIA10701', 'thumb'),
   },
-  'lake-salda': {
-    nasaId: 'PIA24375',
-    caption: 'Lake Salda Beach',
-    date: '2021-01-27',
-    center: 'JPL',
-    credit: 'NASA/JPL-Caltech',
-    imageUrl: asset('PIA24375', 'small'),
-  },
   'badwater-basin': {
     nasaId: 'PIA26197',
     caption: 'Badwater, Death Valley',

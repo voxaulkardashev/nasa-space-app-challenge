@@ -14,6 +14,8 @@ interface SiteEarthWeatherProps {
   timeZone: string;
   /** Optional link to live station observations for the area (shown as further reading). */
   liveLink?: { label: string; url: string };
+  /** Site-specific caveat about the model grid (e.g. mountains inside the grid box). */
+  gridNote?: string;
 }
 
 const COMPASS = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
@@ -37,7 +39,7 @@ function facts(d: PowerLatestHour): DataValue[] {
  * loaded each time it is shown. Labelled Estimated, with the reading's date and time, because
  * POWER is a model product whose newest values are usually 1–2 days old, not live observations.
  */
-export function SiteEarthWeather({ lat, lon, place, timeZone, liveLink }: SiteEarthWeatherProps) {
+export function SiteEarthWeather({ lat, lon, place, timeZone, liveLink, gridNote }: SiteEarthWeatherProps) {
   const [nonce, setNonce] = useState(0);
   const state = usePowerLatest(lat, lon, nonce);
   const data = state.status === 'ready' ? state.data : null;
@@ -91,7 +93,7 @@ export function SiteEarthWeather({ lat, lon, place, timeZone, liveLink }: SiteEa
       )}
       <p className="weather__disclaimer">
         This is the same NASA service the weather assistant uses for Earth. It doesn’t offer live weather: its newest values are usually one to two days old, and
-        they average a large area that includes the mountains. Temperatures drop 3 to 5 °F for every 1,000 ft of height (NPS), so the basin floor is usually hotter than these values.
+        they average a large area around the site (a grid box roughly 50 km wide).{gridNote ? ` ${gridNote}` : ''}
         {liveLink && (
           <>
             {' '}
