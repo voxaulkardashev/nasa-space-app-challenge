@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { AboutModal } from '../components/AboutModal';
 import { TUTORIAL_SEEN_KEY } from '../data/tutorial';
+import { PROJECT_DISCLAIMER_SHORT } from '../data/about';
 
 interface SelectWorldScreenProps {
   active: boolean;
@@ -73,6 +74,7 @@ export function SelectWorldScreen({ active, onStartTour, tourRunning }: SelectWo
       )}
       <footer className="select-footer">
         Sizes are not to scale · Starfield is decorative · Imagery: NASA (see “About this imagery” on each world)
+        <span className="select-footer__disclaimer">{PROJECT_DISCLAIMER_SHORT}</span>
       </footer>
       {aboutOpen && active && <AboutModal onClose={() => setAboutOpen(false)} />}
     </section>

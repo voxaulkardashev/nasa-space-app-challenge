@@ -59,7 +59,7 @@ const VIKING: TileLayerDef = {
 
 const CTX: TileLayerDef = {
   id: 'mars-ctx',
-  label: 'MRO Context Camera (CTX) global mosaic, beta (Caltech) — listed by NASA Mars Trek, served by Esri',
+  label: 'MRO Context Camera (CTX) global mosaic, beta01 — data credit: NASA/JPL/MSSS/The Murray Lab (Caltech); tiles hosted by Esri',
   url: (z, row, col) => `https://astro.arcgis.com/arcgis/rest/services/OnMars/CTX/MapServer/tile/${z}/${row}/${col}`,
   tileSize: 512,
   level0TileDeg: 180,
@@ -73,7 +73,7 @@ const CTX: TileLayerDef = {
     sourceDate: 'Date not stated by the tile service',
     accessed: '15 November 2026',
   },
-  caveat: 'Greyscale; a beta, “uncontrolled” mosaic, so features can be offset slightly from their true position.',
+  caveat: 'Greyscale; a beta, “uncontrolled” mosaic, so features can be offset slightly from their true position. The Murray Lab/Caltech grants free use of this mosaic for all purposes.',
   transparent: true,
   nasaHosted: false,
 };

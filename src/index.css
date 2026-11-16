@@ -2691,3 +2691,38 @@ body.is-resizing * {
   max-height: 620px;
   margin: 0 auto;
 }
+
+.select-footer__disclaimer {
+  display: block;
+  margin-top: 0.25rem;
+  opacity: 0.85;
+}
+
+.about__disclaimer {
+  margin-top: 1rem;
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+/* The landing footer is taller with the disclaimer: keep the buttons (and the tour offer) clear of it. */
+@media (max-width: 760px) {
+  .select-about {
+    bottom: 5.4rem;
+  }
+
+  .select-about {
+    flex-wrap: nowrap;
+    gap: 0.4rem;
+  }
+
+  /* Both landing buttons fit on one row, so they don't cover the planet names. */
+  .select-about__btn {
+    padding: 0.55rem 0.8rem;
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+
+  .tour-offer {
+    bottom: 8.6rem;
+  }
+}

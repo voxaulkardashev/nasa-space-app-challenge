@@ -1,6 +1,6 @@
 # Planetary Analogue Explorer
 
-A web app for the NASA Space Apps Challenge. Pick a world (Mars or Earth) and explore it on an interactive 3D globe made from real NASA imagery. Later milestones will let you pick a site and see which Earth locations resemble it and why, using measured NASA data.
+A student web app for the NASA Space Apps Challenge (not affiliated with or endorsed by NASA). Pick a world (Mars or Earth) and explore it on an interactive 3D globe made from real NASA imagery. Later milestones will let you pick a site and see which Earth locations resemble it and why, using measured NASA data.
 
 **Current status: Milestone 2.** Three screens:
 

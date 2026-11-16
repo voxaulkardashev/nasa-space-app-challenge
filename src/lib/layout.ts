@@ -52,7 +52,8 @@ export function computeLayout(
   const selectCameraDistance = portrait ? 12 : 10;
   const labelGap = portrait ? 0.3 : 0.45;
   // On phones the stack sits a little low, leaving room for the title.
-  const stackCentreY = portrait ? (few ? -0.6 : -0.45) : 0.05;
+  // (A little higher than before, so the landing buttons and footer don't crowd the lower world's name.)
+  const stackCentreY = portrait ? (few ? -0.3 : -0.45) : 0.05;
 
   const bodies = {} as Record<WorldId, BodyPose>;
   order.forEach((id, index) => {

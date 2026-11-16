@@ -80,6 +80,9 @@ Dark navy to black background with subtle stars; realistic textures and lighting
   - Compare: no Similarities/Differences lists and no "Radiation shielding" box. "What Earth cannot reproduce" stays, with a one-line radiation note (rule 5).
   - World Overview: no "Key NASA datasets" box.
   - Explore: no Use cases button or pop-up.
+- **16 November 2026 (credits):**
+  - A "not affiliated with or endorsed by NASA" disclaimer appears in the landing footer and in About (`src/data/about.ts`).
+  - The CTX layer shows its owners' required credit ("NASA/JPL/MSSS/The Murray Lab"; free use granted). Esri's own hosting terms are not confirmed (see docs/SOURCES.md).
 - **15 November 2026 (guided tour):** 14-step tour (`src/data/tutorial.ts`, `TutorialOverlay`) from the landing page through Overview and Explore. Started from "Take the tour" (landing and overviews), "? Tour" (Explore) and a one-time first-visit offer.
 - **Not built:** a computed analogue engine (scores from measured per-dimension Earth data) and the Python back end. Do not build them until asked.
 - Deadline: Sunday 15 November 2026, 11:59 PM Pacific.

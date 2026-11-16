@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { ABOUT_SECTIONS } from '../data/about';
+import { ABOUT_SECTIONS, PROJECT_DISCLAIMER } from '../data/about';
 
 interface AboutModalProps {
   onClose: () => void;
@@ -40,6 +40,7 @@ export function AboutModal({ onClose }: AboutModalProps) {
             <p className="info-box__body">{section.body}</p>
           </section>
         ))}
+        <p className="compare__muted about__disclaimer">{PROJECT_DISCLAIMER}</p>
       </div>
     </div>
   );
