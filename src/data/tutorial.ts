@@ -109,7 +109,7 @@ export const TUTORIAL_STEPS: TutorialStep[] = [
     stage: 'explore-site',
     target: '.site-panel__compare',
     title: 'Compare Mars and Earth',
-    body: 'Compare shows the two sites side by side: NASA photos, cited similarities and differences, and what Earth can never reproduce (gravity, thin air and radiation). Analogues share some features; they are never the same place.',
+    body: 'Compare shows the two sites side by side: our team’s research for each site with images, clickable sources and live weather, plus what Earth can never reproduce (gravity, thin air and radiation). Analogues share some features; they are never the same place.',
   },
   {
     id: 'topbar',

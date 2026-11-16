@@ -1,6 +1,6 @@
-# Holuhraun Lava Field, Iceland: team research draft (not yet on the website)
+# Holuhraun Lava Field, Iceland: team research draft (now on the website)
 
-Kept separate so it can be moved into `src/data/holuhraunResearch.ts` later. The website currently shows placeholders for these sections. Before it goes on the site, each claim should be checked against the credits below (as was done for the other sites).
+This is the team's original draft. The checked, edited version is on the website (`src/data/holuhraunResearch.ts`); what was confirmed or left uncited is listed in `docs/SOURCES.md`.
 
 ## Introduction
 Holuhraun is a large basaltic lavafield in the Icelandic highlands within the Bárðarbunga–Veiðivötn volcanic system. It is located on the Dyngjusandur floodplain, north of the Vatnajökull ice cap and south of the Askja volcanic system.

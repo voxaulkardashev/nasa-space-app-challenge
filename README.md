@@ -1,14 +1,19 @@
 # Terralink
 
-A student web app for the NASA Space Apps Challenge (not affiliated with or endorsed by NASA). Pick a world (Mars or Earth) and explore it on an interactive 3D globe made from real NASA imagery. Later milestones will let you pick a site and see which Earth locations resemble it and why, using measured NASA data.
+A student web app for the NASA Space Apps Challenge (not affiliated with or endorsed by NASA). Pick a world (Mars or Earth), explore it on an interactive 3D globe made from real NASA imagery and elevation data, choose a site, and compare it with an Earth location that shares some of its features, with cited research for both.
 
-**Current status: Milestone 2.** Three screens:
+**Live site:** <https://voxaulkardashev.github.io/nasa-space-app-challenge/>
 
-- *Select a World*
-- *World Overview*: rotate/zoom plus an info panel
-- *Explore*: pick a site and see its data. You can click anywhere or choose a featured site, read elevation and slope, and zoom in for sharp imagery streamed from NASA.
+**Comparisons** (Mars ⇄ Earth, each chosen by our team from the cited research; analogues share features but are never the same place):
 
-The Earth analogue comparison is the next milestone.
+| Mars site | Earth analogue | Theme |
+|---|---|---|
+| Jezero crater | Lake Lappajärvi, Finland | Impact craters and hydrothermal history |
+| Gale crater | Badwater Basin, California | Salt minerals, wind and an ancient lake |
+| Hale crater (recurring slope lineae) | McMurdo Dry Valleys, Antarctica | Dark slope streaks and salty soils |
+| Elysium Planitia (InSight site) | Holuhraun, Iceland | Basaltic lava flows and lava–water interaction |
+
+Three screens: *Select a World*, *World Overview* (rotate and zoom, plus an info panel) and *Explore* (sites, data, weather, Compare).
 
 Built with React, TypeScript, Vite, three.js, React Three Fiber and drei.
 
@@ -51,7 +56,7 @@ The terminal shows a local address, usually **http://localhost:5173/**. Open it 
 2. Hovering a world makes it glow and grow slightly. Clicking it (or its name) glides into its overview.
 3. In the overview: drag to rotate, scroll (or pinch) to zoom. The sidebar shows analog-science data:
    - **Conditions:** atmosphere, water vapour, temperature range, winds, ice, terrain and magnetic field, each labelled Measured or Estimated (tap a label to see its source).
-   - **Analog sites:** the NASA-documented pairs in the app. Click one to open it in Explore.
+   - **Analog sites:** the four Mars ⇄ Earth pairs chosen by our team. Click one to open it in Explore.
 
    On the landing page, **About the project** (bottom centre) explains the project, and **Take the tour** starts a guided tour of the app. First-time visitors are offered the tour once; it is also under **? Tour** on Explore and **Take the tour** on each overview.
    - **Globe | 2D | Topography** (top left, also on Explore) changes the view:
@@ -62,18 +67,18 @@ The terminal shows a local address, usually **http://localhost:5173/**. Open it 
    - The **Mars | Earth** switch at the top right flips between worlds; each remembers its selected site.
    - Featured sites appear as labelled pins on the globe. **Geological layers** (top left) filters them by impact structures, aeolian processes, sediments & mineralogy, or terrain/glaciers/rivers.
    - **Search** (top of the sidebar) finds sites on both worlds.
-   - Choosing a site shows its **corresponding site on the other world** (NASA-documented analogues) in a pop-up; click it to jump there.
-   - **Compare** opens Mars and Earth side by side: each site's details (team research for Gale, Jezero and Hale; Hale includes a map of observed recurring slope lineae), the NASA source of the pair, and what Earth cannot reproduce (gravity, thin air, radiation).
+   - Choosing a site shows its **corresponding site on the other world** in a pop-up; click it to jump there. The site panel lists its elevation (Measured) and its similar site.
+   - **Compare** opens Mars and Earth side by side: the team's research for both sites (sections with images and clickable citations; Hale includes a map of observed recurring slope lineae), weather for each site, and what Earth cannot reproduce (gravity, thin air, radiation).
    - **Side by side** shows both globes at once.
    - Drag the sidebar's left edge to make it wider.
-   - Press **📍 Drop pin** (top bar), then click the globe to drop a pin. The panel shows the coordinates, elevation and regional slope at that spot (Mars), each labelled. Esc cancels.
+   - Press **📍 Drop pin** (top bar), then click the globe to drop a pin. The panel shows the coordinates, elevation and regional slope at that spot (Mars and Earth), each labelled. Esc cancels.
    - The **Weather assistant** at the top of the sidebar: pick a date and press **Analyze**. It describes the weather from real NASA data only (Earth: NASA POWER at your pin; Mars: Curiosity's measurements in Gale crater, with the distance from your pin). Ask it questions or tap a suggestion.
    - With a pin (or site) on both worlds, **Compare weather** gives a similarity percentage with every value and score behind it.
    - On Mars, **Right now on Mars** shows NASA's current model estimate at your pin (temperature, pressure, wind, dust, water vapour). **Colour the whole globe by** turns it into a weather map of the whole planet. These are model values, labelled Estimated: no spacecraft measures live weather everywhere on Mars.
    - Choose a **featured site** (for example Jezero or Gale) and the camera flies there.
    - On Mars, cyan diamonds mark places where NASA reports **recurring slope lineae (RSL)** in HiRISE images. Click one for its coordinates and sources; turn them off under **Geological layers → Observations**.
    - Zoom in close and sharper NASA imagery loads in. A credit line appears at the bottom left.
-   - Featured sites show an official **NASA photo** with its caption and credit.
+   - Every image shows its caption, credit and a link to the original.
 5. **← (world name)**, **Back to overview**, **All worlds** or the Esc key go back.
 6. On the World Overview, open **Space weather · last 30 days** to see recent solar activity from NASA's DONKI database, with a NASA quote on how exposed that world's surface is to radiation.
 
@@ -113,9 +118,9 @@ Never put the key in the code or a commit. GitHub keeps secrets hidden, even in 
 ```
 src/
   App.tsx            which screen is showing + which world is selected
-  screens/           one file per screen (Select, Overview, Coming soon)
+  screens/           one file per screen (Select a World, World Overview, Explore)
   components/        shared UI and 3D pieces (PlanetBody, InfoPanel, DataLabel…)
-  data/              world definitions, facts and sources: edit data here, not in components
+  data/              world definitions, sites, analogue pairs, each site's research (*Research.ts) and sources: edit data here, not in components
   lib/               small helpers (layout maths, navigation type)
 public/textures/     NASA textures (see docs/SOURCES.md)
 docs/
@@ -133,6 +138,10 @@ CLAUDE.md            project rules, including the scientific integrity rules
 ## Scientific integrity
 
 Every value shown in the app is labelled **Measured** (named source and date), **Estimated** (method stated) or **Placeholder** (not real data). The labels use the shared `DataLabel` component. See `CLAUDE.md` for the full rules and `docs/SOURCES.md` for every source.
+
+## Licence
+
+The code is under the MIT License (see `LICENSE`). Images and data keep their own terms (mostly public-domain NASA, USGS and NPS material; one CC BY-SA 2.0 photo), listed in `LICENSE` and `docs/SOURCES.md`.
 
 ## Troubleshooting
 

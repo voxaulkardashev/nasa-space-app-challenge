@@ -88,7 +88,7 @@ The screens do not need changes. The Select screen layout spaces however many wo
 - three.js is large, so `npm run build` prints a "chunks larger than 500 kB" **warning**. It is not an error. The app's code is about 330 kB after compression; the textures (~5.7 MB) load separately.
 - A harmless console warning, "THREE.Clock: This module has been deprecated", comes from inside React Three Fiber, not from our code.
 - Elevation is used only for lighting (bump map). The surface is not physically raised. True-height displacement would need much more detail and visible exaggeration, so it is left for later.
-- Elevation values come from 4-cells-per-degree grids (14.8 km cells on Mars), so small features such as a single crater rim are averaged out. There's no elevation for Earth yet; it shows as a Placeholder.
+- Elevation values come from 4-cells-per-degree grids (14.8 km cells on Mars), so small features such as a single crater rim are averaged out. Earth pins use NASA's Blue Marble topography (8 cells per degree, heights in steps of about 25 m, land below sea level reads 0 m); featured Earth sites show a published elevation instead.
 - Close-up imagery needs an internet connection to NASA's servers.
 - Earth city labels are approximate and not from a NASA dataset (see docs/SOURCES.md). Labels can overlap where cities are close together; zoom in to separate them.
 - Topography heights use 0.125° cells (about 7 km on Mars, 14 km on Earth), so they show large landforms (Tharsis, Hellas, Valles Marineris, the Himalaya); the draped imagery shows finer detail, but small craters are not raised. The Mars height file is 6.5 MB, downloaded only when Topography is opened.
