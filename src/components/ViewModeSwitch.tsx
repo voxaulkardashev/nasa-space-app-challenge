@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import { TOPOGRAPHY } from '../data/elevation';
 import { EARTH_LABEL_NOTE } from '../data/mapLabels';
 import type { DataValue, WorldId } from '../data/types';
@@ -26,6 +27,22 @@ const MODES: { id: ViewMode; label: string; icon: string }[] = [
 
 /** Globe / 2D map / Topography switch, plus place labels on/off and the height exaggeration. */
 export function ViewModeSwitch({ worldId, mode, onChange, showLabels, onToggleLabels, exaggeration, onExaggeration, globeOnly, className = '' }: ViewModeSwitchProps) {
+  // While the slider is dragged, only the number on screen changes; the raised planet is rebuilt once the
+  // slider pauses or is released (rebuilding it at every step froze the page).
+  const [draft, setDraft] = useState<number | null>(null);
+  const timer = useRef(0);
+  const commit = (value: number) => {
+    window.clearTimeout(timer.current);
+    setDraft(null);
+    if (value !== exaggeration) onExaggeration(value);
+  };
+  const onSlide = (value: number) => {
+    setDraft(value);
+    window.clearTimeout(timer.current);
+    timer.current = window.setTimeout(() => commit(value), 250);
+  };
+  useEffect(() => () => window.clearTimeout(timer.current), []);
+  const shown = draft ?? exaggeration;
   const topo = TOPOGRAPHY[worldId];
   // Same download as the 3D view uses (shared cache), so this only reports its progress.
   const heights = useElevationGrid(worldId, mode === 'topo' && !globeOnly, TOPOGRAPHY);
@@ -68,9 +85,18 @@ export function ViewModeSwitch({ worldId, mode, onChange, showLabels, onToggleLa
         <div className="view-switch__topo">
           <label>
             <span>
-              Heights exaggerated <strong>×{exaggeration}</strong>
+              Heights exaggerated <strong>×{shown}</strong>
             </span>
-            <input type="range" min={1} max={100} step={1} value={exaggeration} onChange={(e) => onExaggeration(Number(e.target.value))} />
+            <input
+              type="range"
+              min={1}
+              max={100}
+              step={1}
+              value={shown}
+              onChange={(e) => onSlide(Number(e.target.value))}
+              onPointerUp={(e) => commit(Number(e.currentTarget.value))}
+              onKeyUp={(e) => commit(Number(e.currentTarget.value))}
+            />
           </label>
           {heights.status === 'loading' && (
             <p className="view-switch__note view-switch__loading" role="status">

@@ -45,7 +45,9 @@ const DEG = 180 / Math.PI;
  * Vertex positions follow the same latitude/longitude convention as lib/geo.ts,
  * so the colour map, labels and picking still line up.
  */
-export function buildTopoGeometry(grid: ElevationGrid, exaggeration: number, radiusKm: number, widthSegments = 1024, heightSegments = 512): SphereGeometry {
+// 640 × 320 segments (about 0.56° each): close to the 8-cells-per-degree grid's large landforms, with
+// 2.5 times fewer triangles than before; zoomed-in tiles add their own terrain detail.
+export function buildTopoGeometry(grid: ElevationGrid, exaggeration: number, radiusKm: number, widthSegments = 640, heightSegments = 320): SphereGeometry {
   const geometry = new SphereGeometry(1, widthSegments, heightSegments);
   const pos = geometry.getAttribute('position') as BufferAttribute;
   for (let i = 0; i < pos.count; i++) {

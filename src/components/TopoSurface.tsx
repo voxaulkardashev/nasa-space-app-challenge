@@ -14,6 +14,9 @@ function configureColorMap(texture: Texture, anisotropy: number) {
   texture.needsUpdate = true;
 }
 
+/** The detailed mesh is never tested against the mouse (the low-detail copy is). */
+const noRaycast = () => null;
+
 interface TopoSurfaceProps {
   world: World;
   grid: ElevationGrid;
@@ -28,13 +31,22 @@ export function TopoSurface({ world, grid, exaggeration }: TopoSurfaceProps) {
   const gl = useThree((s) => s.gl);
   const map = useTexture(assetUrl(world.textures.color)) as Texture;
   const geometry = useMemo(() => buildTopoGeometry(grid, exaggeration, world.meanRadiusKm), [grid, exaggeration, world.meanRadiusKm]);
+  // A low-detail copy of the same raised surface, used only for hover and click checks: testing the
+  // mouse against every triangle of the detailed surface on each mouse move made the page stutter.
+  const pickGeometry = useMemo(() => buildTopoGeometry(grid, exaggeration, world.meanRadiusKm, 160, 80), [grid, exaggeration, world.meanRadiusKm]);
 
   useEffect(() => () => geometry.dispose(), [geometry]);
+  useEffect(() => () => pickGeometry.dispose(), [pickGeometry]);
   useLayoutEffect(() => configureColorMap(map, Math.min(8, gl.capabilities.getMaxAnisotropy())), [map, gl]);
 
   return (
-    <mesh geometry={geometry}>
-      <meshStandardMaterial map={map} roughness={1} metalness={0} />
-    </mesh>
+    <>
+      <mesh geometry={geometry} raycast={noRaycast}>
+        <meshStandardMaterial map={map} roughness={1} metalness={0} />
+      </mesh>
+      <mesh geometry={pickGeometry}>
+        <meshBasicMaterial visible={false} />
+      </mesh>
+    </>
   );
 }

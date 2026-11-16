@@ -98,6 +98,7 @@ Dark navy to black background with subtle stars; realistic textures and lighting
 - **16 November 2026 (Holuhraun):** Holuhraun, Iceland (64.874° N, 16.740° W, Estimated) replaced the Earth Location Placeholder as Elysium Planitia's Earth analogue (team pair, linked only to Elysium). Its column (`src/data/holuhraunResearch.ts`) has the team's seven sections (citations [1]–[10], uncited figures marked as the team's), three credited images (NASA Earth Observatory Landsat, NASA jsc2024e055198, peterhartree CC BY-SA 2.0) and the NASA POWER weather card.
 - **16 November 2026 (no placeholders):** Explore shows real elevations for every site (published values for Earth featured sites, the Blue Marble grid for Earth pins and Holuhraun, MOLA for Mars) and a "Similar Earth/Mars site" row from the team pairs. No Placeholder rows remain.
 - **16 November 2026 (submission prep):** MIT `LICENSE` added (code only; third-party image and data terms listed in it and in docs/SOURCES.md). README rewritten for the final four comparisons. Tour Compare step updated.
+- **16 November 2026 (Topography speed):** lighter raised-surface mesh (640 × 320), mouse checks on a 160 × 80 invisible copy, slider rebuilds only on pause or release, 16-segment terrain tiles.
 - **Not built:** a computed analogue engine (scores from measured per-dimension Earth data) and the Python back end. Do not build them until asked.
 - Deadline: Sunday 15 November 2026, 11:59 PM Pacific.
 

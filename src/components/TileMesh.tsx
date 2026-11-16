@@ -15,7 +15,7 @@ interface TileMeshProps {
 }
 
 /** Grid of points per tile side when draped over terrain (enough to follow the height data closely). */
-const TERRAIN_SEGMENTS = 32;
+const TERRAIN_SEGMENTS = 16; // per tile edge; zoomed-in tiles are small, so 16 still follows the terrain closely
 const RAD = 180 / Math.PI;
 
 const DEG = Math.PI / 180;
