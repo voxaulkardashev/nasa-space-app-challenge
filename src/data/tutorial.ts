@@ -102,7 +102,7 @@ export const TUTORIAL_STEPS: TutorialStep[] = [
     stage: 'explore-site',
     target: '.counterpart',
     title: 'Its analogue on the other world',
-    body: 'When a site has an Earth analogue chosen by our team, it appears here (one is still a placeholder). Click one to jump to it.',
+    body: 'When a site has an Earth analogue chosen by our team, it appears here. Click one to jump to it.',
   },
   {
     id: 'compare',

@@ -78,17 +78,21 @@ export const FEATURED_SITES: FeaturedSite[] = [
   },
 
   // ---------------- Earth ----------------
-  // TEMPORARY placeholder (no analog chosen yet for Elysium Planitia). Replace this entry, the
-  // 'elysium-placeholder' pair in analogues.ts and src/data/placeholderResearch.ts together.
   {
-    id: 'earth-placeholder', worldId: 'earth', name: 'Earth Location Placeholder', kind: 'Temporary marker — not an analog',
-    lat: 46.0, lon: 2.0,
-    description: 'An Earth analog for Elysium Planitia has not been selected yet. This location and map marker are temporary and will be replaced.',
-    coordinateStatus: 'placeholder',
-    coordinateSource: { name: 'None (placeholder)', url: 'https://planetarynames.wr.usgs.gov/Feature/1784', sourceDate: 'Not applicable', accessed: 'Not applicable' },
-    coordinateMethod: 'Arbitrary point on land used only to test the map and comparison layout.',
+    id: 'holuhraun', worldId: 'earth', name: 'Holuhraun, Iceland', kind: 'Basaltic lava field (2014–15 eruption)',
+    lat: 64.874, lon: -16.74,
+    description: 'A basaltic lava field in the Icelandic Highlands, north of the Vatnajökull ice cap, formed by the fissure eruption of 2014–2015 (NASA Earth Observatory).',
+    coordinateStatus: 'estimated',
+    coordinateSource: {
+      name: 'Wikimedia Commons — Category:Holuhraun (coordinates from its Wikidata item)',
+      url: 'https://commons.wikimedia.org/wiki/Category:Holuhraun',
+      sourceDate: 'Page date not stated',
+      accessed: '16 November 2026',
+    },
+    coordinateMethod:
+      'Coordinates of the Holuhraun item on Wikimedia Commons/Wikidata (64.8744° N, 16.7400° W), rounded; the point lies on the 2014–15 lava field between Askja and Vatnajökull. Not from an official gazetteer; team to confirm.',
     facts: [],
-    layers: [],
+    layers: ['terrain'],
   },
   {
     id: 'lake-lappajarvi', worldId: 'earth', name: 'Lake Lappajärvi, Finland', kind: 'Impact crater lake',

@@ -3,7 +3,7 @@ import { HALE_RESEARCH } from './haleResearch';
 import { MCMURDO_RESEARCH } from './mcmurdoResearch';
 import { ELYSIUM_RESEARCH } from './elysiumResearch';
 import { LAPPAJARVI_RESEARCH } from './lappajarviResearch';
-import { EARTH_PLACEHOLDER_RESEARCH } from './placeholderResearch';
+import { HOLUHRAUN_RESEARCH } from './holuhraunResearch';
 import { JEZERO_RESEARCH } from './jezeroResearch';
 import type { DataValue } from './types';
 
@@ -197,6 +197,6 @@ const GALE: SiteResearch = {
 /** Research shown in place of the standard site column, by featured-site id. */
 export const SITE_RESEARCH: Record<string, SiteResearch> = { gale: GALE, jezero: JEZERO_RESEARCH, hale: HALE_RESEARCH, 'badwater-basin': BADWATER_RESEARCH, 'mcmurdo-dry-valleys': MCMURDO_RESEARCH,
   'elysium-planitia': ELYSIUM_RESEARCH,
-  'earth-placeholder': EARTH_PLACEHOLDER_RESEARCH,
+  holuhraun: HOLUHRAUN_RESEARCH,
   'lake-lappajarvi': LAPPAJARVI_RESEARCH,
 };

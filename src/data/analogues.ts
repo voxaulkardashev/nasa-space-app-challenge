@@ -67,15 +67,21 @@ export const ANALOGUE_PAIRS: AnaloguePair[] = [
     documentedBy: 'team',
   },
   {
-    // TEMPORARY: no Earth analog chosen yet. Replace together with 'earth-placeholder' (featuredSites.ts).
-    id: 'elysium-placeholder',
-    earthSiteId: 'earth-placeholder',
+    // Chosen by our team (not a NASA-documented pair). Linked ONLY to Elysium Planitia.
+    // Research is pending (docs/holuhraun-research.md); no similarities are claimed yet.
+    id: 'holuhraun-elysium',
+    earthSiteId: 'holuhraun',
     marsSiteId: 'elysium-planitia',
-    title: 'Earth analog not selected yet (placeholder)',
+    title: 'Basaltic lava flows (team analogue, research pending)',
     similarities: [],
     differences: [],
-    source: { name: 'None (placeholder)', url: 'https://planetarynames.wr.usgs.gov/Feature/1784', sourceDate: 'Not applicable', accessed: 'Not applicable' },
-    documentedBy: 'placeholder',
+    source: {
+      name: 'NASA Earth Observatory — Roiling Flows on Holuhraun Lava Field',
+      url: 'https://science.nasa.gov/earth/earth-observatory/roiling-flows-on-holuhraun-lava-field-84316/',
+      sourceDate: '10 September 2014',
+      accessed: '16 November 2026',
+    },
+    documentedBy: 'team',
   },
 ];
 

@@ -323,6 +323,14 @@ Both are left without a citation rather than given one that wasn't read.
 
 > **Also removed 15 November 2026 (team request):** the World Overview's "Key NASA datasets for analog & astrobiology work" box and its data, and, in the Compare view, the Similarities/Differences lists and the "Radiation shielding" box. "What Earth cannot reproduce" stays, including a one-line radiation note required by CLAUDE.md rule 5.
 
+## Holuhraun, Iceland: Elysium Planitia's Earth analogue (`src/data/holuhraunResearch.ts`, added 16 November 2026)
+
+**Holuhraun, Iceland** replaces the temporary "Earth Location Placeholder", which was removed along with `placeholderResearch.ts`. It is paired **only** with Elysium Planitia (`holuhraun-elysium`, a team analogue), not with Mars in general.
+- **Pin:** 64.874° N, 16.740° W (Estimated). Taken from the coordinates on the Wikimedia Commons "Category:Holuhraun" page (from its Wikidata item; read 16 November 2026). The point lies on the 2014–15 lava field between Askja and Vatnajökull.
+- **Research sections:** all six are empty placeholders ("Research for this section will be added later"), as the team asked. The team's draft is kept in `docs/holuhraun-research.md`.
+- **Image:** `public/images/holuhraun/holuhraun-landsat8-2014.jpg` (720 × 480, the full-size original), from [NASA Earth Observatory, Roiling Flows on Holuhraun Lava Field](https://science.nasa.gov/earth/earth-observatory/roiling-flows-on-holuhraun-lava-field-84316/). Landsat 8 OLI, 6 September 2014. Credit: "NASA Earth Observatory image by Jesse Allen, using Landsat data from the U.S. Geological Survey."
+- **Weather:** the existing NASA POWER newest-hour card at the pin (Estimated).
+
 ## Terralink logo and favicon (added 16 November 2026)
 
 The team supplied two raster logos ("tl" icon and the full "terralink" wordmark). They were traced into transparent-background SVGs with potrace (bitmaps upscaled first; colours sampled from the originals: #181662 "terra", #0d0c39 "link", white box and frame).
