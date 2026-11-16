@@ -30,7 +30,7 @@ export const TUTORIAL_STEPS: TutorialStep[] = [
   {
     id: 'welcome',
     stage: 'select',
-    title: 'Welcome to the Planetary Analogue Explorer',
+    title: 'Welcome to Terralink',
     body: 'This short tour shows how to explore Mars and Earth on 3D globes made from NASA data, and how to compare Martian sites with places on Earth that scientists use as “analogues”. Use Next and Back, or the arrow keys. Press Skip (or Esc) at any time.',
   },
   {

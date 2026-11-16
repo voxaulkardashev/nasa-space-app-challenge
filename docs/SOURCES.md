@@ -323,6 +323,13 @@ Both are left without a citation rather than given one that wasn't read.
 
 > **Also removed 15 November 2026 (team request):** the World Overview's "Key NASA datasets for analog & astrobiology work" box and its data, and, in the Compare view, the Similarities/Differences lists and the "Radiation shielding" box. "What Earth cannot reproduce" stays, including a one-line radiation note required by CLAUDE.md rule 5.
 
+## Terralink logo and favicon (added 16 November 2026)
+
+The team supplied two raster logos ("tl" icon and the full "terralink" wordmark). They were traced into transparent-background SVGs with potrace (bitmaps upscaled first; colours sampled from the originals: #181662 "terra", #0d0c39 "link", white box and frame).
+- `public/favicon.svg`: the "tl" icon. It is navy on light browser tabs and white in dark mode (CSS `prefers-color-scheme` inside the SVG).
+- `public/brand/terralink-icon.svg`: the "tl" icon in white.
+- `public/brand/terralink-logo.svg`: the full wordmark, shown bottom-left on the landing page (top centre on phones).
+
 ## Removed sites (16 November 2026, team request)
 
 The following featured sites, their NASA analogue pairs and their NASA photos were removed from the app. Their earlier source notes further down this file are kept for the record only.

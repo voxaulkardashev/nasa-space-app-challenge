@@ -1,3 +1,4 @@
+import { assetUrl } from '../data/worlds';
 import { useState } from 'react';
 import { AboutModal } from '../components/AboutModal';
 import { TUTORIAL_SEEN_KEY } from '../data/tutorial';
@@ -72,6 +73,7 @@ export function SelectWorldScreen({ active, onStartTour, tourRunning }: SelectWo
           </div>
         </div>
       )}
+      <img className="select-brand" src={assetUrl('brand/terralink-logo.svg')} alt="Terralink" width={2000} height={800} />
       <footer className="select-footer">
         Sizes are not to scale · Starfield is decorative · Imagery: NASA (see “About this imagery” on each world)
         <span className="select-footer__disclaimer">{PROJECT_DISCLAIMER_SHORT}</span>

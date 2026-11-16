@@ -25,6 +25,6 @@ export const ABOUT_SECTIONS: InfoSection[] = [
  * (NASA and JPL image policies forbid implying endorsement).
  */
 export const PROJECT_DISCLAIMER =
-  'Planetary Analogue Explorer is a student project made for the NASA Space Apps Challenge. It is not affiliated with, sponsored by or endorsed by NASA, JPL or Caltech. NASA images and data are used with the credit line shown next to each one, following NASA’s and JPL’s image use guidelines; images owned by NASA’s partners (named in their credits) are used for educational purposes only.';
+  'Terralink (Planetary Analogue Explorer) is a student project made for the NASA Space Apps Challenge. It is not affiliated with, sponsored by or endorsed by NASA, JPL or Caltech. NASA images and data are used with the credit line shown next to each one, following NASA’s and JPL’s image use guidelines; images owned by NASA’s partners (named in their credits) are used for educational purposes only.';
 
 export const PROJECT_DISCLAIMER_SHORT = 'Student project for the NASA Space Apps Challenge · Not affiliated with or endorsed by NASA';

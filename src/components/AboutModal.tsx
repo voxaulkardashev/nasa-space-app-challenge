@@ -23,7 +23,7 @@ export function AboutModal({ onClose }: AboutModalProps) {
       <div className="compare about" role="dialog" aria-modal="true" aria-labelledby="about-title" onClick={(e) => e.stopPropagation()}>
         <header className="compare__header">
           <div>
-            <p className="info-panel__eyebrow">Planetary Analogue Explorer</p>
+            <p className="info-panel__eyebrow">Terralink</p>
             <h2 id="about-title" className="compare__title">
               About the project
             </h2>
