@@ -68,13 +68,13 @@ export const ANALOGUE_PAIRS: AnaloguePair[] = [
   },
   {
     // Chosen by our team (not a NASA-documented pair). Linked ONLY to Elysium Planitia.
-    // Research is pending (docs/holuhraun-research.md); no similarities are claimed yet.
+    // Reasons and sources in src/data/holuhraunResearch.ts.
     id: 'holuhraun-elysium',
     earthSiteId: 'holuhraun',
     marsSiteId: 'elysium-planitia',
-    title: 'Basaltic lava flows (team analogue, research pending)',
-    similarities: [],
-    differences: [],
+    title: 'Basaltic lava flows and lava–water interaction (team analogue)',
+    similarities: ['Young fissure-fed basaltic lava flows with similar surface types and lava–water interaction (Voigt et al. 2025).'],
+    differences: ['Holuhraun formed in 2014–2015 under Earth’s atmosphere and gravity; Elysium Planitia’s lavas are far older and formed on Mars.'],
     source: {
       name: 'NASA Earth Observatory — Roiling Flows on Holuhraun Lava Field',
       url: 'https://science.nasa.gov/earth/earth-observatory/roiling-flows-on-holuhraun-lava-field-84316/',

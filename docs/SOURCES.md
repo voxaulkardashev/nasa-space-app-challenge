@@ -327,7 +327,20 @@ Both are left without a citation rather than given one that wasn't read.
 
 **Holuhraun, Iceland** replaces the temporary "Earth Location Placeholder", which was removed along with `placeholderResearch.ts`. It is paired **only** with Elysium Planitia (`holuhraun-elysium`, a team analogue), not with Mars in general.
 - **Pin:** 64.874° N, 16.740° W (Estimated). Taken from the coordinates on the Wikimedia Commons "Category:Holuhraun" page (from its Wikidata item; read 16 November 2026). The point lies on the 2014–15 lava field between Askja and Vatnajökull.
-- **Research sections:** all six are empty placeholders ("Research for this section will be added later"), as the team asked. The team's draft is kept in `docs/holuhraun-research.md`.
+- **Research (added the same day, team request):** seven sections, from the team's draft in `docs/holuhraun-research.md`, citations [1]–[8]. Checked through abstracts (Crossref or USGS):
+  - Voigt et al. 2025 (PSJ): Holuhraun as an analog for Elysium Planitia; young fissure systems; lava–water interactions; rubbly and transitional lavas; polygonal terrain.
+  - Geiger et al. 2016: fed from the Bárðarbunga system, within the Askja fissure swarm; clinopyroxene and plagioclase.
+  - Duhamel et al. 2022 (PubMed 35920884, *Astrobiology*): microbes in lava-heated water differed from river and spring water, and some groups were found only there; warm (17.5 °C) vs control (5.7 °C) incubations; thermophilic isolates.
+  - Dundas et al. 2020: lava flowed into a proglacial river, forming an ephemeral hydrothermal system, monitored 2015–2018.
+  - NASA EO: location between Bárðarbunga and Askja, north of Vatnajökull.
+  - Voigt et al. 2021 (JVGR): title only.
+- **Shown but not confirmed in the sources we could read:**
+  - the 84 km² area and "largest effusive eruption since 1784"
+  - tholeiitic basalt, olivine, titanomagnetite and groundmass microlites (only clinopyroxene and plagioclase were confirmed)
+  - the 6 °C to 48.4 °C water temperatures and the roughly two-year cooling (labelled in the text as the team's figures)
+  - the elevation of about 800 m (labelled as the team's figure)
+  - "Dyngjusandur" was dropped from the text
+- **Images:** the other team images (ground photo, aerial eruption photo, three-panel figure) were not added, because their sources and licences were not confirmed.
 - **Image:** `public/images/holuhraun/holuhraun-landsat8-2014.jpg` (720 × 480, the full-size original), from [NASA Earth Observatory, Roiling Flows on Holuhraun Lava Field](https://science.nasa.gov/earth/earth-observatory/roiling-flows-on-holuhraun-lava-field-84316/). Landsat 8 OLI, 6 September 2014. Credit: "NASA Earth Observatory image by Jesse Allen, using Landsat data from the U.S. Geological Survey."
 - **Weather:** the existing NASA POWER newest-hour card at the pin (Estimated).
 
