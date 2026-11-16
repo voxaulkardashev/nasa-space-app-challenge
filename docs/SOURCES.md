@@ -323,6 +323,32 @@ Both are left without a citation rather than given one that wasn't read.
 
 > **Also removed 15 November 2026 (team request):** the World Overview's "Key NASA datasets for analog & astrobiology work" box and its data, and, in the Compare view, the Similarities/Differences lists and the "Radiation shielding" box. "What Earth cannot reproduce" stays, including a one-line radiation note required by CLAUDE.md rule 5.
 
+## Compare view: McMurdo Dry Valleys (`src/data/mcmurdoResearch.ts`, added 16 November 2026)
+
+New Earth site **McMurdo Dry Valleys**, with the pin at Don Juan Pond in the South Fork of Wright Valley. It is paired with **Hale** as a team-chosen analogue (`mcmurdo-hale`, `documentedBy: 'team'`). The Compare view shows Hale/RSL on the left (unchanged) and the team's sections on the right: Background A, B and C; Earth Analog Site; Similarities. Read on 16 November 2026.
+
+| # | Source | Used for |
+|---|---|---|
+| 1 | [NASA, Dry Valleys, Antarctica](https://www.nasa.gov/image-article/dry-valleys-antarctica/) (4 Dec 2009) | Row of valleys west of McMurdo Sound; extremely low humidity, no snow and ice cover; "closest of any terrestrial environment to Mars"; image PIA12461 (ASTER, 8 Dec 2002, credit NASA/GSFC/METI/ERSDAC/JAROS, and U.S./Japan ASTER Science Team), stored as `public/images/mcmurdo/dry-valleys-aster-pia12461.jpg` (resized) |
+| 2 | Dickson et al. (2013), Scientific Reports 3, 1166, [10.1038/srep01166](https://doi.org/10.1038/srep01166) | Water tracks near Don Juan Pond; CaCl₂ brine; salty soils taking up moisture from the air. Title and authors checked on Crossref. The full text (PMC) was behind a bot check, so the findings come from search summaries of the paper. |
+| 3 | Levy (2012), Icarus 219, 1–4, [10.1016/j.icarus.2012.02.016](https://doi.org/10.1016/j.icarus.2012.02.016) | Comparison of RSL with Antarctic water tracks (title, via Crossref) |
+| 4–7 | NASA Photojournal PIA22070, PIA22994, PIA17734, PIA21608 | Same use as in the Hale section above |
+| 8 | [Polar Geospatial Center, map "Don Juan Pond, Wright Valley"](https://data.pgc.umn.edu/maps/antarctica/era/04/pdf/Don%20Juan%20Pond%20Wright%20Valley.pdf) | Pin position, labelled Estimated |
+
+**Pin position:** the PGC map inset gives 77° 33.784′ S, 161° 12.948′ E. That value was read from a web-search excerpt, because the PDF host isn't reachable from this environment. Other published positions of the pond (77°33′52″ S 161°10′20″ E; 77°34′ S 161°11′ E) agree to within about 1 km. Team to confirm.
+
+**Not individually cited** (kept from the team's text):
+- "liquid water is not considered stable on today's Martian surface"
+- Victoria Land
+- "jagged rocky terrain, frozen lakes, limited seasonal water activity and very low precipitation"
+- "caused by seasonal snowmelt": source 2 (via summaries) supports moisture taken up from the air; snowmelt is not confirmed in a source we could read
+- the importance of understanding Martian processes
+
+**Other notes:**
+- "This unique phenomenon only occurs on the Martian surface" was softened to "RSL themselves are a Martian phenomenon".
+- Mars brine is labelled **Debated on Mars**.
+- No NASA image of the South Fork water tracks was found in the NASA Image Library, so the NASA ASTER overview is used. Its caption says the streaks are too small to see.
+
 ## Compare view: Badwater Basin, California (`src/data/badwaterResearch.ts`, added 16 November 2026)
 
 At the team's request, **Badwater Basin replaced the earlier Earth site paired with Gale**. That earlier site and its NASA pair were removed from the app. The new Gale ⇄ Badwater Basin pair (`badwater-gale` in `src/data/analogues.ts`) was **chosen by the team**. It is marked `documentedBy: 'team'`, and everywhere it appears it is labelled "chosen by our team, not a NASA-documented pair". The Compare view shows Gale on the left and Badwater Basin's seven sections on the right (Introduction, Earth Analog Reasoning, Mineral Composition, Terrain and Landforms, Current Life & Biosphere, Climate/Temperature/Weather, Elevation), plus "What Earth cannot reproduce". Badwater Basin is in California; the app never mentions Nevada. All pages were read on 16 November 2026, and the links are kept exactly as the team gave them.

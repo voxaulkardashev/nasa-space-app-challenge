@@ -147,6 +147,23 @@ export const FEATURED_SITES: FeaturedSite[] = [
     facts: [],
     layers: ['sediments', 'terrain'],
   },
+  {
+    id: 'mcmurdo-dry-valleys', worldId: 'earth', name: 'McMurdo Dry Valleys', kind: 'South Fork of Wright Valley — Don Juan Pond',
+    lat: -77.563, lon: 161.216,
+    description:
+      'Snow-free polar desert valleys west of McMurdo Sound, Antarctica (NASA). The pin marks Don Juan Pond in the South Fork of Wright Valley, where dark, wet streaks form on the slopes.',
+    coordinateStatus: 'estimated',
+    coordinateSource: {
+      name: 'Polar Geospatial Center — map “Don Juan Pond, Wright Valley” (location inset)',
+      url: 'https://data.pgc.umn.edu/maps/antarctica/era/04/pdf/Don%20Juan%20Pond%20Wright%20Valley.pdf',
+      sourceDate: 'Map date not checked',
+      accessed: '16 November 2026',
+    },
+    coordinateMethod:
+      'Position of Don Juan Pond printed on the PGC map inset (77° 33.784′ S, 161° 12.948′ E), read from a web-search excerpt because the PDF host is not reachable from our environment; agrees with other published positions within about 1 km. Team to confirm.',
+    facts: [],
+    layers: ['sediments', 'terrain'],
+  },
   earth({
     id: 'death-valley', name: 'Death Valley, California', kind: 'Desert valley',
     lat: 36.24, lon: -116.83,

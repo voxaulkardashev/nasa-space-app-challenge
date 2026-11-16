@@ -43,6 +43,14 @@ export const SITE_PHOTOS: Record<string, SitePhoto> = {
     credit: 'NASA/METI/AIST/Japan Space Systems, and U.S./Japan ASTER Science Team',
     imageUrl: asset('PIA26197', 'medium'),
   },
+  'mcmurdo-dry-valleys': {
+    nasaId: 'PIA12461',
+    caption: 'Dry Valleys, Antarctica',
+    date: '2009-11-02',
+    center: 'JPL',
+    credit: 'NASA/GSFC/METI/ERSDAC/JAROS, and U.S./Japan ASTER Science Team',
+    imageUrl: asset('PIA12461', 'medium'),
+  },
   'death-valley': {
     nasaId: 'PIA23265',
     caption: "NASA's Mars 2020 Mission Drops in on Death Valley",

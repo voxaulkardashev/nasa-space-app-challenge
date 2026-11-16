@@ -1,10 +1,11 @@
 import { BADWATER_RESEARCH } from './badwaterResearch';
 import { HALE_RESEARCH } from './haleResearch';
+import { MCMURDO_RESEARCH } from './mcmurdoResearch';
 import { JEZERO_RESEARCH } from './jezeroResearch';
 import type { DataValue } from './types';
 
 /**
- * Team research shown in the Compare view's site columns (Gale, Jezero and Hale on Mars; Badwater Basin on Earth).
+ * Team research shown in the Compare view's site columns (Gale, Jezero and Hale on Mars; Badwater Basin and the McMurdo Dry Valleys on Earth).
  * Text is the team's research, lightly edited for clarity and checked against
  * each cited page (see docs/SOURCES.md). In paragraphs, "[[n]]" marks citation n.
  */
@@ -189,4 +190,4 @@ const GALE: SiteResearch = {
 };
 
 /** Research shown in place of the standard site column, by featured-site id. */
-export const SITE_RESEARCH: Record<string, SiteResearch> = { gale: GALE, jezero: JEZERO_RESEARCH, hale: HALE_RESEARCH, 'badwater-basin': BADWATER_RESEARCH };
+export const SITE_RESEARCH: Record<string, SiteResearch> = { gale: GALE, jezero: JEZERO_RESEARCH, hale: HALE_RESEARCH, 'badwater-basin': BADWATER_RESEARCH, 'mcmurdo-dry-valleys': MCMURDO_RESEARCH };

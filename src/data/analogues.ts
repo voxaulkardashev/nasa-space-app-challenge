@@ -75,6 +75,25 @@ export const ANALOGUE_PAIRS: AnaloguePair[] = [
     documentedBy: 'team',
   },
   {
+    // Chosen by our team (not a NASA-documented pair); reasons and sources in src/data/mcmurdoResearch.ts.
+    id: 'mcmurdo-hale',
+    earthSiteId: 'mcmurdo-dry-valleys',
+    marsSiteId: 'hale',
+    title: 'Dark slope streaks and salty soils (team analogue)',
+    similarities: [
+      'Dark streaks on rocky slopes: wet water tracks near Don Juan Pond; RSL on Hale’s central peaks.',
+      'Calcium chloride salts in the South Fork soils absorb moisture from the air; brine is one debated explanation for RSL.',
+    ],
+    differences: ['The Antarctic streaks are wet with liquid water; whether RSL involve any water is debated.'],
+    source: {
+      name: 'NASA — Dry Valleys, Antarctica',
+      url: 'https://www.nasa.gov/image-article/dry-valleys-antarctica/',
+      sourceDate: '4 December 2009',
+      accessed: '16 November 2026',
+    },
+    documentedBy: 'team',
+  },
+  {
     id: 'deathvalley-utopia',
     earthSiteId: 'death-valley',
     marsSiteId: 'utopia',
