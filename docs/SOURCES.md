@@ -605,7 +605,11 @@ Pages accessed 14 November 2026. Their publication dates were not checked.
 
 ## Decorative elements (not data)
 
-- **Starfield**: random points from drei's `<Stars>` component. Not a star catalogue. A real one, such as NASA SVS "Deep Star Maps", could replace it later.
+- **Starfield** (`src/components/Starfield.tsx`, `src/lib/starfield.ts`): decorative, not a star catalogue. About 10,000 points from a fixed random seed:
+  - **Colours:** white, bright blue, yellow and orange-red.
+  - **Sizes:** varied, with a few bright stars.
+  - **Layout:** 12 dense clusters, some emptier patches, and a gentle twinkle.
+  - A real catalogue, such as NASA SVS "Deep Star Maps", could replace it later.
 - **Hover glow** around worlds: an interface highlight, not an atmosphere.
 - **Sizes on the Select screen**: not to scale (the screen says so).
 - **Spin**: slow decorative rotation in the real direction (west to east), not at the real speed.

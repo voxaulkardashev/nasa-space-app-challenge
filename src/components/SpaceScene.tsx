@@ -1,4 +1,5 @@
-import { OrbitControls, Stars } from '@react-three/drei';
+import { OrbitControls } from '@react-three/drei';
+import { Starfield } from './Starfield';
 import { Canvas, useThree } from '@react-three/fiber';
 import { useMemo, useRef, type ComponentRef } from 'react';
 import type { Group } from 'three';
@@ -137,7 +138,7 @@ function SceneContents({
       <SceneLighting screen={screen} />
 
       {/* Decorative random starfield (not a real star catalogue). */}
-      <Stars radius={120} depth={60} count={5000} factor={3.5} saturation={0} fade speed={0.4} />
+      <Starfield />
 
       {WORLDS.map((world) => {
         const pose = layout.bodies[world.id];

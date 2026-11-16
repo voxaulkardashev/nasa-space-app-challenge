@@ -99,6 +99,7 @@ Dark navy to black background with subtle stars; realistic textures and lighting
 - **16 November 2026 (no placeholders):** Explore shows real elevations for every site (published values for Earth featured sites, the Blue Marble grid for Earth pins and Holuhraun, MOLA for Mars) and a "Similar Earth/Mars site" row from the team pairs. No Placeholder rows remain.
 - **16 November 2026 (submission prep):** MIT `LICENSE` added (code only; third-party image and data terms listed in it and in docs/SOURCES.md). README rewritten for the final four comparisons. Tour Compare step updated.
 - **16 November 2026 (Topography speed):** lighter raised-surface mesh (640 × 320), mouse checks on a 160 × 80 invisible copy, slider rebuilds only on pause or release, 16-segment terrain tiles.
+- **16 November 2026 (starfield):** decorative custom starfield (white, blue, yellow, orange-red; clusters and emptier patches; twinkle) replaces drei's `<Stars>`.
 - **Not built:** a computed analogue engine (scores from measured per-dimension Earth data) and the Python back end. Do not build them until asked.
 - Deadline: Sunday 15 November 2026, 11:59 PM Pacific.
 
