@@ -3,6 +3,7 @@ import type { ResearchCitation, ResearchFigure, SiteResearch } from '../data/sit
 import { assetUrl } from '../data/worlds';
 import { FactRow } from './FactRow';
 import { RslMap } from './RslMap';
+import { SiteEarthWeather } from './SiteEarthWeather';
 import { SiteLiveWeather } from './SiteLiveWeather';
 
 interface SiteResearchColumnProps {
@@ -93,6 +94,7 @@ export function SiteResearchColumn({ research }: SiteResearchColumnProps) {
             </div>
           ))}
           {section.live && <SiteLiveWeather lat={section.live.lat} lon={section.live.lon} place={section.live.place} />}
+          {section.liveEarth && <SiteEarthWeather {...section.liveEarth} />}
           {section.figure && <ResearchImage figure={section.figure} />}
           {section.map === 'rsl-sites' && <RslMap siteId={research.siteId} />}
           {section.notes?.map((note, i) => (

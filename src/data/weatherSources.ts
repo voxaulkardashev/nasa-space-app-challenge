@@ -49,3 +49,10 @@ export const PSG_MARS_URL = 'https://psg.gsfc.nasa.gov/apps/mars/';
 /** How the "right now" Mars values are produced (shown with every one of them). */
 export const PSG_NOW_METHOD =
   'NASA Goddard PSG Mars Explorer model for the current time: EMARS data from the past Mars year most similar to now, at today’s season and time of day, on a grid of 6° of longitude × about 5° of latitude, interpolated to your pin. These are model estimates, not measurements, and the app says it “should be only used for testing purposes”.';
+
+/** NASA POWER's hourly service: the same NASA POWER API as the weather assistant, at hourly resolution. */
+export const POWER_HOURLY_URL = 'https://power.larc.nasa.gov/docs/services/api/temporal/hourly/';
+
+/** How the newest-hour values are made (shown with each value). */
+export const POWER_HOURLY_METHOD =
+  'NASA POWER hourly API (the weather assistant’s Earth data service), newest hour available. Values come from NASA’s GEOS-IT weather model on a grid of about 0.5° (roughly 50 km), so they average the basin with the surrounding mountains; they are not readings from a weather station.';

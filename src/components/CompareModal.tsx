@@ -20,7 +20,7 @@ interface CompareModalProps {
 }
 
 /**
- * Compare view: a Mars site and its NASA-documented Earth analogue side by
+ * Compare view: a Mars site and its Earth analogue (NASA-documented, or chosen by our team and marked so) side by
  * side, with cited similarities and differences, and the world-level things
  * Earth cannot reproduce (gravity, thin atmosphere, radiation).
  */
@@ -89,7 +89,15 @@ export function CompareModal({ site, onClose }: CompareModalProps) {
           />
         </section>
 
-        {pair ? (
+        {pair?.documentedBy === 'team' ? (
+          <p className="compare__source compare__pair-source">
+            Analogue pair chosen by our team, <strong>not a NASA-documented pair</strong>. Each reason is cited in the columns above (main source:{' '}
+            <a href={pair.source.url} target="_blank" rel="noreferrer">
+              {pair.source.name}
+            </a>
+            ). Analogues share some features; they are not the same place.
+          </p>
+        ) : pair ? (
           <p className="compare__source compare__pair-source">
             Analogue pair from{' '}
             <a href={pair.source.url} target="_blank" rel="noreferrer">

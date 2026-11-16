@@ -1,9 +1,10 @@
+import { BADWATER_RESEARCH } from './badwaterResearch';
 import { HALE_RESEARCH } from './haleResearch';
 import { JEZERO_RESEARCH } from './jezeroResearch';
 import type { DataValue } from './types';
 
 /**
- * Team research shown in the Compare view's site column (Gale, Jezero and Hale).
+ * Team research shown in the Compare view's site columns (Gale, Jezero and Hale on Mars; Badwater Basin on Earth).
  * Text is the team's research, lightly edited for clarity and checked against
  * each cited page (see docs/SOURCES.md). In paragraphs, "[[n]]" marks citation n.
  */
@@ -43,6 +44,8 @@ export interface ResearchSection {
   notes?: string[];
   /** Titled parts of the section, e.g. competing hypotheses (`tag` shows a badge such as "Debated"). */
   subsections?: { title: string; tag?: string; paragraphs: string[] }[];
+  /** Earth sites: the newest NASA POWER weather at this spot (the weather assistant's Earth service), loaded when shown. */
+  liveEarth?: { lat: number; lon: number; place: string; timeZone: string; liveLink?: { label: string; url: string } };
   /** An interactive map shown in this section ('rsl-sites': where RSL have been observed on Mars). */
   map?: 'rsl-sites';
 }
@@ -186,4 +189,4 @@ const GALE: SiteResearch = {
 };
 
 /** Research shown in place of the standard site column, by featured-site id. */
-export const SITE_RESEARCH: Record<string, SiteResearch> = { gale: GALE, jezero: JEZERO_RESEARCH, hale: HALE_RESEARCH };
+export const SITE_RESEARCH: Record<string, SiteResearch> = { gale: GALE, jezero: JEZERO_RESEARCH, hale: HALE_RESEARCH, 'badwater-basin': BADWATER_RESEARCH };

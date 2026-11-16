@@ -3112,3 +3112,14 @@ body.is-resizing * {
     columns: 1;
   }
 }
+
+/* Earth site: newest NASA POWER weather (same card style as the Mars model card, in the Earth accent). */
+.earth-now {
+  border-color: rgba(127, 178, 255, 0.28);
+}
+
+.earth-now__time {
+  margin: 0.3rem 0 0.4rem;
+  font-size: 0.8rem;
+  color: var(--text);
+}

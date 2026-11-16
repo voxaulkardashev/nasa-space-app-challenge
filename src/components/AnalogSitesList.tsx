@@ -10,7 +10,7 @@ interface AnalogSitesListProps {
 
 /**
  * The analog pairs in this app, seen from one world: each site here and its
- * NASA-documented counterpart(s) on the other world. Clicking a name opens it.
+ * counterpart(s) on the other world (NASA-documented, or chosen by our team and marked so). Clicking a name opens it.
  */
 export function AnalogSitesList({ worldId, onOpenSite }: AnalogSitesListProps) {
   const groups = new Map<string, { site: FeaturedSite | null; others: (FeaturedSite | null)[]; titles: string[] }>();
@@ -39,7 +39,7 @@ export function AnalogSitesList({ worldId, onOpenSite }: AnalogSitesListProps) {
         <li key={key} className="analog-list__item">
           <div className="analog-list__pair">
             {name(g.site, worldId === 'mars' ? 'Mars in general' : 'Earth')}
-            <span className="analog-list__arrow" aria-label="is compared by NASA with">
+            <span className="analog-list__arrow" aria-label="is compared with">
               ⇄
             </span>
             <span className="analog-list__others">

@@ -140,6 +140,8 @@ export interface AnaloguePair {
   /** Site-specific differences stated in the source (world-level differences are always shown separately). */
   differences: string[];
   source: SourceRef;
+  /** Who proposed the pair: NASA (default) or our team (then it is never described as NASA-documented). */
+  documentedBy?: 'nasa' | 'team';
 }
 
 /** A photo from the NASA Image and Video Library (images.nasa.gov). */

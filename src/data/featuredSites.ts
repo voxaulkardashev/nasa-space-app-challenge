@@ -130,12 +130,23 @@ export const FEATURED_SITES: FeaturedSite[] = [
     description: 'A lake whose light-coloured shoreline sediments NASA compares with Jezero crater on Mars.',
     layers: ['sediments'],
   }),
-  earth({
-    id: 'verde-valley', name: 'Verde Valley, Arizona', kind: 'Valley',
-    lat: 34.75, lon: -112.02,
-    description: 'Where scientists study how signs of life are preserved, to help Curiosity know what to look for on Mars (NASA).',
-    layers: ['sediments'],
-  }),
+  {
+    id: 'badwater-basin', worldId: 'earth', name: 'Badwater Basin, California', kind: 'Salt flat basin',
+    lat: 36.23, lon: -116.77,
+    description:
+      'The lowest point in North America, 282 ft (86 m) below sea level, in Death Valley National Park, California: vast salt flats left by the ancient Lake Manly (NPS).',
+    coordinateStatus: 'estimated',
+    coordinateSource: {
+      name: 'NASA Photojournal PIA26197 — Badwater, Death Valley (ASTER scene centred at 36.3° N, 116.8° W)',
+      url: 'https://science.nasa.gov/photojournal/badwater-death-valley/',
+      sourceDate: '14 December 2023',
+      accessed: '16 November 2026',
+    },
+    coordinateMethod:
+      'Approximate position of the Badwater pool and boardwalk at the foot of the Black Mountains, rounded to 0.01°, checked by eye on NASA GIBS Landsat imagery and consistent with NASA’s ASTER scene of Badwater Basin (PIA26197). Not from an official gazetteer (USGS GNIS could not be queried); the team should confirm it.',
+    facts: [],
+    layers: ['sediments', 'terrain'],
+  },
   earth({
     id: 'death-valley', name: 'Death Valley, California', kind: 'Desert valley',
     lat: 36.24, lon: -116.83,

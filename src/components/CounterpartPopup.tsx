@@ -10,7 +10,7 @@ interface CounterpartPopupProps {
 }
 
 /**
- * Small pop-up at the bottom of the screen: the NASA-documented analogue of the
+ * Small pop-up at the bottom of the screen: the analogue (NASA-documented, or chosen by our team and marked so) of the
  * selected site on the other world. Clicking it jumps there.
  */
 export function CounterpartPopup({ site, onGo, onCompare }: CounterpartPopupProps) {
@@ -47,7 +47,9 @@ export function CounterpartPopup({ site, onGo, onCompare }: CounterpartPopupProp
               <span className="counterpart__name">
                 {other.name} <span aria-hidden="true">→</span>
               </span>
-              <span className="counterpart__why">{pair.title} (NASA Analog Explorer)</span>
+              <span className="counterpart__why">
+                {pair.title} ({pair.documentedBy === 'team' ? 'chosen by our team, not a NASA-documented pair' : 'NASA Analog Explorer'})
+              </span>
             </button>
           );
         })}

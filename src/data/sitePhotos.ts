@@ -35,6 +35,14 @@ export const SITE_PHOTOS: Record<string, SitePhoto> = {
     credit: 'NASA/JPL-Caltech',
     imageUrl: asset('PIA24375', 'small'),
   },
+  'badwater-basin': {
+    nasaId: 'PIA26197',
+    caption: 'Badwater, Death Valley',
+    date: '2023-12-14',
+    center: 'JPL',
+    credit: 'NASA/METI/AIST/Japan Space Systems, and U.S./Japan ASTER Science Team',
+    imageUrl: asset('PIA26197', 'medium'),
+  },
   'death-valley': {
     nasaId: 'PIA23265',
     caption: "NASA's Mars 2020 Mission Drops in on Death Valley",

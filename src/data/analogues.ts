@@ -54,15 +54,25 @@ export const ANALOGUE_PAIRS: AnaloguePair[] = [
     source: ANALOG_EXPLORER,
   },
   {
-    id: 'verde-gale',
-    earthSiteId: 'verde-valley',
+    // Chosen by our team (not a NASA-documented pair). The reasons and their sources are in
+    // Badwater Basin's Compare column (src/data/badwaterResearch.ts).
+    id: 'badwater-gale',
+    earthSiteId: 'badwater-basin',
     marsSiteId: 'gale',
-    title: 'Looking for Life: Arizona and Mars',
+    title: 'Salt minerals, wind and an ancient lake (team analogue)',
     similarities: [
-      'Scientists study how signs of life (biosignatures) are preserved in Verde Valley; this helps Curiosity, at the base of Mount Sharp in Gale crater, know what to look for.',
+      'Badwater’s salt minerals form today as groundwater evaporates; in Gale, Curiosity found salty minerals that groundwater left behind billions of years ago.',
+      'Both are low basins ringed by high ground (mountain ranges; Gale’s crater rim and Mount Sharp), where wind and dust erode the rock.',
+      'Badwater Basin was the site of the ancient Lake Manly; Gale held long-lived lakes billions of years ago.',
     ],
-    differences: [],
-    source: ANALOG_EXPLORER,
+    differences: ['Badwater’s salts and life are active today; Gale’s lakes dried up billions of years ago.'],
+    source: {
+      name: 'NPS — Badwater Basin',
+      url: 'https://www.nps.gov/places/badwater-basin.htm',
+      sourceDate: 'Last updated 7 January 2026',
+      accessed: '16 November 2026',
+    },
+    documentedBy: 'team',
   },
   {
     id: 'deathvalley-utopia',

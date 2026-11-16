@@ -96,7 +96,7 @@ One photo per featured site, chosen by hand from the [NASA Image and Video Libra
 |---|---|---|
 | Lake Salda, Turkey | Jezero | [Planetary Analog Explorer: "Looking for Life: Turkey and Mars"](https://science.nasa.gov/solar-system/analog-explorer/) |
 | Atacama Desert, Chile | Jezero (Perseverance) | Analog Explorer: "Looking for Life: the Atacama Desert and Mars" |
-| Verde Valley, Arizona | Gale (Curiosity at Mount Sharp) | Analog Explorer: "Looking for Life: Arizona and Mars" |
+| Badwater Basin, California | Gale | **Chosen by the team (16 Nov 2026), not a NASA-documented pair.** Replaced the earlier NASA pair for Gale at the team's request. See "Compare view: Badwater Basin" below. |
 | Death Valley, California | Utopia Planitia (Viking 2) | Analog Explorer: "Rocky Reconnaissance: California and Mars" |
 | Pilot Valley, Utah | Phoenix landing site (northern plains) | Analog Explorer: "Looking for Life: Utah and Mars" |
 | Haughton crater, Canada | Mars in general | [10 Things to Know About Planetary Analogs](https://science.nasa.gov/solar-system/planetary-analogs/10-things-to-know-about-planetary-analogs/) |
@@ -114,7 +114,7 @@ NASA calls these *analogs*: places with things in common, not equivalents. The a
 | Site | Coordinates |
 |---|---|
 | Lake Salda | 37.55, 29.68 (BirdLife / Key Biodiversity Areas factsheet) |
-| Verde Valley | 34.75, −112.02 (Wikipedia) |
+| Badwater Basin | 36.23, −116.77 (Estimated; see "Compare view: Badwater Basin") |
 | Death Valley | 36.24, −116.83 (Wikipedia, national park point) |
 | Atacama (Yungay) | −24.08, −69.99 (McKay et al. 2003, *Astrobiology*, as read via search; digits partly garbled, so approximate) |
 | Pilot Valley | 41.0, −113.9 (Wikipedia) |
@@ -141,7 +141,7 @@ NASA calls these *analogs*: places with things in common, not equivalents. The a
 | Holuhraun | jsc2024e055198 | Artemis II Crew geology training in Iceland - jsc2024e055198 | 2024-08-01 | Robert Markowitz, NASA-JSC |
 
 - The Lake Salda photo caption is also quoted as a similarity. NASA's caption says "Jezero Carter", which we show as "Jezero [Crater]".
-- Verde Valley, Atacama and Pilot Valley have no matching image in the library.
+- Atacama and Pilot Valley have no matching image in the library. Badwater Basin uses PIA26197 ("Badwater, Death Valley", 14 Dec 2023, credit NASA/METI/AIST/Japan Space Systems, and U.S./Japan ASTER Science Team).
 
 ### Use cases page (removed 15 November 2026)
 
@@ -322,6 +322,46 @@ In the Compare view, Jezero's column (left) shows the team's research in six sec
 Both are left without a citation rather than given one that wasn't read.
 
 > **Also removed 15 November 2026 (team request):** the World Overview's "Key NASA datasets for analog & astrobiology work" box and its data, and, in the Compare view, the Similarities/Differences lists and the "Radiation shielding" box. "What Earth cannot reproduce" stays, including a one-line radiation note required by CLAUDE.md rule 5.
+
+## Compare view: Badwater Basin, California (`src/data/badwaterResearch.ts`, added 16 November 2026)
+
+At the team's request, **Badwater Basin replaced the earlier Earth site paired with Gale**. That earlier site and its NASA pair were removed from the app. The new Gale ⇄ Badwater Basin pair (`badwater-gale` in `src/data/analogues.ts`) was **chosen by the team**. It is marked `documentedBy: 'team'`, and everywhere it appears it is labelled "chosen by our team, not a NASA-documented pair". The Compare view shows Gale on the left and Badwater Basin's seven sections on the right (Introduction, Earth Analog Reasoning, Mineral Composition, Terrain and Landforms, Current Life & Biosphere, Climate/Temperature/Weather, Elevation), plus "What Earth cannot reproduce". Badwater Basin is in California; the app never mentions Nevada. All pages were read on 16 November 2026, and the links are kept exactly as the team gave them.
+
+| # | Source | Used for |
+|---|---|---|
+| 1 | [NPS, Badwater Basin](https://www.nps.gov/places/badwater-basin.htm) (last updated 7 Jan 2026) | Lowest point in North America, 282 ft (86 m) below sea level; salt flats of nearly 200 sq mi, mostly sodium chloride plus calcite, gypsum, borax; spring-fed pool, very salty; endemic snail; pickleweed; Lake Manly evaporated "tens of thousands of years" ago; salt polygons form as groundwater rises and evaporates; Black Mountains east, Panamint Range west; Telescope Peak 11,049 ft (3,368 m); boating prohibited on Lake Manly. **Measured** values: elevation and Telescope Peak. |
+| 2 | [NPS, Badwater Basin photo gallery](https://www.nps.gov/media/photo/gallery.htm?pg=5846958&id=F3AECF9F-155D-4519-3EAABFC85829E3CB) | Photos and captions: salt crust uplifted and eroded, salt pools lined with growing crystals, temporary lake from rainwater, salt and mud crust shaped by wind and rain. Records read from the gallery's own data service (`/npgallery/api/search/execute/albumid/…`). |
+| 3 | [NPS, Death Valley Weather](https://www.nps.gov/deva/planyourvisit/weather.htm) | Hottest place on Earth, driest in North America; summer often above 120 °F (49 °C); rainfall under 2 in (5 cm); wind common, sudden dust storms; heated air trapped by valley walls and recycled down; temperatures drop 3–5 °F per 1,000 ft; links NOAA for current conditions |
+| 4 | [NPCA, "Some Like It Very Hot"](https://www.npca.org/articles/1767-some-like-it-very-hot) (Spring 2018) | A belt of peaks cycles rising hot air down to the valley floor; rain shadow of four mountain ranges |
+| 5 | [NPS, Death Valley Animals](https://www.nps.gov/deva/learn/nature/animals.htm) (last updated 20 Mar 2024) | Great diversity of wildlife with adaptations to heat and drought |
+| 6 | [NASA JPL, "NASA's Curiosity Mars Rover Starts Unpacking Boxwork Formations"](https://www.jpl.nasa.gov/news/nasas-curiosity-mars-rover-starts-unpacking-boxwork-formations/) (23 Jun 2025) | Gale: long-lived lakes; groundwater deposited minerals in cracks; magnesium sulfates and calcium sulfate veins form as water dries up; wind sandblasting exposed the mineral ridges |
+| 7 | [U.S. Department of the Interior, Copyright](https://www.doi.gov/copyright) | Image rights: federal materials are generally public domain; credit the source |
+| 8 | [NASA POWER Hourly API](https://power.larc.nasa.gov/docs/services/api/temporal/hourly/) | Climate/Temperature/Weather card (below) |
+
+**Weather card (`SiteEarthWeather`, `src/lib/weather/powerLatest.ts`):**
+- **What the team asked for:** live weather from "the same weather API that is already used by the website's chatbot".
+- **What that API can give:** the chatbot uses NASA POWER for Earth. POWER does not provide live weather, so the card loads POWER's **newest hour** each time it is shown and states that hour, in Pacific time and UTC. On 16 Nov 2026 the newest hour was 14 Nov 2026, 23:00 UTC.
+- **What it shows:** temperature in °F and °C, wind speed in mph and m/s with direction, humidity and rain. Every value is labelled **Estimated** (NASA's GEOS-IT model, grid of about 0.5°, which includes the surrounding mountains).
+- **Left out:** surface pressure. The model gives about 92 kPa because its ground height is far above the basin floor, so the value would mislead.
+- **Live readings:** the card links NOAA's Death Valley page (linked from source 3) for live station data. Using a live source in the app would mean adding a non-NASA weather service; the team can decide.
+
+**Coordinates:** 36.23° N, 116.77° W, **Estimated**. This is the approximate position of the Badwater pool and boardwalk, rounded to 0.01°. It was checked by eye on NASA GIBS Landsat imagery (WELD 2000 layer): the point sits on the eastern edge of the salt flat at the foot of the Black Mountains. It is consistent with NASA's ASTER scene of Badwater Basin, centred at 36.3° N, 116.8° W ([PIA26197](https://science.nasa.gov/photojournal/badwater-death-valley/)). The NPS page gives no coordinates. The USGS GNIS gazetteer could not be queried from this environment, so the team should confirm the coordinates there. The existing "Death Valley, California" site (paired with Utopia Planitia) is a separate NASA pair and was not changed. Its pin lies about 5 km west, so the two overlap when zoomed out.
+
+**Images** (`public/images/badwater/`): three NPS gallery photos, each marked **"Public domain"** with photo credit **"NPS"** in the gallery records. Not resized.
+- `salt-flat-uplift-nps.jpg`: "Uplift on the salt flats"
+- `salt-polygons-storm-nps.jpg`: "Badwater Storm"
+- `lake-manly-temporary-nps.jpg`: "Lake Manly"
+
+The photo on the NPS place page itself was not used, because its rights status isn't stated there.
+
+**Changes to the team's text, and why:**
+- **"Lowest point in the United States":** NPS says "lowest point in North America". Written as "North America, and so in the United States".
+- **Lake Manly "evaporated … thousands of years ago":** NPS says "tens of thousands of years". Corrected.
+- **"Collects rainwater and spring water to form the Badwater Pool":** NPS calls the pool spring-fed. The gallery says rainwater forms a temporary lake in the lowest part of the basin. Both are now described separately.
+- **"Gravitational gradient for winds" at Gale:** not supported by the sources. Rewritten with what NPS and NPCA say about air movement in Death Valley, and what JPL says about wind erosion in Gale.
+- **"Numerous species of insects and countless bacteria":** none of the seven sources says this about Badwater, so it was removed. The NPS page's "many organisms not only survive, but thrive here" is used instead.
+- **"Similar sediment formations" in Gale's lake:** written as the specific salty minerals JPL names (magnesium sulfates, calcium sulfate veins).
+- **Not individually cited:** "Mars has no plate tectonics to lift up fresh rock, so wind erosion is one of the main ways older layers are exposed" (the team's point; general planetary science, not stated in source 6).
 
 ## Compare view: Hale Crater and recurring slope lineae (`src/data/haleResearch.ts`, `src/data/rslSites.ts`, added 16 November 2026)
 

@@ -88,6 +88,7 @@ Dark navy to black background with subtle stars; realistic textures and lighting
   - New Mars featured site Hale (Gazetteer coordinates). Its Compare column shows the team's five sections (`src/data/haleResearch.ts`, same component as Gale and Jezero), citations [1]–[15], both RSL mechanisms labelled Debated.
   - RSL map in the Background section (`RslMap`) and cyan "RSL observed" markers on the Explore globe and 2D map (`src/data/rslSites.ts`, toggle under Geological layers → Observations). Only 10 NASA-documented HiRISE observations, each with its sources; markers are HiRISE image centres (accurate to a few km).
   - Munaretto 2020's numbers were checked from its abstract only; see docs/SOURCES.md.
+- **16 November 2026 (Badwater Basin):** Badwater Basin, California, replaced the earlier Earth site paired with Gale (team request). The pair is the team's own (`documentedBy: 'team'`), labelled "not a NASA-documented pair" wherever it appears. The Compare view shows Gale on the left and Badwater's seven sections on the right (`src/data/badwaterResearch.ts`, NPS public-domain photos, citations [1]–[8]). Its weather card shows NASA POWER's newest hour (the chatbot's API), labelled Estimated and dated, because POWER has no live data. Coordinates are Estimated (GNIS not reachable).
 - **Not built:** a computed analogue engine (scores from measured per-dimension Earth data) and the Python back end. Do not build them until asked.
 - Deadline: Sunday 15 November 2026, 11:59 PM Pacific.
 
