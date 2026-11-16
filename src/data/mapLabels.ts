@@ -27,10 +27,10 @@ export interface MapLabel {
  * description of the IAU feature type (e.g. Mons = mountain, Planitia = low plain).
  */
 const MARS_LABELS: MapLabel[] = [
-  { id: 'mars-olympus-mons', worldId: 'mars', name: 'Olympus Mons', kind: 'Volcano', lat: 18.65, lon: -133.80, gazetteerId: 4453, featuredId: 'olympus-mons' },
-  { id: 'mars-valles-marineris', worldId: 'mars', name: 'Valles Marineris', kind: 'Canyon system', lat: -14.01, lon: -58.59, gazetteerId: 6288, featuredId: 'valles-marineris' },
-  { id: 'mars-hellas-planitia', worldId: 'mars', name: 'Hellas Planitia', kind: 'Impact basin', lat: -42.43, lon: 70.50, gazetteerId: 2432, featuredId: 'hellas' },
-  { id: 'mars-utopia-planitia', worldId: 'mars', name: 'Utopia Planitia', kind: 'Plain', lat: 46.74, lon: 117.52, gazetteerId: 6260, featuredId: 'utopia' },
+  { id: 'mars-olympus-mons', worldId: 'mars', name: 'Olympus Mons', kind: 'Volcano', lat: 18.65, lon: -133.80, gazetteerId: 4453 },
+  { id: 'mars-valles-marineris', worldId: 'mars', name: 'Valles Marineris', kind: 'Canyon system', lat: -14.01, lon: -58.59, gazetteerId: 6288 },
+  { id: 'mars-hellas-planitia', worldId: 'mars', name: 'Hellas Planitia', kind: 'Impact basin', lat: -42.43, lon: 70.50, gazetteerId: 2432 },
+  { id: 'mars-utopia-planitia', worldId: 'mars', name: 'Utopia Planitia', kind: 'Plain', lat: 46.74, lon: 117.52, gazetteerId: 6260 },
   { id: 'mars-arsia-mons', worldId: 'mars', name: 'Arsia Mons', kind: 'Volcano', lat: -8.26, lon: -120.09, gazetteerId: 394 },
   { id: 'mars-pavonis-mons', worldId: 'mars', name: 'Pavonis Mons', kind: 'Volcano', lat: 1.48, lon: -112.96, gazetteerId: 4620 },
   { id: 'mars-ascraeus-mons', worldId: 'mars', name: 'Ascraeus Mons', kind: 'Volcano', lat: 11.92, lon: -104.08, gazetteerId: 417 },

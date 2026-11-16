@@ -323,6 +323,14 @@ Both are left without a citation rather than given one that wasn't read.
 
 > **Also removed 15 November 2026 (team request):** the World Overview's "Key NASA datasets for analog & astrobiology work" box and its data, and, in the Compare view, the Similarities/Differences lists and the "Radiation shielding" box. "What Earth cannot reproduce" stays, including a one-line radiation note required by CLAUDE.md rule 5.
 
+## Removed sites (16 November 2026, team request)
+
+The following featured sites, their NASA analogue pairs and their NASA photos were removed from the app. Their earlier source notes further down this file are kept for the record only.
+- **Earth:** Atacama Desert (Yungay), Death Valley (Badwater Basin stays), Pilot Valley, Haughton crater and Meteor Crater.
+- **Mars:** Utopia Planitia, Phoenix landing site, Olympus Mons, Valles Marineris and Hellas Planitia.
+
+Olympus Mons, Valles Marineris, Hellas Planitia and Utopia Planitia still appear as plain Gazetteer **place labels** on the Mars map (a separate feature), but they are no longer selectable sites.
+
 ## Compare view: Lake Lappajärvi, Finland (`src/data/lappajarviResearch.ts`, added 16 November 2026)
 
 At the team's request, **Lake Lappajärvi replaced Lake Salda** as Jezero's first Earth comparison. The Lake Salda site, its NASA pair and its photo were removed from the app. The Atacama tab is unchanged. The new pair, `lappajarvi-jezero`, is the team's own (`documentedBy: 'team'`). The pin is at **63.20° N, 23.70° E** (the team's approximate lake centre, labelled Estimated). Read on 16 November 2026.

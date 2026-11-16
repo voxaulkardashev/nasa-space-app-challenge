@@ -11,22 +11,6 @@ const asset = (nasaId: string, size: 'medium' | 'small' | 'thumb') =>
   `https://images-assets.nasa.gov/image/${nasaId}/${nasaId}~${size}.jpg`;
 
 export const SITE_PHOTOS: Record<string, SitePhoto> = {
-  utopia: {
-    nasaId: 'PIA04023',
-    caption: 'Viking Lander 2 Anniversary',
-    date: '2002-12-13',
-    center: 'JPL',
-    credit: 'NASA/JPL/Arizona State University',
-    imageUrl: asset('PIA04023', 'thumb'),
-  },
-  phoenix: {
-    nasaId: 'PIA10701',
-    caption: 'Color Image of Phoenix Lander on Mars Surface',
-    date: '2008-05-27',
-    center: 'JPL',
-    credit: 'NASA/JPL-Caltech/University of Arizona',
-    imageUrl: asset('PIA10701', 'thumb'),
-  },
   'badwater-basin': {
     nasaId: 'PIA26197',
     caption: 'Badwater, Death Valley',
@@ -42,14 +26,6 @@ export const SITE_PHOTOS: Record<string, SitePhoto> = {
     center: 'JPL',
     credit: 'NASA/GSFC/METI/ERSDAC/JAROS, and U.S./Japan ASTER Science Team',
     imageUrl: asset('PIA12461', 'medium'),
-  },
-  'death-valley': {
-    nasaId: 'PIA23265',
-    caption: "NASA's Mars 2020 Mission Drops in on Death Valley",
-    date: '2019-05-24',
-    center: 'JPL',
-    credit: 'NASA/JPL-Caltech',
-    imageUrl: asset('PIA23265', 'medium'),
   },
   holuhraun: {
     nasaId: 'jsc2024e055198',
@@ -74,47 +50,5 @@ export const SITE_PHOTOS: Record<string, SitePhoto> = {
     center: 'JPL',
     credit: 'NASA/JPL-Caltech/ESA/DLR/FU Berlin/MSSS',
     imageUrl: asset('PIA15292', 'medium'),
-  },
-  'olympus-mons': {
-    nasaId: 'PIA00300',
-    caption: 'Olympus Mons',
-    date: '1998-06-04',
-    center: 'JPL',
-    credit: 'NASA/JPL/USGS',
-    imageUrl: asset('PIA00300', 'medium'),
-  },
-  'valles-marineris': {
-    nasaId: 'PIA00422',
-    caption: 'Valles Marineris',
-    date: '1998-06-08',
-    center: 'JPL',
-    credit: 'NASA/JPL/USGS',
-    imageUrl: asset('PIA00422', 'medium'),
-  },
-  hellas: {
-    nasaId: 'PIA00406',
-    caption: 'Hellas Mosaic',
-    date: '1998-06-08',
-    center: 'JPL',
-    credit: 'NASA/JPL/USGS',
-    imageUrl: asset('PIA00406', 'medium'),
-  },
-  'meteor-crater': {
-    nasaId: 'iss074e0208832',
-    caption: 'Meteor Crater in Arizona',
-    date: '2026-01-26',
-    center: 'JSC',
-    credit: 'NASA',
-    imageUrl: asset('iss074e0208832', 'medium'),
-  },
-  haughton: {
-    nasaId: 'ARC-2007-ACD09-0255-001',
-    // NASA's title is only the ID, so this is the first sentence of NASA's description.
-    caption: "K-10 Red driving near 'The Fortress' formation at Haughton Crater, Devon Island, Canada.",
-    date: '2007-07-15',
-    center: 'ARC',
-    // From NASA's description: "photo credit NASA/Lorenzo Fluckiger".
-    credit: 'NASA/Lorenzo Fluckiger',
-    imageUrl: asset('ARC-2007-ACD09-0255-001', 'small'),
   },
 };

@@ -17,12 +17,6 @@ const ANALOG_EXPLORER: SourceRef = {
   accessed: ACCESSED,
 };
 
-const TEN_THINGS: SourceRef = {
-  name: 'NASA Science — 10 Things to Know About Planetary Analogs',
-  url: 'https://science.nasa.gov/solar-system/planetary-analogs/10-things-to-know-about-planetary-analogs/',
-  sourceDate: 'Page date not stated',
-  accessed: ACCESSED,
-};
 
 export const ANALOGUE_PAIRS: AnaloguePair[] = [
   {
@@ -38,18 +32,6 @@ export const ANALOGUE_PAIRS: AnaloguePair[] = [
     differences: ['Lappajärvi holds a lake on Earth today; Jezero is an ancient Martian crater that once held a lake and a river delta.'],
     source: { name: 'Crater Lake Lappajärvi Geopark — Birth of the crater lake', url: 'https://kraatterijarvigeopark.fi/birth-of-the-crater-lake', sourceDate: 'Page date not stated', accessed: '16 November 2026' },
     documentedBy: 'team',
-  },
-  {
-    id: 'atacama-jezero',
-    earthSiteId: 'atacama',
-    marsSiteId: 'jezero',
-    title: 'Looking for Life: the Atacama Desert and Mars',
-    similarities: [
-      'One of the driest places on Earth; it helps scientists understand how the building blocks of life might respond to Martian conditions over time.',
-      'Portable instruments detect very small amounts of target molecules in the soil, as Perseverance’s own instruments search for biosignatures on Mars.',
-    ],
-    differences: [],
-    source: ANALOG_EXPLORER,
   },
   {
     // Chosen by our team (not a NASA-documented pair). The reasons and their sources are in
@@ -101,43 +83,6 @@ export const ANALOGUE_PAIRS: AnaloguePair[] = [
     differences: [],
     source: { name: 'None (placeholder)', url: 'https://planetarynames.wr.usgs.gov/Feature/1784', sourceDate: 'Not applicable', accessed: 'Not applicable' },
     documentedBy: 'placeholder',
-  },
-  {
-    id: 'deathvalley-utopia',
-    earthSiteId: 'death-valley',
-    marsSiteId: 'utopia',
-    title: 'Rocky Reconnaissance: California and Mars',
-    similarities: [
-      'NASA: “Utopia Planitia, as seen by Viking 2, looks a lot like Death Valley National Park.”',
-      'NASA’s Mars 2020 team practised hazard avoidance in Death Valley before sending Perseverance and Ingenuity to Mars.',
-    ],
-    differences: [],
-    source: ANALOG_EXPLORER,
-  },
-  {
-    id: 'pilot-phoenix',
-    earthSiteId: 'pilot-valley',
-    marsSiteId: 'phoenix',
-    title: 'Looking for Life: Utah and Mars',
-    similarities: [
-      'Perchlorate, a salt found in Pilot Valley, “has been observed in many places on Mars”; NASA’s example is the northern plains where Phoenix landed.',
-    ],
-    differences: [
-      'On Earth, tiny life forms use perchlorate as an energy source. No life has been found on Mars: NASA says knowledge of these salts may help recognise microbial life “if it exists beyond our planet, or if it ever did.”',
-    ],
-    source: ANALOG_EXPLORER,
-  },
-  {
-    id: 'haughton-mars',
-    earthSiteId: 'haughton',
-    marsSiteId: null,
-    title: 'Haughton-Mars Project (mission analog)',
-    similarities: [
-      'The island’s barren terrain, freezing temperatures, isolation and remoteness mimic conditions on Mars (NASA).',
-      'Mars is covered in craters, so Haughton crater is a good place to practise Martian extravehicular activities (NASA).',
-    ],
-    differences: [],
-    source: TEN_THINGS,
   },
   {
     id: 'holuhraun-mars',
