@@ -40,7 +40,7 @@ export const ELEVATION: Partial<Record<WorldId, ElevationDataset>> = {
 };
 
 /**
- * Earth heights for the Topography view only (not shown as values in Explore yet).
+ * Earth heights for the Topography view, and for Explore values at dropped pins.
  * NASA's page states the greyscale map was "scaled 0-6400 meters"; oceans are 0.
  */
 const EARTH_TOPOGRAPHY: ElevationDataset = {
@@ -57,6 +57,12 @@ const EARTH_TOPOGRAPHY: ElevationDataset = {
     sourceDate: 'File last modified 19 December 2025 (original data: GEBCO 2008)',
     accessed: '15 November 2026',
   },
+};
+
+// Explore also shows Earth heights from the same grid (featured Earth sites use a published value instead).
+ELEVATION.earth = {
+  ...EARTH_TOPOGRAPHY,
+  reference: 'above sea level; land below sea level and oceans read 0 m, heights in steps of about 25 m',
 };
 
 /** Height grids for the Topography view. */

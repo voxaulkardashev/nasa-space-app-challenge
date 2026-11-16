@@ -82,9 +82,7 @@ export function CompareModal({ site, onClose }: CompareModalProps) {
             label="Earth"
             site={earthSite}
             elevation={
-              earthSite
-                ? [{ id: 'elevation', label: 'Elevation', value: 'Not yet available', status: 'placeholder', reason: 'No Earth elevation dataset has been added yet.' }]
-                : []
+              earthSite?.elevation ? [earthSite.elevation] : []
             }
           />
         </section>

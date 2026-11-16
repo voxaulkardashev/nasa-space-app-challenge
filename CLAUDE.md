@@ -96,6 +96,7 @@ Dark navy to black background with subtle stars; realistic textures and lighting
 - **16 November 2026 (branding):** the app is named **Terralink**. Traced SVG logos in `public/brand/`; the "tl" favicon (`public/favicon.svg`) adapts to light and dark tabs; the wordmark is bottom-left on the landing page. The tab title, About box, tour welcome and disclaimer say Terralink.
 - **16 November 2026 (name):** "Planetary Analogue Explorer" replaced by **Terralink** everywhere (UI, README, docs, package name). Landing footer trimmed to the NASA imagery credit and the disclaimer.
 - **16 November 2026 (Holuhraun):** Holuhraun, Iceland (64.874° N, 16.740° W, Estimated) replaced the Earth Location Placeholder as Elysium Planitia's Earth analogue (team pair, linked only to Elysium). Its column (`src/data/holuhraunResearch.ts`) has the team's seven sections (citations [1]–[8], uncited figures marked as the team's), the NASA Earth Observatory Landsat image and the NASA POWER weather card.
+- **16 November 2026 (no placeholders):** Explore shows real elevations for every site (published values for Earth featured sites, the Blue Marble grid for Earth pins and Holuhraun, MOLA for Mars) and a "Similar Earth/Mars site" row from the team pairs. No Placeholder rows remain.
 - **Not built:** a computed analogue engine (scores from measured per-dimension Earth data) and the Python back end. Do not build them until asked.
 - Deadline: Sunday 15 November 2026, 11:59 PM Pacific.
 

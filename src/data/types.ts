@@ -119,6 +119,8 @@ export interface FeaturedSite {
   facts: DataValue[];
   /** Geological layers this site belongs to (our grouping, based on the cited descriptions). */
   layers: GeoLayerId[];
+  /** Published elevation for the site, shown instead of the coarse elevation-grid value. */
+  elevation?: MeasuredValue;
 }
 
 /** The geological filter layers on the Explore screen. */

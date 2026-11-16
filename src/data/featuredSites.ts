@@ -103,6 +103,10 @@ export const FEATURED_SITES: FeaturedSite[] = [
     coordinateMethod: 'Approximate centre of the lake (63.20° N, 23.70° E) supplied by the team, rounded to 0.01°; on the lake, not a nearby town. Team to confirm.',
     facts: [],
     layers: ['impact', 'sediments'],
+    elevation: {
+      id: 'elevation', label: 'Elevation', value: '69.5 m (lake surface)', note: 'Average water level; the crater rim at Lakeaharju rises about 100 m above the lake', status: 'measured',
+      source: { name: 'Lappajärvi municipality — Ympäristö ja luonto (lake facts table)', url: 'https://lappajarvi.fi/asuminen-ja-ymparisto/ymparisto-ja-luonto/', sourceDate: 'Page date not stated', accessed: '16 November 2026' },
+    },
   },
   {
     id: 'badwater-basin', worldId: 'earth', name: 'Badwater Basin, California', kind: 'Salt flat basin',
@@ -120,6 +124,10 @@ export const FEATURED_SITES: FeaturedSite[] = [
       'Approximate position of the Badwater pool and boardwalk at the foot of the Black Mountains, rounded to 0.01°, checked by eye on NASA GIBS Landsat imagery and consistent with NASA’s ASTER scene of Badwater Basin (PIA26197). Not from an official gazetteer (USGS GNIS could not be queried); the team should confirm it.',
     facts: [],
     layers: ['sediments', 'terrain'],
+    elevation: {
+      id: 'elevation', label: 'Elevation', value: '−86 m (282 ft below sea level)', note: 'Lowest point in North America', status: 'measured',
+      source: { name: 'National Park Service — Badwater Basin', url: 'https://www.nps.gov/places/badwater-basin.htm', sourceDate: 'Last updated 7 January 2026', accessed: '16 November 2026' },
+    },
   },
   {
     id: 'mcmurdo-dry-valleys', worldId: 'earth', name: 'McMurdo Dry Valleys', kind: 'South Fork of Wright Valley — Don Juan Pond',
@@ -137,6 +145,10 @@ export const FEATURED_SITES: FeaturedSite[] = [
       'Position of Don Juan Pond printed on the PGC map inset (77° 33.784′ S, 161° 12.948′ E), read from a web-search excerpt because the PDF host is not reachable from our environment; agrees with other published positions within about 1 km. Team to confirm.',
     facts: [],
     layers: ['sediments', 'terrain'],
+    elevation: {
+      id: 'elevation', label: 'Elevation', value: '117 m (Don Juan Pond)', note: 'Elevation of the pond; other studies give 113–116 m', status: 'measured',
+      source: { name: 'Toner, Catling & Sletten (2017), The geochemistry of Don Juan Pond, Earth and Planetary Science Letters 474, 190–197', url: 'https://doi.org/10.1016/j.epsl.2017.06.039', sourceDate: 'September 2017', accessed: '16 November 2026' },
+    },
   },
 ];
 

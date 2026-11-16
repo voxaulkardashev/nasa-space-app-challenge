@@ -37,6 +37,16 @@ const CITATIONS: ResearchCitation[] = [
   { n: 6, title: 'NASA Earth Observatory — Roiling Flows on Holuhraun Lava Field (10 Sep 2014)', url: 'https://science.nasa.gov/earth/earth-observatory/roiling-flows-on-holuhraun-lava-field-84316/' },
   { n: 7, title: 'Wikimedia Commons — Category:Holuhraun', url: 'https://commons.wikimedia.org/wiki/Category:Holuhraun' },
   { n: 8, title: 'NASA POWER — Hourly API', url: 'https://power.larc.nasa.gov/docs/services/api/temporal/hourly/' },
+  {
+    n: 9,
+    title: 'Pedersen, G. B. M. et al. (2017). Lava field evolution and emplacement dynamics of the 2014–2015 basaltic fissure eruption at Holuhraun, Iceland. Journal of Volcanology and Geothermal Research 340, 155–169.',
+    url: 'https://doi.org/10.1016/j.jvolgeores.2017.02.027',
+  },
+  {
+    n: 10,
+    title: 'NASA Earth Observatory — Blue Marble: Next Generation, Topography and Bathymetry Maps (GEBCO data)',
+    url: 'https://science.nasa.gov/earth/earth-observatory/blue-marble-next-generation/topography-bathymetry-maps/',
+  },
 ];
 
 export const HOLUHRAUN_RESEARCH: SiteResearch = {
@@ -48,7 +58,7 @@ export const HOLUHRAUN_RESEARCH: SiteResearch = {
       title: 'Introduction',
       paragraphs: [
         'Holuhraun is a large basaltic lava field in the Icelandic Highlands, between the Bárðarbunga and Askja volcanoes, north of the Vatnajökull ice cap. [[6]] Its 2014–2015 eruption was fed by magma from the Bárðarbunga volcanic system and erupted within the Askja fissure swarm. [[3]]',
-        'The fissure-fed eruption ran from August 2014 to February 2015 and covered about 84 km² with basaltic lava, the largest effusive eruption in Iceland since 1784. This makes it a valuable place to study how such eruptions shape terrain, and how they can create warm, water-rich environments.',
+        'The fissure-fed eruption ran from August 2014 to February 2015 and covered about 84 km² with basaltic lava, the largest effusive eruption in Iceland since the Laki eruption of 1783–1784. [[9]] This makes it a valuable place to study how such eruptions shape terrain, and how they can create warm, water-rich environments.',
         'As the lava spread across the floodplain, it flowed into a river system fed by glacial meltwater, creating a short-lived hydrothermal system. [[5]] Many volcanic landscapes are compared with Mars for their geology; Holuhraun can also be studied for its microbial communities and their value for astrobiology. [[4]]',
       ],
       figure: {
@@ -114,7 +124,22 @@ export const HOLUHRAUN_RESEARCH: SiteResearch = {
       id: 'elevation',
       title: 'Elevation',
       paragraphs: [
-        'The team’s research gives the Holuhraun lava field an elevation of approximately 800 m above sea level, varying because the lava surface is uneven and because of erosion and deposition. (This figure was not confirmed in the sources we could read.)',
+        'The Holuhraun lava field lies at approximately 800 m above sea level: NASA’s Blue Marble topography gives about 785 m for the area around the marker. [[10]] Heights vary across the field because the lava surface is uneven and because of erosion and deposition.',
+      ],
+      facts: [
+        {
+          id: 'holuhraun-elevation',
+          label: 'Elevation (area around the marker)',
+          value: 'about 785 m',
+          note: 'Average of a grid cell about 14 km × 6 km; heights in steps of about 25 m',
+          status: 'measured',
+          source: {
+            name: 'NASA Earth Observatory — Blue Marble: Next Generation topography (GEBCO data), averaged to 8 cells per degree',
+            url: 'https://science.nasa.gov/earth/earth-observatory/blue-marble-next-generation/topography-bathymetry-maps/',
+            sourceDate: 'Original data: GEBCO 2008',
+            accessed: '16 November 2026',
+          },
+        },
       ],
     },
   ],

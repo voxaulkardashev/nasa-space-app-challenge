@@ -180,7 +180,13 @@ export function ExploreScreen({
               marsNow={marsNow}
             />
           }
-          extraFacts={currentSite ? elevationFacts(world, currentSite, elevation) : []}
+          extraFacts={
+            currentSite
+              ? elevationFacts(world, currentSite, elevation).map((f) =>
+                  f.id === 'elevation' && currentSite.featuredId ? (getFeaturedSite(currentSite.featuredId)?.elevation ?? f) : f,
+                )
+              : []
+          }
           siteList={
             <FeaturedSiteList
               sites={shownSites}

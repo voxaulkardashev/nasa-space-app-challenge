@@ -1,3 +1,4 @@
+import { pairsForSite } from '../data/analogues';
 import { getFeaturedSite } from '../data/featuredSites';
 import type { DataValue, World } from '../data/types';
 import { formatLatLon, pixelSizeKm } from './geo';
@@ -55,13 +56,24 @@ export function siteFacts(world: World, site: SelectedSite, extra: DataValue[] =
     };
   }
 
-  const analogues: DataValue = {
-    id: 'analogues',
-    label: 'Similar Earth sites',
-    value: 'Not yet available',
-    status: 'placeholder',
-    reason: 'The Earth analogue comparison is planned for a later milestone. No comparison has been made.',
-  };
+  // The analogue chosen for a featured site (dropped pins have none, so no row is shown).
+  const others = featured
+    ? pairsForSite(featured.id)
+        .map((p) => getFeaturedSite(featured.worldId === 'mars' ? p.earthSiteId : (p.marsSiteId ?? '')))
+        .filter((f): f is NonNullable<typeof f> => Boolean(f))
+    : [];
+  const analogues: DataValue[] = others.length
+    ? [
+        {
+          id: 'analogues',
+          label: featured?.worldId === 'mars' ? 'Similar Earth site' : 'Similar Mars site',
+          value: others.map((o) => o.name).join(', '),
+          note: 'Shares some features; not the same place. See Compare.',
+          status: 'estimated',
+          method: 'Chosen by our team from the research cited in the Compare view (not a NASA-documented pair and not a computed similarity score).',
+        },
+      ]
+    : [];
 
-  return [coordinates, ...(featured?.facts ?? []), ...extra, analogues];
+  return [coordinates, ...(featured?.facts ?? []), ...extra, ...analogues];
 }

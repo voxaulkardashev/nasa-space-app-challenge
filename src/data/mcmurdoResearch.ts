@@ -29,6 +29,11 @@ const CITATIONS: ResearchCitation[] = [
     title: 'Polar Geospatial Center (University of Minnesota) — map “Don Juan Pond, Wright Valley” (location inset)',
     url: 'https://data.pgc.umn.edu/maps/antarctica/era/04/pdf/Don%20Juan%20Pond%20Wright%20Valley.pdf',
   },
+  {
+    n: 9,
+    title: 'Toner, J. D., Catling, D. C. & Sletten, R. S. (2017). The geochemistry of Don Juan Pond: Evidence for a deep groundwater flow system in Wright Valley, Antarctica. Earth and Planetary Science Letters 474, 190–197.',
+    url: 'https://doi.org/10.1016/j.epsl.2017.06.039',
+  },
 ];
 
 export const MCMURDO_RESEARCH: SiteResearch = {
@@ -64,7 +69,7 @@ export const MCMURDO_RESEARCH: SiteResearch = {
       paragraphs: [
         'The McMurdo Dry Valleys, the Earth analog site for Hale Crater, are a row of valleys west of McMurdo Sound in Victoria Land, Antarctica. They are named for their extremely low humidity and lack of snow and ice cover, and scientists consider them the closest of any environment on Earth to Mars. [[1]]',
         'Their jagged rocky terrain, frozen lakes, limited seasonal water activity and very low precipitation make them an excellent comparison to Hale Crater on Mars.',
-        'Specifically, the South Fork of Wright Valley, near Don Juan Pond [[8]], is very relevant to Martian RSL studies. Researchers have observed natural wet, dark streaks (“water tracks”) along the slopes of this area, and have compared them with RSL. [[2]] [[3]]',
+        'Specifically, the South Fork of Wright Valley, near Don Juan Pond [[8]], is very relevant to Martian RSL studies. Researchers have observed natural wet, dark streaks (“water tracks”) along the slopes of this area, and have compared them with RSL. [[2]] [[3]] The pond lies about 117 m above sea level. [[9]]',
         'These streaks are caused by seasonal snowmelt running through sediments on the surface, moving dissolved salts and altering the appearance of the surrounding soil. Salty soils here also draw moisture from the air, which helps feed the water tracks. [[2]]',
       ],
       facts: [
@@ -75,6 +80,19 @@ export const MCMURDO_RESEARCH: SiteResearch = {
           status: 'estimated',
           method:
             'Position printed on the Polar Geospatial Center map inset (77° 33.784′ S, 161° 12.948′ E), read from a web-search excerpt of the map because the PDF host is not reachable from our environment. It agrees with other published positions of the pond to within about 1 km. The team should confirm it against the map.',
+        },
+        {
+          id: 'mcmurdo-elevation',
+          label: 'Elevation (Don Juan Pond)',
+          value: '117 m above sea level',
+          note: 'Other studies give 113–116 m',
+          status: 'measured',
+          source: {
+            name: 'Toner, Catling & Sletten (2017), Earth and Planetary Science Letters 474',
+            url: 'https://doi.org/10.1016/j.epsl.2017.06.039',
+            sourceDate: 'September 2017',
+            accessed: '16 November 2026',
+          },
         },
       ],
       figure: {

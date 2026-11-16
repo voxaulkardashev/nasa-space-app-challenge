@@ -153,7 +153,7 @@ export const ELYSIUM_RESEARCH: SiteResearch = {
       id: 'elevation',
       title: 'Elevation',
       paragraphs: [
-        'Elysium Planitia lies in the northern lowlands of Mars. The team’s research gives its general elevation as about 2,500 to 2,650 meters below the Martian zero-elevation datum. The Explore panel shows the MOLA elevation measured at the InSight marker.',
+        'Elysium Planitia lies in the northern lowlands of Mars. The team’s research gives its general elevation as about 2,500 to 2,650 meters below the Martian zero-elevation datum. NASA’s MOLA laser-altimeter data, averaged over a 15 km grid cell at the InSight marker, gives about −2,630 m, within that range (shown on the Explore panel).',
         'The topographic map below shows the Elysium quadrangle: the shield volcano Elysium Mons in high-elevation red and white, while most of Elysium Planitia is low-lying blue-green plains. [[9]]',
       ],
       figure: {

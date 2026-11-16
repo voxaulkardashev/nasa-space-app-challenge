@@ -323,6 +323,19 @@ Both are left without a citation rather than given one that wasn't read.
 
 > **Also removed 15 November 2026 (team request):** the World Overview's "Key NASA datasets for analog & astrobiology work" box and its data, and, in the Compare view, the Similarities/Differences lists and the "Radiation shielding" box. "What Earth cannot reproduce" stays, including a one-line radiation note required by CLAUDE.md rule 5.
 
+## Elevations and "Similar site" on the Explore panel (16 November 2026)
+
+The Explore panel no longer shows any Placeholder rows.
+- **Earth elevation at dropped pins:** comes from the Blue Marble topography grid already used by the Topography view (8 cells per degree; heights in steps of about 25 m; land below sea level and oceans read 0 m). It is labelled Measured, with this caveat.
+- **Earth featured sites** show a published value instead (`elevation` in `featuredSites.ts`):
+  - Badwater Basin: −86 m (NPS)
+  - Lake Lappajärvi: 69.5 m, the lake surface (Lappajärvi municipality)
+  - McMurdo Dry Valleys / Don Juan Pond: 117 m ([Toner, Catling & Sletten 2017, EPSL 474](https://doi.org/10.1016/j.epsl.2017.06.039), read from a search excerpt of the paper; other studies give 113–116 m)
+  - Holuhraun: no published figure was found, so the Blue Marble grid value is shown (about 785 m, consistent with the team's ~800 m). Its Compare column says so too.
+- **Mars featured sites:** unchanged MOLA grid values (Jezero −2,647 m, Gale −1,130 m, Hale −2,233 m, Elysium −2,632 m).
+- **"Similar Earth site" / "Similar Mars site":** shows the team-chosen pair from `analogues.ts`, labelled Estimated ("chosen by our team; not a computed similarity score"). Dropped pins have no pair, so the row is hidden.
+- **Holuhraun citations added:** [Pedersen et al. 2017, JVGR 340](https://doi.org/10.1016/j.jvolgeores.2017.02.027) for "about 84 km²" and "largest effusive eruption in Iceland since Laki (1783–1784)" (found via search; Crossref record has no abstract); Blue Marble for the elevation.
+
 ## Holuhraun, Iceland: Elysium Planitia's Earth analogue (`src/data/holuhraunResearch.ts`, added 16 November 2026)
 
 **Holuhraun, Iceland** replaces the temporary "Earth Location Placeholder", which was removed along with `placeholderResearch.ts`. It is paired **only** with Elysium Planitia (`holuhraun-elysium`, a team analogue), not with Mars in general.
