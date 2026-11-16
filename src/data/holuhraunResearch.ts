@@ -91,6 +91,17 @@ export const HOLUHRAUN_RESEARCH: SiteResearch = {
         'The lava also contains cavities (vesicles) left by gas escaping as it cooled and hardened. These cavities and fractures may matter for understanding how fluids move through the rock and where microbial communities could settle.',
         'Because both are basaltic, Holuhraun is useful for comparing water–rock interactions on Earth and in Elysium Planitia: hot water altering volcanic rock can release dissolved elements and create chemically varied environments that might support life.',
       ],
+      figure: {
+        src: 'images/holuhraun/holuhraun-lava-field-jsc2024e055198.jpg',
+        alt: 'Grey, rubbly basaltic lava blocks sticking out of dark wind-blown sand under an overcast sky.',
+        caption:
+          'The Holuhraun lava field seen from the Bárðarbunga volcano: rubbly basaltic lava partially buried by wind-blown sediment (NASA photo from Artemis II crew geology training, 2024).',
+        credit: 'NASA/Robert Markowitz (NASA Johnson Space Center), public domain',
+        sourceUrl: 'https://images.nasa.gov/details/jsc2024e055198',
+        sourceLabel: 'NASA Image and Video Library — jsc2024e055198',
+        width: 1200,
+        height: 800,
+      },
     },
     {
       id: 'terrain',
@@ -100,6 +111,16 @@ export const HOLUHRAUN_RESEARCH: SiteResearch = {
         'The lava spread over a glacial outwash plain whose sand, gravel and river channels allowed lava and water to interact. [[5]]',
         'This setting could also let scientists test whether older sediments, landforms and biosignatures can survive underneath younger lava flows.',
       ],
+      figure: {
+        src: 'images/holuhraun/holuhraun-eruption-2014-peterhartree.jpg',
+        alt: 'Aerial view of the 2014 Holuhraun fissure eruption: lava fountains and orange lava channels under tall plumes of gas and steam.',
+        caption: 'Lava fountains along the erupting fissure at Holuhraun, photographed from the air on 4 September 2014.',
+        credit: '“Bárðarbunga Volcano, September 4 2014” by peterhartree, CC BY-SA 2.0 (resized)',
+        sourceUrl: 'https://commons.wikimedia.org/wiki/File:B%C3%A1r%C3%B0arbunga_Volcano,_September_4_2014_-_15145848192.jpg',
+        sourceLabel: 'Wikimedia Commons (licence: creativecommons.org/licenses/by-sa/2.0)',
+        width: 1200,
+        height: 800,
+      },
     },
     {
       id: 'life',

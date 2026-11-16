@@ -353,7 +353,10 @@ The Explore panel no longer shows any Placeholder rows.
   - the 6 °C to 48.4 °C water temperatures and the roughly two-year cooling (labelled in the text as the team's figures)
   - the elevation of about 800 m (labelled as the team's figure)
   - "Dyngjusandur" was dropped from the text
-- **Images:** the other team images (ground photo, aerial eruption photo, three-panel figure) were not added, because their sources and licences were not confirmed.
+- **Images:** two of the team's other images were matched to their originals and added (16 November 2026):
+  - **Ground photo:** NASA [jsc2024e055198](https://images.nasa.gov/details/jsc2024e055198), "Artemis II Crew geology training in Iceland", by Robert Markowitz (NASA-JSC), public domain, resized. NASA's caption: Holuhraun lava field seen from Bárðarbunga, with rubbly basaltic lava partly buried by wind-blown sediment.
+  - **Aerial eruption photo:** [Wikimedia Commons, "Bárðarbunga Volcano, September 4 2014 - 15145848192.jpg"](https://commons.wikimedia.org/wiki/File:B%C3%A1r%C3%B0arbunga_Volcano,_September_4_2014_-_15145848192.jpg), by peterhartree, CC BY-SA 2.0, resized from the 1280 px rendition. It is the same photo series and scene as the team's copy.
+  - **Not added:** the three-panel figure. It is not in Voigt et al. 2025 (that paper's figures were checked). It may come from Voigt et al. 2021 (JVGR, CC BY-NC-ND 4.0), but that couldn't be confirmed.
 - **Image:** `public/images/holuhraun/holuhraun-landsat8-2014.jpg` (720 × 480, the full-size original), from [NASA Earth Observatory, Roiling Flows on Holuhraun Lava Field](https://science.nasa.gov/earth/earth-observatory/roiling-flows-on-holuhraun-lava-field-84316/). Landsat 8 OLI, 6 September 2014. Credit: "NASA Earth Observatory image by Jesse Allen, using Landsat data from the U.S. Geological Survey."
 - **Weather:** the existing NASA POWER newest-hour card at the pin (Estimated).
 
